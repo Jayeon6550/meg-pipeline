@@ -10,7 +10,7 @@ trialList = data.importConditions('emirati_backward.csv')
 clock = core.Clock()
 
 backgroundColor = 'black'
-stimuliFont = 'Arial'
+stimuliFont = ''Microsoft YaHei''
 stimuliColor = 'yellow'
 stimuliUnits = 'deg'
 stimuliSize = 2
@@ -109,7 +109,7 @@ if myDlg.OK:
 else:
     print('user cancelled')
 
-win = visual.Window(size=[1920, 1080], fullscr=True, color=backgroundColor, monitor='testMonitor')
+win = visual.Window(size=[1910, 1070], fullscr=False, color=backgroundColor, monitor='testMonitor')
 
 stim = visual.TextStim(win, text='In this experiment, you will read sentences one word at a time.\n\nAfter each sentence is finished, you will be asked a Yes or No question about that sentence.\n\nAll you have to do is read the sentences normally, and then answer the question\n\nPress the YES key to see some examples.', font=stimuliFont, units=breakUnits, height=breakSize, color=instructionColor)
 stim.setPos((0, 0))
