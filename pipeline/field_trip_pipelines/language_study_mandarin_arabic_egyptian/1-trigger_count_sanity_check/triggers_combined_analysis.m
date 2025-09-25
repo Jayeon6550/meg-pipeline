@@ -13,15 +13,15 @@
 clear
 
 %% Define paths for data
-BOX_DIR = getenv('MEG_DATA');
+%BOX_DIR = getenv('MEG_DATA');
 
 % For egyptian study
 
 %confile = fullfile([BOX_DIR,'egyptian-language-study\sub-trigger\meg-kit\egyptian_list1.con']); 
 %csv_file_experiment = fullfile(['egyptian_list1.csv']);
 
-confile = fullfile(['egyptian_list1.con'])
-csv_file_experiment = fullfile(['word_count_egyptian_list1.csv']);
+confile = fullfile(['sanity_mandarin.con'])
+csv_file_experiment = fullfile(['word_count_mandarin_list1.csv']);
 
 % For mandarin study
 
