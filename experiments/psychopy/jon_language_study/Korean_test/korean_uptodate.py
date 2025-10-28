@@ -180,6 +180,65 @@ for trialIndex in range(startItem - 1, totalTrials):
     responses = []
     event.clearEvents()
 
+    if trialList[trialIndex]['sentence'] == breakKeyword:
+        # Handling breaks
+        event.clearEvents()
+        currentBreakCount += 1
+        completedTrials = trialIndex + 1 - practiceCount - currentBreakCount
+        remainingTrials = (totalTrials - totalBreakCount - practiceCount) - completedTrials
+
+        # ---- 점수 표시는 블록 1/3일 때만 ----
+        if last_task_block in (1, 3):
+            msg = (
+                '%i개의 문항 중에서 %i문항을 맞혔습니다.\n\n'
+                '지금까지 %i개의 문장을 완료했고, 앞으로 %i개의 문장이 남았습니다. \n\n'
+                '다음 문장을 읽을 준비가 되면 움직이지 말고 눈을 깜박이지 않은 채로 \n\n'
+                '"예"(검지)를 누르세요.'
+            ) % (trialsSinceLastBreak, recentCorrectResponses, completedTrials, remainingTrials)
+        else:
+            # 블록 2: 점수 라인 없이 깔끔한 안내만
+            msg = (
+                '지금까지 %i개의 문장을 완료했고, 앞으로 %i개의 문장이 남았습니다. \n\n'
+                '다음 문장을 읽을 준비가 되면 움직이지 말고 눈을 깜박이지 않은 채로 \n\n'
+                '"예"(검지)를 누르세요.'
+            ) % (completedTrials, remainingTrials)
+
+        stim = visual.TextStim(
+            win, text=msg, font='Malgun Gothic', units=instructionUnits,
+            height=INSTR_HEIGHT, alignText='center',
+            wrapWidth=INSTR_WRAP
+        )
+        print('break window')
+
+        stim.setPos((0, 0))
+        stim.draw()
+        win.flip()
+        print('listening to button')
+        core.wait(TIME_WAIT_BREAK)
+        # Pause until response
+        listenbutton(9)
+
+        core.wait(0.5)
+
+        trialsSinceLastBreak = 0
+        recentCorrectResponses = 0
+
+        results.loc[trialIndex, 'name'] = participantInfo[0]
+        results.loc[trialIndex, 'age'] = participantInfo[1]
+        results.loc[trialIndex, 'sex'] = participantInfo[2]
+        results.loc[trialIndex, 'handedness'] = participantInfo[3]
+        results.loc[trialIndex, 'experiment'] = participantInfo[4]
+        results.loc[trialIndex, 'list'] = participantInfo[5]
+        results.loc[trialIndex, 'sentence'] = 'break'
+
+        for frameN in range(breakOff - 1):
+            win.flip()
+        win.flip()
+
+        continue
+
+
+
     # >>> PATCH 2) 블록 전환 감지 & 블록별 인스트럭션  (REPLACEMENT)
     # block 값 안전 변환 (빈칸/None/"NaN" 등은 2로 처리)
     _raw_block = trialList[trialIndex].get('block')
@@ -195,8 +254,12 @@ for trialIndex in range(startItem - 1, totalTrials):
     if curr_block not in (1, 2, 3):
         curr_block = 2
 
+
+    print('current block', curr_block)
+
     # 블록 전환 시에만 인스트럭션 표시
     if curr_block != prev_block:
+        print('Curr block different than previous')
         if curr_block == 1:
             instr_text = (
                 '이번 세션에서는 주어진 문장을 읽고, 그에 대한 질문에 답해주시면 됩니다.\n\n'
@@ -237,61 +300,6 @@ for trialIndex in range(startItem - 1, totalTrials):
         win.flip()
         listenbutton(9)  # self-paced 진입
         prev_block = curr_block
-
-    if trialList[trialIndex]['sentence'] == breakKeyword:
-        # Handling breaks
-        event.clearEvents()
-        currentBreakCount += 1
-        completedTrials = trialIndex + 1 - practiceCount - currentBreakCount
-        remainingTrials = (totalTrials - totalBreakCount - practiceCount) - completedTrials
-
-        # ---- 점수 표시는 블록 1/3일 때만 ----
-        if last_task_block in (1, 3):
-            msg = (
-                '%i개의 문항 중에서 %i문항을 맞혔습니다.\n\n'
-                '지금까지 %i개의 문장을 완료했고, 앞으로 %i개의 문장이 남았습니다. \n\n'
-                '다음 문장을 읽을 준비가 되면 움직이지 말고 눈을 깜박이지 않은 채로 \n\n'
-                '"예"(검지)를 누르세요.'
-            ) % (trialsSinceLastBreak, recentCorrectResponses, completedTrials, remainingTrials)
-        else:
-            # 블록 2: 점수 라인 없이 깔끔한 안내만
-            msg = (
-                '지금까지 %i개의 문장을 완료했고, 앞으로 %i개의 문장이 남았습니다. \n\n'
-                '다음 문장을 읽을 준비가 되면 움직이지 말고 눈을 깜박이지 않은 채로 \n\n'
-                '"예"(검지)를 누르세요.'
-            ) % (completedTrials, remainingTrials)
-
-        stim = visual.TextStim(
-            win, text=msg, font='Malgun Gothic', units=instructionUnits,
-            height=INSTR_HEIGHT, alignText='center',
-            wrapWidth=INSTR_WRAP
-        )
-        print('break window')
-
-        stim.setPos((0, 0))
-        stim.draw()
-        win.flip()
-        print('listening to button')
-        core.wait(TIME_WAIT_BREAK)
-        # Pause until response
-        listenbutton(9)
-
-        trialsSinceLastBreak = 0
-        recentCorrectResponses = 0
-
-        results.loc[trialIndex, 'name'] = participantInfo[0]
-        results.loc[trialIndex, 'age'] = participantInfo[1]
-        results.loc[trialIndex, 'sex'] = participantInfo[2]
-        results.loc[trialIndex, 'handedness'] = participantInfo[3]
-        results.loc[trialIndex, 'experiment'] = participantInfo[4]
-        results.loc[trialIndex, 'list'] = participantInfo[5]
-        results.loc[trialIndex, 'sentence'] = 'break'
-
-        for frameN in range(breakOff - 1):
-            win.flip()
-        win.flip()
-
-        continue
 
     print(trialList[trialIndex]['sentence'])
 
