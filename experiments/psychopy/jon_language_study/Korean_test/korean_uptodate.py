@@ -65,9 +65,9 @@ stimuliSize = 2
 INSTR_HEIGHT = 0.6      # 글자 크기 줄이기 (기존 0.9 → 0.6)
 INSTR_WRAP   = 22        # 줄바꿈 폭 좁히기 (기존 30 → 22)
 instructionSize = 1
-wordOn = 42 #350ms
-wordOff = 24 #200ms
-lastWordOn =  132  #1100
+wordOn = 15 #350ms
+wordOff = 15 #200ms
+lastWordOn =  15  #1100
 
 boxHeight = stimuliSize + 1.5
 boxWidth = 17
@@ -182,7 +182,7 @@ for trialIndex in range(startItem - 1, totalTrials):
 
     # >>> PATCH 2) 블록 전환 감지 & 블록별 인스트럭션  (REPLACEMENT)
     # block 값 안전 변환 (빈칸/None/"NaN" 등은 2로 처리)
-    _raw_block = trialList[trialIndex].get('block', 2)
+    _raw_block = trialList[trialIndex].get('block')
     if _raw_block in (None, '', 'NA', 'NaN', 'nan'):
         curr_block = 2
     else:
@@ -328,7 +328,7 @@ for trialIndex in range(startItem - 1, totalTrials):
             except:
                 pass
 
-            full_text = str(trialList[trialIndex].get('context', '')).strip() or trialList[trialIndex]['sentence']
+            full_text = str(trialList[trialIndex].get('context', '')).strip()
             full_stim = visual.TextStim(win, text=full_text, font=stimuliFont,
                                         units=stimuliUnits, height=FULL_SENTENCE_HEIGHT,
                                         color=stimuliColor, alignText='center', wrapWidth=30)
