@@ -63,11 +63,11 @@ stimuliUnits = 'deg'
 stimuliSize = 2
 # ---- Instruction text layout tweaks ----
 INSTR_HEIGHT = 0.6      # 글자 크기 줄이기 (기존 0.9 → 0.6)
-INSTR_WRAP   = 22        # 줄바꿈 폭 좁히기 (기존 30 → 22)
-instructionSize = 1
-wordOn = 15 #350ms
-wordOff = 15 #200ms
-lastWordOn =  15  #1100
+INSTR_WRAP   = 30        # 줄바꿈 폭 좁히기 (기존 30 → 22)
+
+wordOn = 42 #350ms
+wordOff = 24 #200ms
+lastWordOn = 132  #1100
 
 boxHeight = stimuliSize + 1.5
 boxWidth = 17
@@ -105,7 +105,7 @@ taskQuestionUnits = stimuliUnits
 taskQuestionOff = wordOff
 
 instructionColor = 'gold'
-instructionSize = 1
+instructionSize = 1.5
 instructionUnits = stimuliUnits
 instructionOff = wordOff
 
@@ -262,23 +262,31 @@ for trialIndex in range(startItem - 1, totalTrials):
         print('Curr block different than previous')
         if curr_block == 1:
             instr_text = (
-                '이번 세션에서는 주어진 문장을 읽고, 그에 대한 질문에 답해주시면 됩니다.\n\n'
-                '우선 하나의 간단한 문장을 읽습니다.\n\n'
-                '문장을 읽은 후에는, 해당 문장의 내용과 관련된 간단한 질문이 제시됩니다.\n\n'
-                '질문에 대한 답으로 두 가지 "보기"가 주어집니다. \n\n 그 중 가장 알맞는 답을 선택하면 됩니다.\n\n'
-                '질문은 단어 단위로, 한 단어씩 제시됩니다. 단어가 나오는 동안에는 눈을 깜박이거나 몸을 움직이지 마세요.\n\n'
-                '문장이 끝난 뒤나 질문에 답할 때는 눈을 깜박이셔도 괜찮습니다.\n\n'
-                '본 실험을 시작할 준비가 됐다면 움직이지 말고, 눈을 깜박이지 않은 채로 "예"(검지)를 누르세요.'
-            )
+                '이번 세션에서는 주어진 문장을 읽고, 그에 대한 질문에 답해주시면 됩니다.'
+            '\n\n\n'  
+            '1. 우선 하나의 간단한 문장을 읽습니다.\n\n'
+            '2. 문장을 읽은 후에는, 해당 문장의 내용과 관련된 간단한 질문이 제시됩니다.\n\n'
+            '3. 질문에 대한 답으로 두 가지 "보기"가 주어집니다. 그 중 가장 알맞는 답을 선택하면 됩니다.'
+            '\n\n\n'
+            '질문은 단어 단위로, 한 단어씩 제시됩니다.\n'
+            '단어가 나오는 동안에는 눈을 깜박이거나 몸을 움직이지 마세요.\n'
+            '문장이 끝난 뒤나 질문에 답할 때는 눈을 깜박이셔도 괜찮습니다.'
+            '\n\n'
+            '본 실험을 시작할 준비가 됐다면 움직이지 말고, 눈을 깜박이지 않은 채로 "예"(검지)를 누르세요.'
+        )
         elif curr_block == 3:
             instr_text = (
-                '이번 세션에서는 주어진 문장을 읽고, 그에 대한 질문에 답해주시면 됩니다.\n\n'
-                '우선 하나의 간단한 문장을 읽습니다.\n\n'
-                '문장을 읽은 후에는, 해당 문장의 내용과 관련된 간단한 질문이 제시됩니다.\n\n'
-                '질문에 대한 답으로 두 가지 "보기"가 주어집니다. \n\n 그 중 가장 알맞는 답을 선택하면 됩니다.\n\n'
-                '질문은 단어 단위로, 한 단어씩 제시됩니다. 단어가 나오는 동안에는 눈을 깜박이거나 몸을 움직이지 마세요.\n\n'
-                '문장이 끝난 뒤나 질문에 답할 때는 눈을 깜박이셔도 괜찮습니다.\n\n'
-                '본 실험을 시작할 준비가 됐다면 움직이지 말고, 눈을 깜박이지 않은 채로 "예"(검지)를 누르세요.'
+                '이번 세션에서는 주어진 문장을 읽고, 그에 대한 질문에 답해주시면 됩니다.'
+            '\n\n\n'  
+            '1. 우선 하나의 간단한 문장을 읽습니다.\n\n'
+            '2. 문장을 읽은 후에는, 해당 문장의 내용과 관련된 간단한 질문이 제시됩니다.\n\n'
+            '3. 질문에 대한 답으로 두 가지 "보기"가 주어집니다. 그 중 가장 알맞는 답을 선택하면 됩니다.'
+            '\n\n\n'
+            '질문은 단어 단위로, 한 단어씩 제시됩니다.\n'
+            '단어가 나오는 동안에는 눈을 깜박이거나 몸을 움직이지 마세요.\n'
+            '문장이 끝난 뒤나 질문에 답할 때는 눈을 깜박이셔도 괜찮습니다.'
+            '\n\n'
+            '본 실험을 시작할 준비가 됐다면 움직이지 말고, 눈을 깜박이지 않은 채로 "예"(검지)를 누르세요.'
             )
         else:
             # curr_block == 2
@@ -292,7 +300,7 @@ for trialIndex in range(startItem - 1, totalTrials):
         stim = visual.TextStim(
             win, text=instr_text, font=stimuliFont,
             units=instructionUnits, color=instructionColor,
-            height=INSTR_HEIGHT, alignText='center',
+            height=INSTR_HEIGHT*1.1, alignText='center',
             wrapWidth=INSTR_WRAP
         )
         stim.setPos((0, 0))
@@ -613,7 +621,7 @@ for trialIndex in range(startItem - 1, totalTrials):
                                 '다음 문장을 읽을 준비가 되면 \n\n'
                                 '움직이지 말고,눈을 깜빡이지 않은 채로 \n\n'
                                 '"예"(검지)를 누르세요.\n\n',
-                           font= stimuliFont, units= stimuliUnits, height= instructionSize, color=stimuliColor, alignText='center')
+                           font= stimuliFont, units= stimuliUnits, height=1, color=stimuliColor, wrapWidth=INSTR_WRAP*1.1, alignText='center')
     stim.setPos((0, -1.5))
     stim.draw()
     win.flip()
@@ -645,11 +653,10 @@ for trialIndex in range(startItem - 1, totalTrials):
 event.clearEvents()
 stim = visual.TextStim(win,
                        text='실험을 모두 마치셨습니다.\n\n' 
-                            '잠시만 움직이지 말아주세요.\n\n'
+                            '잠시만 움직이지 말아주세요.\n'
                             '약 30초 동안 마지막 기록을 진행합니다.\n\n'
-                            '총 %i개의 문장을 읽었고, \n\n'
-                            '%i개의 질문 중에 \n\n'
-                            '%i개를 맞추셨습니다.'  % (
+                            '총 %i개의 문장을 읽었고, \n'
+                            '%i개의 질문 중에 %i개를 맞추셨습니다.'  % (
                        (totalTrials - totalBreakCount - practiceCount), totalCorrectResponses, totalQuestionCount),
                        font= stimuliFont, units= stimuliUnits, height=INSTR_HEIGHT, alignText='center', wrapWidth=INSTR_WRAP)
 
