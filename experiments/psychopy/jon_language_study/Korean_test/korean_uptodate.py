@@ -61,13 +61,10 @@ stimuliFont = 'Malgun Gothic'
 stimuliColor = 'gold' #rgb(255, 215, 0)
 stimuliUnits = 'deg'
 stimuliSize = 2
-# ---- Instruction text layout tweaks ----
-INSTR_HEIGHT = 0.6      # 글자 크기 줄이기 (기존 0.9 → 0.6)
-INSTR_WRAP   = 30        # 줄바꿈 폭 좁히기 (기존 30 → 22)
 
-wordOn = 42 #350ms
-wordOff = 24 #200ms
-lastWordOn = 132  #1100
+wordOn = 15 #42 #350ms
+wordOff = 15 #24 #200ms
+lastWordOn = 15 #132  #1100
 
 boxHeight = stimuliSize + 1.5
 boxWidth = 17
@@ -106,6 +103,8 @@ taskQuestionOff = wordOff
 
 instructionColor = 'gold'
 instructionSize = 1.5
+INSTR_HEIGHT = 0.6      # 글자 크기 줄이기 (기존 0.9 → 0.6)
+INSTR_WRAP   = 30        # 줄바꿈 폭 좁히기 (기존 30 → 22)
 instructionUnits = stimuliUnits
 instructionOff = wordOff
 
@@ -204,8 +203,8 @@ for trialIndex in range(startItem - 1, totalTrials):
             ) % (completedTrials, remainingTrials)
 
         stim = visual.TextStim(
-            win, text=msg, font='Malgun Gothic', units=instructionUnits,
-            height=INSTR_HEIGHT, alignText='center',
+            win, text=msg, font=stimuliFont, units=instructionUnits,
+            height=INSTR_HEIGHT*1.2, alignText='center', color=instructionColor,
             wrapWidth=INSTR_WRAP
         )
         print('break window')
@@ -300,7 +299,7 @@ for trialIndex in range(startItem - 1, totalTrials):
         stim = visual.TextStim(
             win, text=instr_text, font=stimuliFont,
             units=instructionUnits, color=instructionColor,
-            height=INSTR_HEIGHT*1.1, alignText='center',
+            height=INSTR_HEIGHT, alignText='center',
             wrapWidth=INSTR_WRAP
         )
         stim.setPos((0, 0))
@@ -546,7 +545,7 @@ for trialIndex in range(startItem - 1, totalTrials):
 
             stim = visual.TextStim(win, text='모든 버튼에서 손가락을 떼주세요.\n\n',
                                    font= stimuliFont, units= stimuliUnits, height=1.5, color=taskQuestionColor, aalignText='center',wrapWidth= 30)
-            stim.setPos((0,-1.5))
+            stim.setPos((0,-2.5))
             stim.draw()
             win.flip()
             core.wait(TIME_TO_RESET_BUTTON_BOX)
@@ -621,7 +620,7 @@ for trialIndex in range(startItem - 1, totalTrials):
                                 '다음 문장을 읽을 준비가 되면 \n\n'
                                 '움직이지 말고,눈을 깜빡이지 않은 채로 \n\n'
                                 '"예"(검지)를 누르세요.\n\n',
-                           font= stimuliFont, units= stimuliUnits, height=1, color=stimuliColor, wrapWidth=INSTR_WRAP*1.1, alignText='center')
+                           font= stimuliFont, units= stimuliUnits, height= 1.5, color=stimuliColor, wrapWidth=INSTR_WRAP*1.1, alignText='center')
     stim.setPos((0, -1.5))
     stim.draw()
     win.flip()
