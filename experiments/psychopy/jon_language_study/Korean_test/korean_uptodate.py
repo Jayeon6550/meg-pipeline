@@ -108,7 +108,7 @@ INSTR_WRAP   = 30        # 줄바꿈 폭 좁히기 (기존 30 → 22)
 instructionUnits = stimuliUnits
 instructionOff = wordOff
 
-practiceCount = 10
+practiceCount = 0
 breakKeyword = 'break'
 breakColor = instructionColor
 breakSize = instructionSize
@@ -346,7 +346,7 @@ for trialIndex in range(startItem - 1, totalTrials):
             full_text = str(trialList[trialIndex].get('context', '')).strip()
             full_stim = visual.TextStim(win, text=full_text, font=stimuliFont,
                                         units=stimuliUnits, height=FULL_SENTENCE_HEIGHT,
-                                        color=stimuliColor, alignText='center', wrapWidth=30)
+                                        color=taskQuestionColor, alignText='center', wrapWidth=30)
             full_stim.setPos((0, 0))
             full_stim.draw(); win.flip()
 
@@ -544,7 +544,7 @@ for trialIndex in range(startItem - 1, totalTrials):
 
 
             stim = visual.TextStim(win, text='모든 버튼에서 손가락을 떼주세요.\n\n',
-                                   font= stimuliFont, units= stimuliUnits, height=1.5, color=taskQuestionColor, aalignText='center',wrapWidth= 30)
+                                   font= stimuliFont, units= stimuliUnits, height=1, color=taskQuestionColor, alignText='center',wrapWidth= 30)
             stim.setPos((0,-2.5))
             stim.draw()
             win.flip()
@@ -620,7 +620,7 @@ for trialIndex in range(startItem - 1, totalTrials):
                                 '다음 문장을 읽을 준비가 되면 \n\n'
                                 '움직이지 말고,눈을 깜빡이지 않은 채로 \n\n'
                                 '"예"(검지)를 누르세요.\n\n',
-                           font= stimuliFont, units= stimuliUnits, height= 1.5, color=stimuliColor, wrapWidth=INSTR_WRAP*1.1, alignText='center')
+                           font= stimuliFont, units= stimuliUnits, height= 1, color=stimuliColor, wrapWidth= 30, alignText='center')
     stim.setPos((0, -1.5))
     stim.draw()
     win.flip()
