@@ -62,9 +62,9 @@ stimuliColor = 'gold' #rgb(255, 215, 0)
 stimuliUnits = 'deg'
 stimuliSize = 2
 
-wordOn = 15 #42 #350ms
-wordOff = 15 #24 #200ms
-lastWordOn = 15 #132  #1100
+wordOn = 38 #42 #350ms
+wordOff = 20 #24 #200ms
+lastWordOn = 38 #132  #1100
 
 boxHeight = stimuliSize + 1.5
 boxWidth = 17
@@ -657,7 +657,7 @@ stim = visual.TextStim(win,
                             '총 %i개의 문장을 읽었고, \n'
                             '%i개의 질문 중에 %i개를 맞추셨습니다.'  % (
                        (totalTrials - totalBreakCount - practiceCount), totalCorrectResponses, totalQuestionCount),
-                       font= stimuliFont, units= stimuliUnits, height=INSTR_HEIGHT, alignText='center', wrapWidth=INSTR_WRAP)
+                       font= stimuliFont, units= stimuliUnits, color= stimuliColor, height=INSTR_HEIGHT, alignText='center', wrapWidth=INSTR_WRAP)
 
 stim.setPos((0, 0))
 stim.draw()
