@@ -7,6 +7,33 @@ from pypixxlib import _libdpx as dp
 from experiments.psychopy.general.utilities import *
 
 
+# =========================
+# <<< MOD: 한 화면 묶음 표기 처리 헬퍼
+# « … »로 감싼 구간은 내부 스페이스를 유지한 채 "하나의 토큰"으로 반환
+def chunk_words(sentence, L='«', R='»'):
+    tokens = sentence.split()  # 기본: 스페이스 기준 분할 유지
+    out, buf, in_chunk = [], [], False
+    for t in tokens:
+        starts = t.startswith(L)
+        ends   = t.endswith(R)
+        if starts:
+            in_chunk = True
+            t = t[len(L):]          # 왼쪽 표식 제거
+        if in_chunk:
+            if ends:
+                buf.append(t[:-len(R)])        # 오른쪽 표식 제거
+                out.append(' '.join(buf))      # 내부 스페이스 유지하여 합치기
+                buf, in_chunk = [], False
+            else:
+                buf.append(t)
+        else:
+            out.append(t)
+    if buf:  # 짝이 안 맞아 남으면 안전하게 합쳐서 하나로
+        out.append(' '.join(buf))
+    return out
+# =========================
+
+
 # Setup the connection with the Vpixx systems and disable Pixel Mode
 
 TIME_TO_RESET_BUTTON_BOX =1.7
@@ -61,16 +88,19 @@ stimuliFont = 'Malgun Gothic'
 stimuliColor = 'gold' #rgb(255, 215, 0)
 stimuliUnits = 'deg'
 stimuliSize = 2
-instructionSize = 1
+# ---- Instruction text layout tweaks ----
+INSTR_HEIGHT = 0.6      # 글자 크기 줄이기 (기존 0.9 → 0.6)
+INSTR_WRAP   = 30        # 줄바꿈 폭 좁히기 (기존 30 → 22)
+
 wordOn = 42 #350ms
 wordOff = 24 #200ms
-lastWordOn =  132  #1100
+lastWordOn = 132  #1100
 
 boxHeight = stimuliSize + 1.5
-boxWidth = 11
+boxWidth = 17
 
 # >>> PATCH 1) Block 1/3용 context(통문장) 표시 파라미터 & 블록 상태
-FULL_SENTENCE_HEIGHT = 1.1    # context 폰트 크기
+FULL_SENTENCE_HEIGHT = 1.5    # context 폰트 크기
 FULL_SENTENCE_OFF = wordOff   # context 후 간격
 prev_block = None             # 블록 전환 감지용
 
@@ -79,7 +109,9 @@ longestWord = 'none'
 
 totalTrials = len(trialList)
 for trialIndex in range(totalTrials):
-    words = trialList[trialIndex]['sentence'].split()
+    # words = trialList[trialIndex]['sentence'].split()
+    # <<< MOD: longestWord 계산도 묶음 토큰 기준으로 (안 바꿔도 무방하지만 일관성 위해 적용)
+    words = chunk_words(trialList[trialIndex]['sentence'])
     for word in words:
         if len(word) > longestWordCount:
             longestWordCount = len(word)
@@ -102,7 +134,7 @@ taskQuestionUnits = stimuliUnits
 taskQuestionOff = wordOff
 
 instructionColor = 'gold'
-instructionSize = 1
+instructionSize = 1.5
 instructionUnits = stimuliUnits
 instructionOff = wordOff
 
@@ -168,6 +200,7 @@ win = visual.Window(screen =1, size=[1919.5, 1079.5], fullscr=False, color=backg
 
 
 prev_block = None
+last_task_block = None  # <<< 마지막으로 수행한 블록(1/2/3)을 기록하여 break 화면에서 점수 표시 여부 결정
 
 # Loop for each trial
 for trialIndex in range(startItem - 1, totalTrials):
@@ -176,63 +209,6 @@ for trialIndex in range(startItem - 1, totalTrials):
     responses = []
     event.clearEvents()
 
-    # >>> PATCH 2) 블록 전환 감지 & 블록별 인스트럭션  (REPLACEMENT)
-    # block 값 안전 변환 (빈칸/None/"NaN" 등은 2로 처리)
-    _raw_block = trialList[trialIndex].get('block', 2)
-    if _raw_block in (None, '', 'NA', 'NaN', 'nan'):
-        curr_block = 2
-    else:
-        try:
-            curr_block = int(float(_raw_block))
-        except Exception:
-            curr_block = 2
-
-    # 허용 범위 이외 값 방지
-    if curr_block not in (1, 2, 3):
-        curr_block = 2
-
-    # 블록 전환 시에만 인스트럭션 표시
-    if curr_block != prev_block:
-        if curr_block == 1:
-            instr_text = (
-                '이번 세션에서는 주어진 문장을 읽고, 그에 대한 질문에 답해주시면 됩니다.\n\n'
-                '우선 하나의 간단한 문장을 읽습니다.\n\n'
-                '문장을 읽은 후에는, 해당 문장의 내용과 관련된 간단한 질문이 제시됩니다.\n\n'
-                '질문에 대한 답으로 두 가지 "보기"가 주어집니다. \n\n 그 중 가장 알맞는 답을 선택하면 됩니다.\n\n'
-                '질문은 단어 단위로, 한 단어씩 제시됩니다. 단어가 나오는 동안에는 눈을 깜박이거나 몸을 움직이지 마세요.\n\n'
-                '문장이 끝난 뒤나 질문에 답할 때는 눈을 깜박이셔도 괜찮습니다.\n\n'
-                '본 실험을 시작할 준비가 됐다면 "예"(검지)를 누르세요.'
-            )
-        elif curr_block == 3:
-            instr_text = (
-                '이번 세션에서는 주어진 문장을 읽고, 그에 대한 질문에 답해주시면 됩니다.\n\n'
-                '우선 하나의 간단한 문장을 읽습니다.\n\n'
-                '문장을 읽은 후에는, 해당 문장의 내용과 관련된 간단한 질문이 제시됩니다.\n\n'
-                '질문에 대한 답으로 두 가지 "보기"가 주어집니다. \n\n 그 중 가장 알맞는 답을 선택하면 됩니다.\n\n'
-                '질문은 단어 단위로, 한 단어씩 제시됩니다. 단어가 나오는 동안에는 눈을 깜박이거나 몸을 움직이지 마세요.\n\n'
-                '문장이 끝난 뒤나 질문에 답할 때는 눈을 깜박이셔도 괜찮습니다.\n\n'
-                '본 실험을 시작할 준비가 됐다면 움직이지 말고, 눈을 깜박이지 않은 채로 "예"(검지)를 누르세요.'
-            )
-        else:
-            # curr_block == 2
-            instr_text = (
-                '이번 세션에서는 주어진 문장을 읽기만 하시면 됩니다. \n\n'
-                '문장은 단어 단위로, 한 단어씩 제시됩니다. 단어가 나오는 동안에는 눈을 깜박이거나 몸을 움직이지 마세요.\n\n'
-                '문장이 끝난 뒤나 질문에 답할 때는 눈을 깜박이셔도 괜찮습니다.\n\n'
-                '본 실험을 시작할 준비가 됐다면 움직이지 말고, 눈을 깜박이지 않은 채로 "예"(검지)를 누르세요.'
-            )
-
-        stim = visual.TextStim(
-            win, text=instr_text, font=stimuliFont,
-            units=instructionUnits, color=instructionColor,
-            height=0.9, alignText='center', wrapWidth=30
-        )
-        stim.setPos((0, 0))
-        stim.draw()
-        win.flip()
-        listenbutton(9)  # self-paced 진입
-        prev_block = curr_block
-
     if trialList[trialIndex]['sentence'] == breakKeyword:
         # Handling breaks
         event.clearEvents()
@@ -240,51 +216,38 @@ for trialIndex in range(startItem - 1, totalTrials):
         completedTrials = trialIndex + 1 - practiceCount - currentBreakCount
         remainingTrials = (totalTrials - totalBreakCount - practiceCount) - completedTrials
 
-        if currentBreakCount == 1:
-            stim = visual.TextStim(win, text= '축하합니다！%i개의 연습문항 중에서 %i문항을 맞혔습니다.\n\n'
-                                              '질문이 있다면 편하게 말씀해주세요. \n\n'
-                                              '이제부터 %i개의 문장을 읽게 됩니다。\n\n '
-                                              '전체적인 움직임을 최소화해주시고 특히 눈을 깜빡이지 마세요.\n\n '
-                                              '본 실험을 시작할 준비가 됐다면 움직이지 말고, 눈을 깜박이지 않은 채로 "예"(검지)를 누르세요.'
-                                              % (trialsSinceLastBreak,recentCorrectResponses, remainingTrials),
-                                   font= 'Malgun Gothic', units=instructionUnits, color=instructionColor, height = 1, alignText='center', wrapWidth= 30)
-
-
-            totalCorrectResponses = 0
-            print('congratulations window')
-            stim.setPos((0, 0))
-            stim.draw()
-            win.flip()
-            print('listening to button')
-            core.wait(TIME_WAIT_BREAK)
-            # Pause until response
-            event.waitKeys(keyList=['space', 'enter'])
-
+        # ---- 점수 표시는 블록 1/3일 때만 ----
+        if last_task_block in (1, 3):
+            msg = (
+                '%i개의 문항 중에서 %i문항을 맞혔습니다.\n\n'
+                '지금까지 %i개의 문장을 완료했고, 앞으로 %i개의 문장이 남았습니다. \n\n'
+                '다음 문장을 읽을 준비가 되면 움직이지 말고 눈을 깜박이지 않은 채로 \n\n'
+                '"예"(검지)를 누르세요.'
+            ) % (trialsSinceLastBreak, recentCorrectResponses, completedTrials, remainingTrials)
         else:
-            stim = visual.TextStim(win, text='%i개의 문항 중에서 %i문항을 맞혔습니다.\n\n '
-                                             '지금까지 %i개의 문장을 완료했고, 앞으로 %i개의 문장이 남았습니다. \n\n'
-                                             '다음 문장을 읽을 준비가 되면 움직이지 말고 눈을 깜박이지 않은 채로 \n\n '
-                                             '"예"(검지)를 누르세요.'
-                                             % (trialsSinceLastBreak,recentCorrectResponses, completedTrials, remainingTrials),
-                                   font= 'Malgun Gothic', units=instructionUnits, color=instructionColor, height = 1, alignText='center', wrapWidth= 30)
-            print('break window')
+            # 블록 2: 점수 라인 없이 깔끔한 안내만
+            msg = (
+                '지금까지 %i개의 문장을 완료했고, 앞으로 %i개의 문장이 남았습니다. \n\n'
+                '다음 문장을 읽을 준비가 되면 움직이지 말고 눈을 깜박이지 않은 채로 \n\n'
+                '"예"(검지)를 누르세요.'
+            ) % (completedTrials, remainingTrials)
 
-            stim.setPos((0, 0))
-            stim.draw()
-            win.flip()
-            print('listening to button')
-            core.wait(TIME_WAIT_BREAK)
-            # Pause until response
-            listenbutton(9)
-        # response = getbutton()  # listen to a button
-        # responses.append(response)
+        stim = visual.TextStim(
+            win, text=msg, font='Malgun Gothic', units=instructionUnits,
+            height=INSTR_HEIGHT, alignText='center',
+            wrapWidth=INSTR_WRAP
+        )
+        print('break window')
 
-        # if responses[-1] == quitKey:
-        #     participantName = participantInfo[0].replace(" ", "")
-        #     filename = 'results.' + participantName + '.csv'
-        #     results.to_csv(filename)
-        #     win.close()
-        #     core.quit()
+        stim.setPos((0, 0))
+        stim.draw()
+        win.flip()
+        print('listening to button')
+        core.wait(TIME_WAIT_BREAK)
+        # Pause until response
+        listenbutton(9)
+
+        core.wait(0.5)
 
         trialsSinceLastBreak = 0
         recentCorrectResponses = 0
@@ -303,9 +266,87 @@ for trialIndex in range(startItem - 1, totalTrials):
 
         continue
 
+
+
+    # >>> PATCH 2) 블록 전환 감지 & 블록별 인스트럭션  (REPLACEMENT)
+    # block 값 안전 변환 (빈칸/None/"NaN" 등은 2로 처리)
+    _raw_block = trialList[trialIndex].get('block')
+    if _raw_block in (None, '', 'NA', 'NaN', 'nan'):
+        curr_block = 2
+    else:
+        try:
+            curr_block = int(float(_raw_block))
+        except Exception:
+            curr_block = 2
+
+    # 허용 범위 이외 값 방지
+    if curr_block not in (1, 2, 3):
+        curr_block = 2
+
+
+    print('current block', curr_block)
+
+    # 블록 전환 시에만 인스트럭션 표시
+    if curr_block != prev_block:
+        print('Curr block different than previous')
+        if curr_block == 1:
+            instr_text = (
+                '이번 세션에서는 주어진 문장을 읽고, 그에 대한 질문에 답해주시면 됩니다.'
+            '\n\n\n'  
+            '1. 우선 하나의 간단한 문장을 읽습니다.\n\n'
+            '2. 문장을 읽은 후에는, 해당 문장의 내용과 관련된 간단한 질문이 제시됩니다.\n\n'
+            '3. 질문에 대한 답으로 두 가지 "보기"가 주어집니다. 그 중 가장 알맞는 답을 선택하면 됩니다.'
+            '\n\n\n'
+            '질문은 단어 단위로, 한 단어씩 제시됩니다.\n'
+            '단어가 나오는 동안에는 눈을 깜박이거나 몸을 움직이지 마세요.\n'
+            '문장이 끝난 뒤나 질문에 답할 때는 눈을 깜박이셔도 괜찮습니다.'
+            '\n\n'
+            '본 실험을 시작할 준비가 됐다면 움직이지 말고, 눈을 깜박이지 않은 채로 "예"(검지)를 누르세요.'
+        )
+        elif curr_block == 3:
+            instr_text = (
+                '이번 세션에서는 주어진 문장을 읽고, 그에 대한 질문에 답해주시면 됩니다.'
+            '\n\n\n'  
+            '1. 우선 하나의 간단한 문장을 읽습니다.\n\n'
+            '2. 문장을 읽은 후에는, 해당 문장의 내용과 관련된 간단한 질문이 제시됩니다.\n\n'
+            '3. 질문에 대한 답으로 두 가지 "보기"가 주어집니다. 그 중 가장 알맞는 답을 선택하면 됩니다.'
+            '\n\n\n'
+            '질문은 단어 단위로, 한 단어씩 제시됩니다.\n'
+            '단어가 나오는 동안에는 눈을 깜박이거나 몸을 움직이지 마세요.\n'
+            '문장이 끝난 뒤나 질문에 답할 때는 눈을 깜박이셔도 괜찮습니다.'
+            '\n\n'
+            '본 실험을 시작할 준비가 됐다면 움직이지 말고, 눈을 깜박이지 않은 채로 "예"(검지)를 누르세요.'
+            )
+        else:
+            # curr_block == 2
+            instr_text = (
+                '이번 세션에서는 주어진 문장을 읽기만 하시면 됩니다. \n\n'
+                '문장은 단어 단위로, 한 단어씩 제시됩니다. 단어가 나오는 동안에는 눈을 깜박이거나 몸을 움직이지 마세요.\n\n'
+                '문장이 끝난 뒤나 질문에 답할 때는 눈을 깜박이셔도 괜찮습니다.\n\n'
+                '본 실험을 시작할 준비가 됐다면 움직이지 말고, 눈을 깜박이지 않은 채로 "예"(검지)를 누르세요.'
+            )
+
+        stim = visual.TextStim(
+            win, text=instr_text, font=stimuliFont,
+            units=instructionUnits, color=instructionColor,
+            height=INSTR_HEIGHT*1.1, alignText='center',
+            wrapWidth=INSTR_WRAP
+        )
+        stim.setPos((0, 0))
+        stim.draw()
+        win.flip()
+        listenbutton(9)  # self-paced 진입
+        prev_block = curr_block
+
     print(trialList[trialIndex]['sentence'])
 
-    words = trialList[trialIndex]['sentence'].split()
+    # 이 trial은 실제 문장 수행 trial이므로 마지막 블록 기록 (break가 아닌 경우에만 도달)
+    last_task_block = curr_block
+
+    # words = trialList[trialIndex]['sentence'].split()
+    # <<< MOD: RSVP에서 표시/타이밍/트리거는 묶음 토큰 기준으로
+    words = chunk_words(trialList[trialIndex]['sentence'])
+
     numWords = len(words)
     triggerList = range(int(trialList[trialIndex]['trigger']), int(trialList[trialIndex]['trigger']) + numWords)
 
@@ -335,7 +376,7 @@ for trialIndex in range(startItem - 1, totalTrials):
             except:
                 pass
 
-            full_text = str(trialList[trialIndex].get('context', '')).strip() or trialList[trialIndex]['sentence']
+            full_text = str(trialList[trialIndex].get('context', '')).strip()
             full_stim = visual.TextStim(win, text=full_text, font=stimuliFont,
                                         units=stimuliUnits, height=FULL_SENTENCE_HEIGHT,
                                         color=stimuliColor, alignText='center', wrapWidth=30)
@@ -480,8 +521,9 @@ for trialIndex in range(startItem - 1, totalTrials):
         event.clearEvents()
 
         question_text = f"① {option1}\n\n② {option2}\n\n"
-        stim = visual.TextStim(win, text=question_text, font= stimuliFont, units= stimuliUnits, height=1.5, color=taskQuestionColor, alignText='center',wrapWidth= 30)
-        stim.setPos((0, 0))
+        stim = visual.TextStim(win, text=question_text, font=stimuliFont, units=stimuliUnits,
+                               height=1.5, color=taskQuestionColor, alignText='center', wrapWidth=30)
+        stim.setPos((0, -2.5))
         stim.draw()
         win.flip()
 
@@ -609,9 +651,9 @@ for trialIndex in range(startItem - 1, totalTrials):
     stim = visual.TextStim(win,
                            text='지금은 눈을 깜빡이셔도 괜찮습니다.\n\n' 
                                 '다음 문장을 읽을 준비가 되면 \n\n'
-                                '움직이지 말고, 눈을 깜빡이지 않은 채로 \n\n'
+                                '움직이지 말고,눈을 깜빡이지 않은 채로 \n\n'
                                 '"예"(검지)를 누르세요.\n\n',
-                           font= stimuliFont, units= stimuliUnits, height= instructionSize, color=stimuliColor, alignText='center')
+                           font= stimuliFont, units= stimuliUnits, height=1, color=stimuliColor, wrapWidth=INSTR_WRAP*1.1, alignText='center')
     stim.setPos((0, -1.5))
     stim.draw()
     win.flip()
@@ -643,13 +685,12 @@ for trialIndex in range(startItem - 1, totalTrials):
 event.clearEvents()
 stim = visual.TextStim(win,
                        text='실험을 모두 마치셨습니다.\n\n' 
-                            '잠시만 움직이지 말아주세요.\n\n'
+                            '잠시만 움직이지 말아주세요.\n'
                             '약 30초 동안 마지막 기록을 진행합니다.\n\n'
-                            '총 %i개의 문장을 읽었고, \n\n'
-                            '%i개의 질문 중에 \n\n'
-                            '%i개를 맞추셨습니다.'  % (
+                            '총 %i개의 문장을 읽었고, \n'
+                            '%i개의 질문 중에 %i개를 맞추셨습니다.'  % (
                        (totalTrials - totalBreakCount - practiceCount), totalCorrectResponses, totalQuestionCount),
-                       font= stimuliFont, units= stimuliUnits, height=instructionSize, color=stimuliColor,  alignHoriz='center')
+                       font= stimuliFont, units= stimuliUnits, height=INSTR_HEIGHT, alignText='center', wrapWidth=INSTR_WRAP)
 
 stim.setPos((0, 0))
 stim.draw()
