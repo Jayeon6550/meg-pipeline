@@ -61,13 +61,12 @@ stimuliFont = 'Malgun Gothic'
 stimuliColor = 'gold' #rgb(255, 215, 0)
 stimuliUnits = 'deg'
 stimuliSize = 2
-
 wordOn = 38 #42 #350ms
 wordOff = 20 #24 #200ms
 lastWordOn = 38 #132  #1100
 
 boxHeight = stimuliSize + 1.5
-boxWidth = 17
+boxWidth = 15
 
 # >>> PATCH 1) Block 1/3용 context(통문장) 표시 파라미터 & 블록 상태
 FULL_SENTENCE_HEIGHT = 1.5    # context 폰트 크기
@@ -88,13 +87,13 @@ for trialIndex in range(totalTrials):
 print(longestWord)
 print(longestWordCount)
 
-fixationPoint = '****'
+#fixationPoint = '****'
 fixationOn = 60
 fixationOff = wordOff
 fixationColor = 'red'
 fixationSize = stimuliSize
 fixationUnits = stimuliUnits
-fixationTrigger = 255
+#fixationTrigger = 255
 
 taskQuestionColor = 'red'
 taskQuestionSize = 1.5
@@ -108,18 +107,19 @@ INSTR_WRAP   = 30        # 줄바꿈 폭 좁히기 (기존 30 → 22)
 instructionUnits = stimuliUnits
 instructionOff = wordOff
 
-practiceCount = 0
+practiceCount = 5 #
 breakKeyword = 'break'
 breakColor = instructionColor
 breakSize = instructionSize
 breakUnits = instructionUnits
 breakOff = wordOff
 
-quitKey = 'escape'
-responseYes = 'j'
+#quitKey = 'escape'
+#responseYes = 'j'
 #responseNo = 'f'
 #correctTrigger = 251
 #incorrectTrigger = 250
+
 startItem = 1
 
 totalTrials = len(trialList)
@@ -261,39 +261,42 @@ for trialIndex in range(startItem - 1, totalTrials):
         print('Curr block different than previous')
         if curr_block == 1:
             instr_text = (
-                '이번 세션에서는 주어진 문장을 읽고, 그에 대한 질문에 답해주시면 됩니다.'
+                '이번 세션에서는 주어진 문장을 읽고, 그 내용에 대한 질문에 답하시면 됩니다.'
             '\n\n\n'  
             '1. 우선 하나의 간단한 문장을 읽습니다.\n\n'
-            '2. 문장을 읽은 후에는, 해당 문장의 내용과 관련된 간단한 질문이 제시됩니다.\n\n'
-            '3. 질문에 대한 답으로 두 가지 "보기"가 주어집니다. 그 중 가장 알맞는 답을 선택하면 됩니다.'
+            '2. 문장을 읽은 후, 질문을 볼 준비가 되면 "예"(검지)버튼을 누릅니다.\n\n'
+            '3. 이어서 해당 문장의 내용을 이해했는지 확인하는 질문이 제시됩니다.\n'
+            '   질문은 단어 단위로 한 단어씩 제시됩니다. 이때는 눈을 깜빡이거나 몸을 움직이지 마세요.\n\n'
+            '4. 질문 제시가 끝나면 두 가지 "보기"가 나오며, [1번=검지],[2번=중지]로 응답합니다.'
             '\n\n\n'
-            '질문은 단어 단위로, 한 단어씩 제시됩니다.\n'
-            '단어가 나오는 동안에는 눈을 깜박이거나 몸을 움직이지 마세요.\n'
-            '문장이 끝난 뒤나 질문에 답할 때는 눈을 깜박이셔도 괜찮습니다.'
+            '질문이 제시되는 동안에는 눈을 깜빡이지 않도록 해주세요.\n'
+            '그 외의 구간에서는 자유롭게 깜빡이셔도 괜찮습니다.'
             '\n\n'
-            '본 실험을 시작할 준비가 됐다면 움직이지 말고, 눈을 깜박이지 않은 채로 "예"(검지)를 누르세요.'
+            '실험을 시작할 준비가 되셨다면, "예"(검지)를 눌러주세요.'
         )
         elif curr_block == 3:
             instr_text = (
-                '이번 세션에서는 주어진 문장을 읽고, 그에 대한 질문에 답해주시면 됩니다.'
+                '이번 세션에서는 주어진 문장을 읽고, 그 내용에 대한 질문에 답하시면 됩니다.'
             '\n\n\n'  
             '1. 우선 하나의 간단한 문장을 읽습니다.\n\n'
-            '2. 문장을 읽은 후에는, 해당 문장의 내용과 관련된 간단한 질문이 제시됩니다.\n\n'
-            '3. 질문에 대한 답으로 두 가지 "보기"가 주어집니다. 그 중 가장 알맞는 답을 선택하면 됩니다.'
+            '2. 문장을 읽은 후, 질문을 볼 준비가 되면 "예"(검지)버튼을 누릅니다.\n\n'
+            '3. 이어서 해당 문장의 내용을 이해했는지 확인하는 질문이 제시됩니다.\n'
+            '   질문은 단어 단위로 한 단어씩 제시됩니다. 이때는 눈을 깜빡이거나 몸을 움직이지 마세요.\n\n'
+            '4. 질문 제시가 끝나면 두 가지 "보기"가 나오며, [1번=검지],[2번=중지]로 응답합니다.'
             '\n\n\n'
-            '질문은 단어 단위로, 한 단어씩 제시됩니다.\n'
-            '단어가 나오는 동안에는 눈을 깜박이거나 몸을 움직이지 마세요.\n'
-            '문장이 끝난 뒤나 질문에 답할 때는 눈을 깜박이셔도 괜찮습니다.'
+            '질문이 제시되는 동안에는 눈을 깜빡이지 않도록 해주세요.\n'
+            '그 외의 구간에서는 자유롭게 깜빡이셔도 괜찮습니다.'
             '\n\n'
-            '본 실험을 시작할 준비가 됐다면 움직이지 말고, 눈을 깜박이지 않은 채로 "예"(검지)를 누르세요.'
+            '실험을 시작할 준비가 되셨다면, "예"(검지)를 눌러주세요.'
             )
         else:
             # curr_block == 2
             instr_text = (
                 '이번 세션에서는 주어진 문장을 읽기만 하시면 됩니다. \n\n'
-                '문장은 단어 단위로, 한 단어씩 제시됩니다. 단어가 나오는 동안에는 눈을 깜박이거나 몸을 움직이지 마세요.\n\n'
-                '문장이 끝난 뒤나 질문에 답할 때는 눈을 깜박이셔도 괜찮습니다.\n\n'
-                '본 실험을 시작할 준비가 됐다면 움직이지 말고, 눈을 깜박이지 않은 채로 "예"(검지)를 누르세요.'
+                '문장은 단어 단위로, 한 단어씩 제시됩니다. 이때는 눈을 깜박이거나 몸을 움직이지 마세요.\n\n'
+                '그 외의 구간에서는 자유롭게 깜빡이셔도 괜찮습니다.'
+                '\n\n'
+                '실험을 시작할 준비가 되셨다면, "예"(검지)를 누르세요.'
             )
 
         stim = visual.TextStim(
