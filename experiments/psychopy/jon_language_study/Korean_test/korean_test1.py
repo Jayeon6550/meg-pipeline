@@ -6,6 +6,32 @@ from pypixxlib import _libdpx as dp
 
 from experiments.psychopy.general.utilities import *
 
+# =========================
+# <<< MOD: 한 화면 묶음 표기 처리 헬퍼
+# « … »로 감싼 구간은 내부 스페이스를 유지한 채 "하나의 토큰"으로 반환
+def chunk_words(sentence, L='«', R='»'):
+    tokens = sentence.split()  # 기본: 스페이스 기준 분할 유지
+    out, buf, in_chunk = [], [], False
+    for t in tokens:
+        starts = t.startswith(L)
+        ends   = t.endswith(R)
+        if starts:
+            in_chunk = True
+            t = t[len(L):]          # 왼쪽 표식 제거
+        if in_chunk:
+            if ends:
+                buf.append(t[:-len(R)])        # 오른쪽 표식 제거
+                out.append(' '.join(buf))      # 내부 스페이스 유지하여 합치기
+                buf, in_chunk = [], False
+            else:
+                buf.append(t)
+        else:
+            out.append(t)
+    if buf:  # 짝이 안 맞아 남으면 안전하게 합쳐서 하나로
+        out.append(' '.join(buf))
+    return out
+# =========================
+
 
 # Setup the connection with the Vpixx systems and disable Pixel Mode
 
@@ -49,7 +75,7 @@ SCREEN_NUMBER = 2
 #Try 1 or 2 as screen_number
 #SCREEN_NUMBER = 1
 
-trialList = data.importConditions('korean_test2.csv')
+trialList = data.importConditions('korean_test.csv')
 
 #mon = monitors.Monitor('BenQ24', width=53, distance=100)
 #port = parallel.ParallelPort(address=0xD010)
@@ -61,12 +87,16 @@ stimuliFont = 'Malgun Gothic'
 stimuliColor = 'gold' #rgb(255, 215, 0)
 stimuliUnits = 'deg'
 stimuliSize = 2
-wordOn = 38 #42 #350ms
-wordOff = 20 #24 #200ms
-lastWordOn = 38 #132  #1100
+# ---- Instruction text layout tweaks ----
+INSTR_HEIGHT = 0.6      # 글자 크기 줄이기 (기존 0.9 → 0.6)
+INSTR_WRAP   = 30        # 줄바꿈 폭 좁히기 (기존 30 → 22)
+
+wordOn = 42 #350ms
+wordOff = 24 #200ms
+lastWordOn = 132  #1100
 
 boxHeight = stimuliSize + 1.5
-boxWidth = 15
+boxWidth = 17
 
 # >>> PATCH 1) Block 1/3용 context(통문장) 표시 파라미터 & 블록 상태
 FULL_SENTENCE_HEIGHT = 1.5    # context 폰트 크기
@@ -78,7 +108,9 @@ longestWord = 'none'
 
 totalTrials = len(trialList)
 for trialIndex in range(totalTrials):
-    words = trialList[trialIndex]['sentence'].split()
+    # words = trialList[trialIndex]['sentence'].split()
+    # <<< MOD: longestWord 계산도 묶음 토큰 기준으로 (안 바꿔도 무방하지만 일관성 위해 적용)
+    words = chunk_words(trialList[trialIndex]['sentence'])
     for word in words:
         if len(word) > longestWordCount:
             longestWordCount = len(word)
@@ -87,13 +119,13 @@ for trialIndex in range(totalTrials):
 print(longestWord)
 print(longestWordCount)
 
-#fixationPoint = '****'
+fixationPoint = '****'
 fixationOn = 60
 fixationOff = wordOff
 fixationColor = 'red'
 fixationSize = stimuliSize
 fixationUnits = stimuliUnits
-#fixationTrigger = 255
+fixationTrigger = 255
 
 taskQuestionColor = 'red'
 taskQuestionSize = 1.5
@@ -102,24 +134,21 @@ taskQuestionOff = wordOff
 
 instructionColor = 'gold'
 instructionSize = 1.5
-INSTR_HEIGHT = 0.6      # 글자 크기 줄이기 (기존 0.9 → 0.6)
-INSTR_WRAP   = 30        # 줄바꿈 폭 좁히기 (기존 30 → 22)
 instructionUnits = stimuliUnits
 instructionOff = wordOff
 
-practiceCount = 5 #
+practiceCount = 10
 breakKeyword = 'break'
 breakColor = instructionColor
 breakSize = instructionSize
 breakUnits = instructionUnits
 breakOff = wordOff
 
-#quitKey = 'escape'
-#responseYes = 'j'
+quitKey = 'escape'
+responseYes = 'j'
 #responseNo = 'f'
 #correctTrigger = 251
 #incorrectTrigger = 250
-
 startItem = 1
 
 totalTrials = len(trialList)
@@ -203,8 +232,8 @@ for trialIndex in range(startItem - 1, totalTrials):
             ) % (completedTrials, remainingTrials)
 
         stim = visual.TextStim(
-            win, text=msg, font=stimuliFont, units=instructionUnits,
-            height=INSTR_HEIGHT*1.2, alignText='center', color=instructionColor,
+            win, text=msg, font='Malgun Gothic', units=instructionUnits,
+            height=INSTR_HEIGHT, alignText='center',
             wrapWidth=INSTR_WRAP
         )
         print('break window')
@@ -261,48 +290,45 @@ for trialIndex in range(startItem - 1, totalTrials):
         print('Curr block different than previous')
         if curr_block == 1:
             instr_text = (
-                '이번 세션에서는 주어진 문장을 읽고, 그 내용에 대한 질문에 답하시면 됩니다.'
+                '이번 세션에서는 주어진 문장을 읽고, 그에 대한 질문에 답해주시면 됩니다.'
             '\n\n\n'  
             '1. 우선 하나의 간단한 문장을 읽습니다.\n\n'
-            '2. 문장을 읽은 후, 질문을 볼 준비가 되면 "예"(검지)버튼을 누릅니다.\n\n'
-            '3. 이어서 해당 문장의 내용을 이해했는지 확인하는 질문이 제시됩니다.\n'
-            '   질문은 단어 단위로 한 단어씩 제시됩니다. 이때는 눈을 깜빡이거나 몸을 움직이지 마세요.\n\n'
-            '4. 질문 제시가 끝나면 두 가지 "보기"가 나오며, [1번=검지],[2번=중지]로 응답합니다.'
+            '2. 문장을 읽은 후에는, 해당 문장의 내용과 관련된 간단한 질문이 제시됩니다.\n\n'
+            '3. 질문에 대한 답으로 두 가지 "보기"가 주어집니다. 그 중 가장 알맞는 답을 선택하면 됩니다.'
             '\n\n\n'
-            '질문이 제시되는 동안에는 눈을 깜빡이지 않도록 해주세요.\n'
-            '그 외의 구간에서는 자유롭게 깜빡이셔도 괜찮습니다.'
+            '질문은 단어 단위로, 한 단어씩 제시됩니다.\n'
+            '단어가 나오는 동안에는 눈을 깜박이거나 몸을 움직이지 마세요.\n'
+            '문장이 끝난 뒤나 질문에 답할 때는 눈을 깜박이셔도 괜찮습니다.'
             '\n\n'
-            '실험을 시작할 준비가 되셨다면, "예"(검지)를 눌러주세요.'
+            '본 실험을 시작할 준비가 됐다면 움직이지 말고, 눈을 깜박이지 않은 채로 "예"(검지)를 누르세요.'
         )
         elif curr_block == 3:
             instr_text = (
-                '이번 세션에서는 주어진 문장을 읽고, 그 내용에 대한 질문에 답하시면 됩니다.'
+                '이번 세션에서는 주어진 문장을 읽고, 그에 대한 질문에 답해주시면 됩니다.'
             '\n\n\n'  
             '1. 우선 하나의 간단한 문장을 읽습니다.\n\n'
-            '2. 문장을 읽은 후, 질문을 볼 준비가 되면 "예"(검지)버튼을 누릅니다.\n\n'
-            '3. 이어서 해당 문장의 내용을 이해했는지 확인하는 질문이 제시됩니다.\n'
-            '   질문은 단어 단위로 한 단어씩 제시됩니다. 이때는 눈을 깜빡이거나 몸을 움직이지 마세요.\n\n'
-            '4. 질문 제시가 끝나면 두 가지 "보기"가 나오며, [1번=검지],[2번=중지]로 응답합니다.'
+            '2. 문장을 읽은 후에는, 해당 문장의 내용과 관련된 간단한 질문이 제시됩니다.\n\n'
+            '3. 질문에 대한 답으로 두 가지 "보기"가 주어집니다. 그 중 가장 알맞는 답을 선택하면 됩니다.'
             '\n\n\n'
-            '질문이 제시되는 동안에는 눈을 깜빡이지 않도록 해주세요.\n'
-            '그 외의 구간에서는 자유롭게 깜빡이셔도 괜찮습니다.'
+            '질문은 단어 단위로, 한 단어씩 제시됩니다.\n'
+            '단어가 나오는 동안에는 눈을 깜박이거나 몸을 움직이지 마세요.\n'
+            '문장이 끝난 뒤나 질문에 답할 때는 눈을 깜박이셔도 괜찮습니다.'
             '\n\n'
-            '실험을 시작할 준비가 되셨다면, "예"(검지)를 눌러주세요.'
+            '본 실험을 시작할 준비가 됐다면 움직이지 말고, 눈을 깜박이지 않은 채로 "예"(검지)를 누르세요.'
             )
         else:
             # curr_block == 2
             instr_text = (
                 '이번 세션에서는 주어진 문장을 읽기만 하시면 됩니다. \n\n'
-                '문장은 단어 단위로, 한 단어씩 제시됩니다. 이때는 눈을 깜박이거나 몸을 움직이지 마세요.\n\n'
-                '그 외의 구간에서는 자유롭게 깜빡이셔도 괜찮습니다.'
-                '\n\n'
-                '실험을 시작할 준비가 되셨다면, "예"(검지)를 누르세요.'
+                '문장은 단어 단위로, 한 단어씩 제시됩니다. 단어가 나오는 동안에는 눈을 깜박이거나 몸을 움직이지 마세요.\n\n'
+                '문장이 끝난 뒤나 질문에 답할 때는 눈을 깜박이셔도 괜찮습니다.\n\n'
+                '본 실험을 시작할 준비가 됐다면 움직이지 말고, 눈을 깜박이지 않은 채로 "예"(검지)를 누르세요.'
             )
 
         stim = visual.TextStim(
             win, text=instr_text, font=stimuliFont,
             units=instructionUnits, color=instructionColor,
-            height=INSTR_HEIGHT, alignText='center',
+            height=INSTR_HEIGHT*1.1, alignText='center',
             wrapWidth=INSTR_WRAP
         )
         stim.setPos((0, 0))
@@ -316,7 +342,10 @@ for trialIndex in range(startItem - 1, totalTrials):
     # 이 trial은 실제 문장 수행 trial이므로 마지막 블록 기록 (break가 아닌 경우에만 도달)
     last_task_block = curr_block
 
-    words = trialList[trialIndex]['sentence'].split()
+    # words = trialList[trialIndex]['sentence'].split()
+    # <<< MOD: RSVP에서 표시/타이밍/트리거는 묶음 토큰 기준으로
+    words = chunk_words(trialList[trialIndex]['sentence'])
+
     numWords = len(words)
     triggerList = range(int(trialList[trialIndex]['trigger']), int(trialList[trialIndex]['trigger']) + numWords)
 
@@ -349,7 +378,7 @@ for trialIndex in range(startItem - 1, totalTrials):
             full_text = str(trialList[trialIndex].get('context', '')).strip()
             full_stim = visual.TextStim(win, text=full_text, font=stimuliFont,
                                         units=stimuliUnits, height=FULL_SENTENCE_HEIGHT,
-                                        color=taskQuestionColor, alignText='center', wrapWidth=30)
+                                        color=stimuliColor, alignText='center', wrapWidth=30)
             full_stim.setPos((0, 0))
             full_stim.draw(); win.flip()
 
@@ -547,8 +576,8 @@ for trialIndex in range(startItem - 1, totalTrials):
 
 
             stim = visual.TextStim(win, text='모든 버튼에서 손가락을 떼주세요.\n\n',
-                                   font= stimuliFont, units= stimuliUnits, height=1, color=taskQuestionColor, alignText='center',wrapWidth= 30)
-            stim.setPos((0,-2.5))
+                                   font= stimuliFont, units= stimuliUnits, height=1.5, color=taskQuestionColor, aalignText='center',wrapWidth= 30)
+            stim.setPos((0,-1.5))
             stim.draw()
             win.flip()
             core.wait(TIME_TO_RESET_BUTTON_BOX)
@@ -619,11 +648,10 @@ for trialIndex in range(startItem - 1, totalTrials):
     event.clearEvents()
     #responses = []
     stim = visual.TextStim(win,
-                           text='지금은 눈을 깜빡이셔도 괜찮습니다.\n\n' 
-                                '다음 문장을 읽을 준비가 되면 \n\n'
-                                '움직이지 말고,눈을 깜빡이지 않은 채로 \n\n'
+                           text='지금은 편하게 눈을 깜빡이셔도 괜찮습니다.\n\n' 
+                                '다음 문장을 눈 깜빡임없이 읽을 준비가 되셨다면\n\n'
                                 '"예"(검지)를 누르세요.\n\n',
-                           font= stimuliFont, units= stimuliUnits, height= 1, color=stimuliColor, wrapWidth= 30, alignText='center')
+                           font= stimuliFont, units= stimuliUnits, height=1, color=stimuliColor, wrapWidth=INSTR_WRAP*1.1, alignText='center')
     stim.setPos((0, -1.5))
     stim.draw()
     win.flip()
@@ -660,7 +688,7 @@ stim = visual.TextStim(win,
                             '총 %i개의 문장을 읽었고, \n'
                             '%i개의 질문 중에 %i개를 맞추셨습니다.'  % (
                        (totalTrials - totalBreakCount - practiceCount), totalCorrectResponses, totalQuestionCount),
-                       font= stimuliFont, units= stimuliUnits, color= stimuliColor, height=INSTR_HEIGHT, alignText='center', wrapWidth=INSTR_WRAP)
+                       font= stimuliFont, units= stimuliUnits, height=INSTR_HEIGHT, alignText='center', wrapWidth=INSTR_WRAP)
 
 stim.setPos((0, 0))
 stim.draw()

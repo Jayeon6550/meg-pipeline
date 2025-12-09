@@ -309,7 +309,7 @@ for trialIndex in range(startItem - 1, totalTrials):
         print('Curr block different than previous')
         if curr_block == 1:
             instr_text = (
-                '이번 세션에서는 주어진 문장을 읽고, 그에 대한 질문에 답해주시면 됩니다.'
+                '이번 세션에서는 주어진 문장을 읽고, 그에 대한 질문에 답하시면 됩니다.'
             '\n\n\n'  
             '1. 우선 하나의 간단한 문장을 읽습니다.\n\n'
             '2. 문장을 읽은 후에는, 해당 문장의 내용과 관련된 간단한 질문이 제시됩니다.\n\n'
@@ -323,7 +323,7 @@ for trialIndex in range(startItem - 1, totalTrials):
         )
         elif curr_block == 3:
             instr_text = (
-                '이번 세션에서는 주어진 문장을 읽고, 그에 대한 질문에 답해주시면 됩니다.'
+                '이번 세션에서는 주어진 문장을 읽고, 그에 대한 질문에 답하시면 됩니다.'
             '\n\n\n'  
             '1. 우선 하나의 간단한 문장을 읽습니다.\n\n'
             '2. 문장을 읽은 후에는, 해당 문장의 내용과 관련된 간단한 질문이 제시됩니다.\n\n'
@@ -337,8 +337,9 @@ for trialIndex in range(startItem - 1, totalTrials):
             )
         else:
             instr_text = (
-                '이번 세션에서는 주어진 문장을 읽기만 하시면 됩니다. \n\n'
+                '이번 세션에서는 주어진 문장을 읽고, 그에 대한 질문에 답하시면 됩니다. \n\n'
                 '문장은 단어 단위로, 한 단어씩 제시됩니다. 단어가 나오는 동안에는 눈을 깜박이거나 몸을 움직이지 마세요.\n\n'
+                '문장이 제시된 후에 때떄로 \n\n'
                 '문장이 끝난 뒤나 질문에 답할 때는 눈을 깜박이셔도 괜찮습니다.\n\n'
                 '본 실험을 시작할 준비가 됐다면 움직이지 말고, 눈을 깜빡이지 않은 채로 "예"(검지)를 누르세요.'
             )
@@ -665,9 +666,8 @@ for trialIndex in range(startItem - 1, totalTrials):
 
     event.clearEvents()
     stim = visual.TextStim(win,
-                           text='지금은 눈을 깜빡이셔도 괜찮습니다.\n\n' 
-                                '다음 문장을 읽을 준비가 되면 \n\n'
-                                '움직이지 말고,눈을 깜빡이지 않은 채로 \n\n'
+                           text='지금은 편하게 눈을 깜빡이셔도 괜찮습니다.\n\n' 
+                                '다음 문장을 눈 깜빡임없이 읽을 준비가 되면 \n\n'
                                 '"예"(검지)를 누르세요.\n\n',
                            font=stimuliFont, units=stimuliUnits, height=1, color=stimuliColor, wrapWidth=30, alignText='center')
     stim.setPos((0, -1.5))
