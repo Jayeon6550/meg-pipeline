@@ -114,7 +114,7 @@ breakSize = instructionSize
 breakUnits = instructionUnits
 breakOff = wordOff
 
-#quitKey = 'escape'
+quitKey = 'escape'
 #responseYes = 'j'
 #responseNo = 'f'
 #correctTrigger = 251
