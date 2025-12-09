@@ -273,6 +273,7 @@ for trialIndex in range(startItem - 1, totalTrials):
 
     # 블록 전환 시에만 인스트럭션 표시
     if curr_block != prev_block:
+        currentBreakCount = 0  # ★ PATCH: 새로운 block에서는 practice break 카운트를 초기화
         print('Curr block different than previous')
         if curr_block == 1:
             instr_text = (
