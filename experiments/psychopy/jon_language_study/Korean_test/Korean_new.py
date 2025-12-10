@@ -1,20 +1,25 @@
+# ============================================================
+# ======================= PART 1 ==============================
+# ============================================================
+
 import os, sys
 import pandas as pd
 from psychopy import core, visual, event, parallel, data, monitors, gui
 
 from pypixxlib import _libdpx as dp
-
 from experiments.psychopy.general.utilities import *
 
-### >>> NEW: practice / block helpers 추가
-prev_block = None                 # 블록 전환 감지
-prev_subblock = None              # practice 종료 감지용
-in_practice_section = False       # 현재 practice인지 추적
+### >>> NEW: practice / block helpers
+prev_block = None                 # block 전환 감지
+prev_subblock = None              # practice 종료 break 감지
+in_practice_section = False       # 현재 practice trial인지 추적
 practice_finished_for_block = False
 ### <<< END NEW
 
 
-# Setup the connection with the Vpixx systems and disable Pixel Mode
+# ============================================================
+# VPixx 장비 초기화
+# ============================================================
 
 TIME_TO_RESET_BUTTON_BOX = 1.7
 TIME_WAIT_BREAK = 0.5
@@ -25,14 +30,10 @@ trigger = [[4, 0, 0], [16, 0, 0], [64, 0, 0],
 channel_names = ['224', '225', '226', '227', '228', '229', '230', '231']
 black = [0, 0, 0]
 
-RESPONSE_SELECTION = {
-    "right box": ["red", "yellow"],
-}
-
+RESPONSE_SELECTION = {"right box": ["red", "yellow"]}
 
 def RGB2Trigger(color):
     return int((color[2] << 16) + (color[1] << 8) + color[0])
-
 
 dp.DPxOpen()
 dp.DPxDisableDoutPixelMode()
@@ -40,10 +41,14 @@ dp.DPxWriteRegCache()
 dp.DPxSetDoutValue(RGB2Trigger(black), 0xFFFFFF)
 dp.DPxUpdateRegCache()
 
+
+# ============================================================
+# 기본 설정
+# ============================================================
+
 responses = []
 
 SCREEN_NUMBER = 2
-
 trialList = data.importConditions('korean_test2.csv')
 
 clock = core.Clock()
@@ -62,38 +67,78 @@ lastWordOn = 38
 boxHeight = stimuliSize + 1.5
 boxWidth = 15
 
-FULL_SENTENCE_HEIGHT = 1.5
-FULL_SENTENCE_OFF = wordOff
+# ============================================================
+# >>> YOUR MISSING SETTINGS RESTORED (원본 설정 모두 포함)
+# ============================================================
 
-longestSentence = 0
-totalTrials = len(trialList)
+#fixationPoint = '****'
+fixationOn = 60
+fixationOff = wordOff
+fixationColor = 'red'
+fixationSize = stimuliSize
+fixationUnits = stimuliUnits
+#fixationTrigger = 255
 
-for t in range(totalTrials):
-    words = trialList[t]['sentence'].split()
-    if len(words) > longestSentence:
-        longestSentence = len(words)
+taskQuestionColor = 'red'
+taskQuestionSize = 1.5
+taskQuestionUnits = stimuliUnits
+taskQuestionOff = wordOff
 
 instructionColor = 'gold'
+instructionSize = 1.5
 INSTR_HEIGHT = 0.6
 INSTR_WRAP = 30
+instructionUnits = stimuliUnits
+instructionOff = wordOff
 
-practiceCount = 0      # CSV에 실제 practice 개수를 기반으로 자동 계산됨
-breakKeyword = "break"
+breakKeyword = 'break'
+breakColor = instructionColor
+breakSize = instructionSize
+breakUnits = instructionUnits
+breakOff = wordOff
 
-# count practice & break
+### >>> NEW: practiceCount는 CSV 기반 자동 계산이므로 기본값은 무시됨
+practiceCount = 0
+### <<< END NEW
+
+# ============================================================
+
+
+# ============================================================
+# CSV 구조 기반 정보 계산
+# ============================================================
+
+totalTrials = len(trialList)
+longestSentence = 0
 totalBreakCount = 0
 totalPracticeCount = 0
 totalQuestionCount = 0
 
-for t in range(totalTrials):
-    if str(trialList[t].get("subblock", "")).lower() == "practice":
+for idx in range(totalTrials):
+    # longest word count
+    numWords = len(trialList[idx]['sentence'].split())
+    if numWords > longestSentence:
+        longestSentence = numWords
+
+    # practice count
+    if str(trialList[idx].get("subblock", "")).lower() == "practice":
         totalPracticeCount += 1
-    if trialList[t]['sentence'] == breakKeyword:
+
+    # break count
+    if trialList[idx]['sentence'] == breakKeyword:
         totalBreakCount += 1
-    if isinstance(trialList[t]['taskQuestion'], str) and len(trialList[t]['taskQuestion']) >= 4:
+
+    # taskQuestion count
+    tq = trialList[idx]['taskQuestion']
+    if isinstance(tq, str) and len(tq) >= 4:
         totalQuestionCount += 1
 
-practiceCount = totalPracticeCount  # 자동 세팅됨
+practiceCount = totalPracticeCount   # 최종 practice trial 개수
+
+
+# ============================================================
+# 결과 저장 dataframe 만들기
+# ============================================================
 
 subjectColumns = ['name', 'age', 'sex', 'handedness', 'experiment', 'list',
                   'sentence', 'taskQuestion', 'trigger',
@@ -101,6 +146,11 @@ subjectColumns = ['name', 'age', 'sex', 'handedness', 'experiment', 'list',
 
 wordColumns = ["word" + str(i) for i in range(1, longestSentence + 1)]
 results = pd.DataFrame(index=range(totalTrials), columns=subjectColumns + wordColumns)
+
+
+# ============================================================
+# GUI: 참가자 기본 정보 입력
+# ============================================================
 
 myDlg = gui.Dlg(title="RSVP MEG experiment", size=(600, 600))
 myDlg.addText('Participant Info', color='Red')
@@ -116,8 +166,9 @@ myDlg.show()
 if myDlg.OK:
     participantInfo = myDlg.data
 else:
-    print('user cancelled')
+    print("User cancelled")
 
+# 창 생성
 win = visual.Window(
     screen=1,
     size=[1919.5, 1079.5],
@@ -126,34 +177,38 @@ win = visual.Window(
     monitor='testMonitor'
 )
 
-# ===== 초기 실험 개요 화면 =====
+# ============================================================
+# 초기 안내 화면
+# ============================================================
+
 instructions_text = "실험 개요"
 
 stim = visual.TextStim(
     win,
     text=instructions_text,
-    font=instructionsFont,
-    units='deg',
+    font=instructionsFont, units='deg',
     color=instructionColor,
     height=0.8,
     alignText='center',
     wrapWidth=30
 )
-stim.setPos((0, 0))
 stim.draw()
 win.flip()
 
+# self-paced
 listenbutton(9)
 
-for frameN in range(wordOff - 1):
+for frameN in range(instructionOff - 1):
     win.flip()
 win.flip()
 
-### >>> NEW: 초기화 변수들
+
+### >>> NEW: 반응 통계 초기화
 recentCorrectResponses = 0
 totalCorrectResponses = 0
 trialsSinceLastBreak = 0
 ### <<< END NEW
+
 
 # ============================================================
 # ======================= PART 2 ==============================
