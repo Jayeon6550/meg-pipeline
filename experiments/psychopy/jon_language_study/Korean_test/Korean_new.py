@@ -59,7 +59,8 @@ lastWordOn = 38
 boxHeight = stimuliSize + 1.5
 boxWidth = 15
 
-
+FULL_SENTENCE_HEIGHT = 1.5    # context 폰트 크기
+FULL_SENTENCE_OFF = wordOff   # context 후 간격
 # ==============================================================
 # 2) ✔ FIXATION / TASK / INSTRUCTION 세팅 (너가 말한 부분 그대로 유지)
 # ==============================================================
