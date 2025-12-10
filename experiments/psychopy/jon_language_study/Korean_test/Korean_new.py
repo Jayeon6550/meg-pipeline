@@ -1,7 +1,3 @@
-# ============================================================
-# ======================= PART 1 ==============================
-# ============================================================
-
 import os, sys
 import pandas as pd
 from psychopy import core, visual, event, parallel, data, monitors, gui
@@ -9,28 +5,22 @@ from psychopy import core, visual, event, parallel, data, monitors, gui
 from pypixxlib import _libdpx as dp
 from experiments.psychopy.general.utilities import *
 
-### >>> NEW: practice / block helpers
-prev_block = None                 # block 전환 감지
-prev_subblock = None              # practice 종료 break 감지
-in_practice_section = False       # 현재 practice trial인지 추적
-practice_finished_for_block = False
-### <<< END NEW
 
-
-# ============================================================
-# VPixx 장비 초기화
-# ============================================================
+# ==============================================================
+# 0) VPixx 기본 설정
+# ==============================================================
 
 TIME_TO_RESET_BUTTON_BOX = 1.7
 TIME_WAIT_BREAK = 0.5
 
 trigger = [[4, 0, 0], [16, 0, 0], [64, 0, 0],
-           [0, 1, 0], [0, 4, 0], [0, 16, 0],
-           [0, 64, 0], [0, 0, 1]]
+           [0, 1, 0], [0, 4, 0], [0, 16, 0], [0, 64, 0], [0, 0, 1]]
 channel_names = ['224', '225', '226', '227', '228', '229', '230', '231']
 black = [0, 0, 0]
 
-RESPONSE_SELECTION = {"right box": ["red", "yellow"]}
+RESPONSE_SELECTION = {
+    "right box": ["red", "yellow"],
+}
 
 def RGB2Trigger(color):
     return int((color[2] << 16) + (color[1] << 8) + color[0])
@@ -41,15 +31,17 @@ dp.DPxWriteRegCache()
 dp.DPxSetDoutValue(RGB2Trigger(black), 0xFFFFFF)
 dp.DPxUpdateRegCache()
 
-
-# ============================================================
-# 기본 설정
-# ============================================================
-
 responses = []
 
+
+# ==============================================================
+# 1) CSV 로드 + 실험 파라미터 기본 세팅
+# ==============================================================
+
 SCREEN_NUMBER = 2
+
 trialList = data.importConditions('korean_test2.csv')
+totalTrials = len(trialList)
 
 clock = core.Clock()
 
@@ -67,17 +59,16 @@ lastWordOn = 38
 boxHeight = stimuliSize + 1.5
 boxWidth = 15
 
-# ============================================================
-# >>> YOUR MISSING SETTINGS RESTORED (원본 설정 모두 포함)
-# ============================================================
 
-#fixationPoint = '****'
+# ==============================================================
+# 2) ✔ FIXATION / TASK / INSTRUCTION 세팅 (너가 말한 부분 그대로 유지)
+# ==============================================================
+
 fixationOn = 60
 fixationOff = wordOff
 fixationColor = 'red'
 fixationSize = stimuliSize
 fixationUnits = stimuliUnits
-#fixationTrigger = 255
 
 taskQuestionColor = 'red'
 taskQuestionSize = 1.5
@@ -97,63 +88,82 @@ breakSize = instructionSize
 breakUnits = instructionUnits
 breakOff = wordOff
 
-### >>> NEW: practiceCount는 CSV 기반 자동 계산이므로 기본값은 무시됨
-practiceCount = 0
-### <<< END NEW
 
-# ============================================================
+# ==============================================================
+# 3) ✔ longestWordCount + longestSentence + practice/break/question 계산
+# ==============================================================
 
-# ============================================================
-# CSV 구조 기반 정보 계산
-# ============================================================
-
-totalTrials = len(trialList)
+longestWordCount = 0
+longestWord = "none"
 longestSentence = 0
+
 totalBreakCount = 0
 totalPracticeCount = 0
 totalQuestionCount = 0
 
 for idx in range(totalTrials):
-    # longest word count
-    numWords = len(trialList[idx]['sentence'].split())
+
+    words = trialList[idx]['sentence'].split()
+
+    # ---- 3-1) 가장 긴 단어 찾기 ----
+    for w in words:
+        if len(w) > longestWordCount:
+            longestWordCount = len(w)
+            longestWord = w
+
+    # ---- 3-2) 가장 긴 문장(단어 개수) ----
+    numWords = len(words)
     if numWords > longestSentence:
         longestSentence = numWords
 
-    # practice count
+    # ---- 3-3) practice trial 개수 ----
     if str(trialList[idx].get("subblock", "")).lower() == "practice":
         totalPracticeCount += 1
 
-    # break count
+    # ---- 3-4) break trial 개수 ----
     if trialList[idx]['sentence'] == breakKeyword:
         totalBreakCount += 1
 
-    # taskQuestion count
+    # ---- 3-5) question 개수 ----
     tq = trialList[idx]['taskQuestion']
     if isinstance(tq, str) and len(tq) >= 4:
         totalQuestionCount += 1
 
-practiceCount = totalPracticeCount   # 최종 practice trial 개수
+# (디버그 출력 – 원래 네 코드처럼 유지)
+print("Longest word:", longestWord)
+print("Length:", longestWordCount)
+print("Longest sentence (words):", longestSentence)
 
 
-# ============================================================
-# 결과 저장 dataframe 만들기
-# ============================================================
+# ==============================================================
+# 4) ✔ practiceCount 최종 결정 (CSV 기반)
+# ==============================================================
 
-subjectColumns = ['name', 'age', 'sex', 'handedness', 'experiment', 'list',
-                  'sentence', 'taskQuestion', 'trigger',
+practiceCount = totalPracticeCount
+
+
+# ==============================================================
+# 5) 결과 DataFrame 생성
+# ==============================================================
+
+subjectColumns = ['name', 'age', 'sex', 'handedness',
+                  'experiment', 'list', 'sentence',
+                  'taskQuestion', 'trigger',
                   'expectedAnswer', 'participantAnswer', 'answer']
 
 wordColumns = ["word" + str(i) for i in range(1, longestSentence + 1)]
-results = pd.DataFrame(index=range(totalTrials), columns=subjectColumns + wordColumns)
+myColumns = subjectColumns + wordColumns
+
+results = pd.DataFrame(index=range(totalTrials), columns=myColumns)
 
 
-# ============================================================
-# GUI: 참가자 기본 정보 입력
-# ============================================================
+# ==============================================================
+# 6) 참가자 정보 GUI (너의 원래 코드 그대로 유지)
+# ==============================================================
 
 myDlg = gui.Dlg(title="RSVP MEG experiment", size=(600, 600))
 myDlg.addText('Participant Info', color='Red')
-myDlg.addField('Participant Name:', 'First Last')
+myDlg.addField('Participant Name:', 'First Last', tip='or subject code')
 myDlg.addField('Age:', 21)
 myDlg.addField('Biological Sex:', choices=["Female", "Male"])
 myDlg.addField('Handedness:', 100)
@@ -165,7 +175,9 @@ myDlg.show()
 if myDlg.OK:
     participantInfo = myDlg.data
 else:
-    print("User cancelled")
+    print('user cancelled')
+
+
 
 # 창 생성
 win = visual.Window(
