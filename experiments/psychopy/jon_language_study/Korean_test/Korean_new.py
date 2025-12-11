@@ -332,8 +332,7 @@ for trialIndex in range(totalTrials):
         continue
 
     # ============================================================
-    #  (B) Show block instruction at the beginning of each block (only before practice)
-    #  BLOCK 시작 시 인스트럭션 표시
+    #  (B) Show block instruction at the beginning of each block (block 시작 시 인스트럭션 표시)
     # ============================================================
     ### >>> NEW: block changed + instruction befoer practice (block전환, practice 시작 전 인스트럭션)
     if curr_block in (1, 2, 3) and curr_block != prev_block:
@@ -417,7 +416,7 @@ for trialIndex in range(totalTrials):
     win.flip()
 
     # ------------------------------------------------------------
-    # Display context snetence — only for block1 and 3 (block 1과 3에서만 context 문장)
+    # Display context sentence — only for block1 and 3 (block 1과 3에서만 context 문장)
     # ------------------------------------------------------------
     if curr_block in (1, 3):
         option1 = str(trialList[trialIndex].get('option1', '')).strip()
@@ -474,91 +473,139 @@ for trialIndex in range(totalTrials):
         # --------------------------------------------------------
         # if this is the last word in the sentence
         # --------------------------------------------------------
-        if wordIndex == (numWords - 1):
-            for frameN in range(lastWordOn):
-                stim.draw()
-                win.flip()
+        for wordIndex in range(numWords):
+            print(repr(words[wordIndex]))
 
-                if frameN == 0:
-                    clock.reset()
+            stim = visual.TextStim(
+                win, text=words[wordIndex],
+                font=stimuliFont, units='deg',
+                height=stimuliSize, color=stimuliColor,
+                alignText='center'
+            )
+            stim.setPos((0, 0))
 
-                # Trigger
-                if frameN < 10:
-                    combined_trigger_value = (
-                        trialList[trialIndex]['trigger224w'] * trigger_channels_dictionary[224] +
-                        trialList[trialIndex]['trigger225w'] * trigger_channels_dictionary[225] +
-                        trialList[trialIndex]['trigger226w'] * trigger_channels_dictionary[226] +
-                        trialList[trialIndex]['trigger227w'] * trigger_channels_dictionary[227] +
-                        trialList[trialIndex]['trigger228w'] * trigger_channels_dictionary[228] +
-                        trialList[trialIndex]['trigger229w'] * trigger_channels_dictionary[229] +
-                        trialList[trialIndex]['trigger230w'] * trigger_channels_dictionary[230] +
-                        trialList[trialIndex]['trigger231w'] * trigger_channels_dictionary[231]
-                    )
-
-                    dp.DPxSetDoutValue(int(combined_trigger_value), 0xFFFFFF)
-                    dp.DPxUpdateRegCache()
-
-                if frameN == 10:
-                    dp.DPxSetDoutValue(RGB2Trigger(black), 0xFFFFFF)
-                    dp.DPxUpdateRegCache()
-
-            win.flip()
-            results.loc[trialIndex, wordIndex + len(subjectColumns)] = clock.getTime()
-
-        else:
             # --------------------------------------------------------
-            # For the first or middle words
+            # LAST WORD (코드1 스타일)
             # --------------------------------------------------------
-            for frameN in range(wordOn):
-                stim.draw()
+            if wordIndex == (numWords - 1):
+                for frameN in range(lastWordOn):
+                    stim.draw()
+                    win.flip()
+
+                    if frameN == 0:
+                        clock.reset()
+
+                    # frameN < 10 → trigger
+                    if frameN < 10:
+                        combined_trigger_value = (
+                                trialList[trialIndex]['trigger224w'] * trigger_channels_dictionary[224] +
+                                trialList[trialIndex]['trigger225w'] * trigger_channels_dictionary[225] +
+                                trialList[trialIndex]['trigger226w'] * trigger_channels_dictionary[226] +
+                                trialList[trialIndex]['trigger227w'] * trigger_channels_dictionary[227] +
+                                trialList[trialIndex]['trigger228w'] * trigger_channels_dictionary[228] +
+                                trialList[trialIndex]['trigger229w'] * trigger_channels_dictionary[229] +
+                                trialList[trialIndex]['trigger230w'] * trigger_channels_dictionary[230] +
+                                trialList[trialIndex]['trigger231w'] * trigger_channels_dictionary[231]
+                        )
+
+                        # >>> PRINT — 코드1과 동일
+                        print(f"Trial {trialIndex}, Trigger: Combined Value = {combined_trigger_value}")
+                        print('wordIndex', wordIndex)
+                        print('frameN', frameN)
+                        # <<<
+
+                        dp.DPxSetDoutValue(int(combined_trigger_value), 0xFFFFFF)
+                        dp.DPxUpdateRegCache()
+
+                    # frameN == 10 → reset trigger
+                    if frameN == 10:
+                        dp.DPxSetDoutValue(RGB2Trigger(black), 0xFFFFFF)
+                        dp.DPxUpdateRegCache()
+
                 win.flip()
+                results.loc[trialIndex, wordIndex + len(subjectColumns)] = clock.getTime()
 
-                if frameN == 0:
-                    clock.reset()
+            # --------------------------------------------------------
+            # FIRST + MIDDLE WORDS (코드1 스타일)
+            # --------------------------------------------------------
+            else:
+                for frameN in range(wordOn):
+                    stim.draw()
+                    win.flip()
 
-                if frameN < 10:
+                    if frameN == 0:
+                        clock.reset()
+
+                    # ======================================================
+                    # FIRST WORD (코드1과 동일한 순서)
+                    # ======================================================
                     if wordIndex == 0:
-                        combined_trigger_value = (
-                            trialList[trialIndex]['trigger224'] * trigger_channels_dictionary[224] +
-                            trialList[trialIndex]['trigger225'] * trigger_channels_dictionary[225] +
-                            trialList[trialIndex]['trigger226'] * trigger_channels_dictionary[226] +
-                            trialList[trialIndex]['trigger227'] * trigger_channels_dictionary[227] +
-                            trialList[trialIndex]['trigger228'] * trigger_channels_dictionary[228] +
-                            trialList[trialIndex]['trigger229'] * trigger_channels_dictionary[229] +
-                            trialList[trialIndex]['trigger230'] * trigger_channels_dictionary[230] +
-                            trialList[trialIndex]['trigger231'] * trigger_channels_dictionary[231]
-                        )
+                        if frameN < 10:
+                            combined_trigger_value = (
+                                    trialList[trialIndex]['trigger224'] * trigger_channels_dictionary[224] +
+                                    trialList[trialIndex]['trigger225'] * trigger_channels_dictionary[225] +
+                                    trialList[trialIndex]['trigger226'] * trigger_channels_dictionary[226] +
+                                    trialList[trialIndex]['trigger227'] * trigger_channels_dictionary[227] +
+                                    trialList[trialIndex]['trigger228'] * trigger_channels_dictionary[228] +
+                                    trialList[trialIndex]['trigger229'] * trigger_channels_dictionary[229] +
+                                    trialList[trialIndex]['trigger230'] * trigger_channels_dictionary[230] +
+                                    trialList[trialIndex]['trigger231'] * trigger_channels_dictionary[231]
+                            )
+
+                            # PRINT (코드1 스타일)
+                            print(f"Trial {trialIndex}, Trigger: Combined Value = {combined_trigger_value}")
+                            print('wordIndex', wordIndex)
+                            print('frameN', frameN)
+
+                            dp.DPxSetDoutValue(int(combined_trigger_value), 0xFFFFFF)
+                            dp.DPxUpdateRegCache()
+
+                        if frameN == 10:
+                            dp.DPxSetDoutValue(RGB2Trigger(black), 0xFFFFFF)
+                            dp.DPxUpdateRegCache()
+
+                    # ======================================================
+                    # MIDDLE WORDS (코드1과 동일)
+                    # ======================================================
                     else:
-                        combined_trigger_value = (
-                            trialList[trialIndex]['trigger224w'] * trigger_channels_dictionary[224] +
-                            trialList[trialIndex]['trigger225w'] * trigger_channels_dictionary[225] +
-                            trialList[trialIndex]['trigger226w'] * trigger_channels_dictionary[226] +
-                            trialList[trialIndex]['trigger227w'] * trigger_channels_dictionary[227] +
-                            trialList[trialIndex]['trigger228w'] * trigger_channels_dictionary[228] +
-                            trialList[trialIndex]['trigger229w'] * trigger_channels_dictionary[229] +
-                            trialList[trialIndex]['trigger230w'] * trigger_channels_dictionary[230] +
-                            trialList[trialIndex]['trigger231w'] * trigger_channels_dictionary[231]
-                        )
+                        if frameN < 10:
+                            combined_trigger_value = (
+                                    trialList[trialIndex]['trigger224w'] * trigger_channels_dictionary[224] +
+                                    trialList[trialIndex]['trigger225w'] * trigger_channels_dictionary[225] +
+                                    trialList[trialIndex]['trigger226w'] * trigger_channels_dictionary[226] +
+                                    trialList[trialIndex]['trigger227w'] * trigger_channels_dictionary[227] +
+                                    trialList[trialIndex]['trigger228w'] * trigger_channels_dictionary[228] +
+                                    trialList[trialIndex]['trigger229w'] * trigger_channels_dictionary[229] +
+                                    trialList[trialIndex]['trigger230w'] * trigger_channels_dictionary[230] +
+                                    trialList[trialIndex]['trigger231w'] * trigger_channels_dictionary[231]
+                            )
 
-                    dp.DPxSetDoutValue(int(combined_trigger_value), 0xFFFFFF)
-                    dp.DPxUpdateRegCache()
+                            # PRINT (코드1 스타일)
+                            print(f"Trial {trialIndex}, Trigger: Combined Value = {combined_trigger_value}")
+                            print('wordIndex', wordIndex)
+                            print('frameN', frameN)
 
-                if frameN == 10:
-                    dp.DPxSetDoutValue(RGB2Trigger(black), 0xFFFFFF)
-                    dp.DPxUpdateRegCache()
+                            dp.DPxSetDoutValue(int(combined_trigger_value), 0xFFFFFF)
+                            dp.DPxUpdateRegCache()
 
+                        if frameN == 10:
+                            dp.DPxSetDoutValue(RGB2Trigger(black), 0xFFFFFF)
+                            dp.DPxUpdateRegCache()
+
+                win.flip()
+                results.loc[trialIndex, wordIndex + len(subjectColumns)] = clock.getTime()
+
+            # --------------------------------------------------------
+            # INTER-WORD BLANK
+            # --------------------------------------------------------
+            for frameN in range(wordOff - 2):
+                win.flip()
             win.flip()
-            results.loc[trialIndex, wordIndex + len(subjectColumns)] = clock.getTime()
 
-        # Inter-word blank interval (단어 간 간격)
-        for frameN in range(wordOff - 2):
-            win.flip()
-        win.flip()
+        # End loop
+        box.setAutoDraw(False)
 
-    # Hide fixation box
-    box.setAutoDraw(False)
-
-# ============================================================
+    # ============================================================
 # ======================= PART 4 ==============================
 # ============================================================
 
@@ -712,7 +759,7 @@ for trialIndex in range(totalTrials):
 # ============================================================
 
     # ------------------------------------------------------------
-    # Inter-trial instruction messag
+    # Inter-trial instruction message
     # ------------------------------------------------------------
 
     event.clearEvents()
