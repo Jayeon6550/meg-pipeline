@@ -4,17 +4,14 @@ from psychopy import core, visual, event, parallel, data, monitors, gui
 
 from pypixxlib import _libdpx as dp
 from experiments.psychopy.general.utilities import *
-
-
 # ==============================================================
-# 0) VPixx 기본 설정
+# 0) Basic VPixx setting
 # ==============================================================
 
 TIME_TO_RESET_BUTTON_BOX = 1.7
 TIME_WAIT_BREAK = 0.5
 
-trigger = [[4, 0, 0], [16, 0, 0], [64, 0, 0],
-           [0, 1, 0], [0, 4, 0], [0, 16, 0], [0, 64, 0], [0, 0, 1]]
+trigger = [[4, 0, 0], [16, 0, 0], [64, 0, 0], [0, 1, 0], [0, 4, 0], [0, 16, 0], [0, 64, 0], [0, 0, 1]]
 channel_names = ['224', '225', '226', '227', '228', '229', '230', '231']
 black = [0, 0, 0]
 
@@ -22,8 +19,8 @@ RESPONSE_SELECTION = {
     "right box": ["red", "yellow"],
 }
 
-def RGB2Trigger(color):
-    return int((color[2] << 16) + (color[1] << 8) + color[0])
+def RGB2Trigger(color): # helper function determines expected trigger from a given RGB 255 colour value
+        return int((color[2] << 16) + (color[1] << 8) + color[0]) #dhk
 
 dp.DPxOpen()
 dp.DPxDisableDoutPixelMode()
@@ -31,11 +28,11 @@ dp.DPxWriteRegCache()
 dp.DPxSetDoutValue(RGB2Trigger(black), 0xFFFFFF)
 dp.DPxUpdateRegCache()
 
+#Responsebox. When you need to use it, add this line.
 responses = []
 
-
 # ==============================================================
-# 1) CSV 로드 + 실험 파라미터 기본 세팅
+# 1) Road csv file + basic setting for parameter
 # ==============================================================
 
 SCREEN_NUMBER = 2
@@ -59,10 +56,12 @@ lastWordOn = 38
 boxHeight = stimuliSize + 1.5
 boxWidth = 15
 
-FULL_SENTENCE_HEIGHT = 1.5    # context 폰트 크기
-FULL_SENTENCE_OFF = wordOff   # context 후 간격
+# Font size for displaying the context sentence
+FULL_SENTENCE_HEIGHT = 1.5
+FULL_SENTENCE_OFF = wordOff
+
 # ==============================================================
-# 2) ✔ FIXATION / TASK / INSTRUCTION 세팅 (너가 말한 부분 그대로 유지)
+# 2) FIXATION / TASK / INSTRUCTION setting
 # ==============================================================
 
 fixationOn = 60
@@ -70,9 +69,10 @@ fixationOff = wordOff
 fixationColor = 'red'
 fixationSize = stimuliSize
 fixationUnits = stimuliUnits
+#fixationTrigger = 255 (기존 실험에서도 사용안함)
 
 taskQuestionColor = 'red'
-taskQuestionSize = 1.5
+taskQuestionSize = 1
 taskQuestionUnits = stimuliUnits
 taskQuestionOff = wordOff
 
@@ -82,69 +82,73 @@ INSTR_HEIGHT = 0.6
 INSTR_WRAP = 30
 instructionUnits = stimuliUnits
 instructionOff = wordOff
-
 breakKeyword = 'break'
+
 breakColor = instructionColor
 breakSize = instructionSize
 breakUnits = instructionUnits
 breakOff = wordOff
 
-
 # ==============================================================
-# 3) ✔ longestWordCount + longestSentence + practice/break/question 계산
+# 3) Compute longestWordCount, longestSentence, and counts of practice/break/question trials
 # ==============================================================
 
+totalQuestionCount = 0
+totalBreakCount = 0
+totalPracticeCount = 0
 longestWordCount = 0
 longestWord = "none"
 longestSentence = 0
 
-totalBreakCount = 0
-totalPracticeCount = 0
-totalQuestionCount = 0
+# -------------------------------------------------
+# trialList (one loop)
+# -------------------------------------------------
+for trialIndex in range(totalTrials):
 
-for idx in range(totalTrials):
+    # current number of trial
+    sentence = trialList[trialIndex]['sentence']
+    words = sentence.split()
 
-    words = trialList[idx]['sentence'].split()
-
-    # ---- 3-1) 가장 긴 단어 찾기 ----
+    # ---- find the longest word ----
     for w in words:
         if len(w) > longestWordCount:
             longestWordCount = len(w)
             longestWord = w
 
-    # ---- 3-2) 가장 긴 문장(단어 개수) ----
+    # ---- find the longest sentence  ----
     numWords = len(words)
     if numWords > longestSentence:
         longestSentence = numWords
 
-    # ---- 3-3) practice trial 개수 ----
-    if str(trialList[idx].get("subblock", "")).lower() == "practice":
+    # ---- count the number of practice trial ----
+    if str(trialList[trialIndex].get("subblock", "")).lower() == "practice":
         totalPracticeCount += 1
 
-    # ---- 3-4) break trial 개수 ----
-    if trialList[idx]['sentence'] == breakKeyword:
+    # ---- count the number of break trial ----
+    if sentence == breakKeyword:
         totalBreakCount += 1
 
-    # ---- 3-5) question 개수 ----
-    tq = trialList[idx]['taskQuestion']
-    if isinstance(tq, str) and len(tq) >= 4:
+    # ---- count number of trials with a task question ----
+    taskQ = trialList[trialIndex]['taskQuestion']
+    if isinstance(taskQ, str) and len(taskQ) >= 4:
         totalQuestionCount += 1
 
-# (디버그 출력 – 원래 네 코드처럼 유지)
+# Debug print (디버그 출력)
 print("Longest word:", longestWord)
 print("Length:", longestWordCount)
 print("Longest sentence (words):", longestSentence)
-
+print("Practice trials:", totalPracticeCount)
+print("Break trials:", totalBreakCount)
+print("Questions:", totalQuestionCount)
 
 # ==============================================================
-# 4) ✔ practiceCount 최종 결정 (CSV 기반)
+# 4) practiceCount
 # ==============================================================
 
 practiceCount = totalPracticeCount
 
-
 # ==============================================================
-# 5) 결과 DataFrame 생성
+# 5) generating DataFrame
 # ==============================================================
 
 subjectColumns = ['name', 'age', 'sex', 'handedness',
@@ -157,9 +161,8 @@ myColumns = subjectColumns + wordColumns
 
 results = pd.DataFrame(index=range(totalTrials), columns=myColumns)
 
-
 # ==============================================================
-# 6) 참가자 정보 GUI (너의 원래 코드 그대로 유지)
+# 6) participant information GUI (참가자 정보)
 # ==============================================================
 
 myDlg = gui.Dlg(title="RSVP MEG experiment", size=(600, 600))
@@ -179,18 +182,12 @@ else:
     print('user cancelled')
 
 
-
-# 창 생성
-win = visual.Window(
-    screen=1,
-    size=[1919.5, 1079.5],
-    fullscr=False,
-    color=backgroundColor,
-    monitor='testMonitor'
-)
+# opening window
+win = visual.Window(screen=1, size=[1919.5, 1079.5],
+                    fullscr=False, color=backgroundColor, monitor='testMonitor')
 
 # ============================================================
-# 초기 안내 화면
+# initial instruction screen
 # ============================================================
 
 instructions_text = "실험 개요"
@@ -204,6 +201,7 @@ stim = visual.TextStim(
     alignText='center',
     wrapWidth=30
 )
+stim.setPos((0, 0))
 stim.draw()
 win.flip()
 
@@ -214,13 +212,11 @@ for frameN in range(instructionOff - 1):
     win.flip()
 win.flip()
 
-
-### >>> NEW: 반응 통계 초기화
+### >>> NEW: Initialize response counters
 recentCorrectResponses = 0
 totalCorrectResponses = 0
 trialsSinceLastBreak = 0
 ### <<< END NEW
-
 
 # ============================================================
 # ======================= PART 2 ==============================
@@ -236,11 +232,11 @@ for trialIndex in range(totalTrials):
     responses = []
     event.clearEvents()
 
-    # 현재 trial의 subblock 값 읽기 (practice 여부 파악)
+    # Read the subblock field to determine whether this trial is practice
     curr_subblock = str(trialList[trialIndex].get("subblock", "")).lower()
 
     # ------------------------------------------------------------
-    # NEW: 현재 trial의 block 값 안전 변환
+    # NEW: Safely convert the block value (handle blank/NaN cases)
     # ------------------------------------------------------------
     raw_block = trialList[trialIndex].get("block")
     try:
@@ -255,17 +251,18 @@ for trialIndex in range(totalTrials):
     sentence_text = trialList[trialIndex]['sentence']
 
     # ============================================================
-    #  (A) BREAK 처리
+    #  (A) Handling break trials
     # ============================================================
     if sentence_text == breakKeyword:
 
-        ### >>> NEW: practice 종료 break인지 확인
+        ### >>> Check if this break occurs right after a practice block (practice 종료 break인지 확인)
         is_practice_end_break = (prev_subblock == "practice")
         ### <<< END NEW
 
         if is_practice_end_break:
             # -----------------------------------------------------
-            # practice 후에 등장하는 break → "연습문항이 끝났습니다!"
+            # Break that appears after finishing practice → show "Practice is over" message
+            # (practice 후에 등장하는 break → "연습문항이 끝났습니다!")
             # -----------------------------------------------------
             msg = (
                 '연습문항이 끝났습니다!\n\n'
@@ -287,14 +284,13 @@ for trialIndex in range(totalTrials):
             core.wait(TIME_WAIT_BREAK)
             listenbutton(9)
 
-            # practice 카운트 리셋
+            # Reset practice-related counters
             recentCorrectResponses = 0
             trialsSinceLastBreak = 0
 
         else:
             # -----------------------------------------------------
-            # 일반 break (subblock 끝날 때마다)
-            # 기존 메시지 그대로 유지
+            # Regular break (occurs between subblocks)
             # -----------------------------------------------------
             msg = (
                 '지금까지 %i개의 문장을 완료했고,\n'
@@ -323,7 +319,7 @@ for trialIndex in range(totalTrials):
             recentCorrectResponses = 0
             trialsSinceLastBreak = 0
 
-        # break trial 기록
+        # Log break trial into the results table
         results.loc[trialIndex, 'name'] = participantInfo[0]
         results.loc[trialIndex, 'age'] = participantInfo[1]
         results.loc[trialIndex, 'sex'] = participantInfo[2]
@@ -336,11 +332,12 @@ for trialIndex in range(totalTrials):
         continue
 
     # ============================================================
-    #  (B) BLOCK 시작 시 인스트럭션 표시 (practice 이전에만)
+    #  (B) Show block instruction at the beginning of each block (only before practice)
+    #  BLOCK 시작 시 인스트럭션 표시
     # ============================================================
-    ### >>> NEW: block 전환 + practice 시작 전 인스트럭션
+    ### >>> NEW: block changed + instruction befoer practice (block전환, practice 시작 전 인스트럭션)
     if curr_block in (1, 2, 3) and curr_block != prev_block:
-        # 새 블록에서 practice를 아직 안 했으면 인스트럭션 출력
+        # Show instruction only if practice has not been performed in this new block
         if curr_subblock == "practice":
             if curr_block == 1:
                 instr_text = (
@@ -375,8 +372,6 @@ for trialIndex in range(totalTrials):
         prev_block = curr_block
     ### <<< END NEW
 
-    # 계속해서 PART 3에서 RSVP 시작…
-
     prev_subblock = curr_subblock
 
 # ============================================================
@@ -384,24 +379,24 @@ for trialIndex in range(totalTrials):
 # ============================================================
 
     # ------------------------------------------------------------
-    # 실제 trial (practice 포함) 시작
+    # Start actual trial (including practice trials)
     # ------------------------------------------------------------
 
     print(trialList[trialIndex]['sentence'])
 
-    # 현재 trial이 실제 trial이므로 last_task_block 업데이트
+    #Update last_task_block because current trial is an actual task trial
     last_task_block = curr_block
 
     words = trialList[trialIndex]['sentence'].split()
     numWords = len(words)
 
-    # 트리거 준비 (기존 코드 그대로 유지)
+    # get ready with trigger
     triggerList = range(
         int(trialList[trialIndex]['trigger']),
         int(trialList[trialIndex]['trigger']) + numWords
     )
 
-    # fixation 박스 생성 (기존 그대로)
+    # create fixation box (fixation 박스 생성 )
     box = visual.Rect(
         win, width=boxWidth, height=boxHeight, units='deg'
     )
@@ -422,7 +417,7 @@ for trialIndex in range(totalTrials):
     win.flip()
 
     # ------------------------------------------------------------
-    # context (통문장) 표시 — block 1과 3에서만 (기존 코드 유지)
+    # Display context snetence — only for block1 and 3 (block 1과 3에서만 context 문장)
     # ------------------------------------------------------------
     if curr_block in (1, 3):
         option1 = str(trialList[trialIndex].get('option1', '')).strip()
@@ -448,7 +443,7 @@ for trialIndex in range(totalTrials):
             full_stim.draw()
             win.flip()
 
-            # self-paced 진행
+            # self-paced
             listenbutton(9)
 
             # context → word transition
@@ -462,7 +457,7 @@ for trialIndex in range(totalTrials):
                 pass
 
     # ============================================================
-    # RSVP — 단어 단위 제시 (기존 코드 그대로 유지)
+    # Present words one by one
     # ============================================================
 
     for wordIndex in range(numWords):
@@ -477,7 +472,7 @@ for trialIndex in range(totalTrials):
         stim.setPos((0, 0))
 
         # --------------------------------------------------------
-        # 마지막 단어일 때 (lastWordOn 사용)
+        # if this is the last word in the sentence
         # --------------------------------------------------------
         if wordIndex == (numWords - 1):
             for frameN in range(lastWordOn):
@@ -487,7 +482,7 @@ for trialIndex in range(totalTrials):
                 if frameN == 0:
                     clock.reset()
 
-                # 트리거 (기존 로직 그대로)
+                # Trigger
                 if frameN < 10:
                     combined_trigger_value = (
                         trialList[trialIndex]['trigger224w'] * trigger_channels_dictionary[224] +
@@ -512,7 +507,7 @@ for trialIndex in range(totalTrials):
 
         else:
             # --------------------------------------------------------
-            # 첫 단어 OR 중간 단어 (기존 wordOn 사용)
+            # For the first or middle words
             # --------------------------------------------------------
             for frameN in range(wordOn):
                 stim.draw()
@@ -555,12 +550,12 @@ for trialIndex in range(totalTrials):
             win.flip()
             results.loc[trialIndex, wordIndex + len(subjectColumns)] = clock.getTime()
 
-        # 단어 간 간격
+        # Inter-word blank interval (단어 간 간격)
         for frameN in range(wordOff - 2):
             win.flip()
         win.flip()
 
-    # box 숨김
+    # Hide fixation box
     box.setAutoDraw(False)
 
     # ------------------------------------------------------------
