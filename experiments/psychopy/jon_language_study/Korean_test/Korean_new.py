@@ -61,7 +61,7 @@ FULL_SENTENCE_HEIGHT = 1.5
 FULL_SENTENCE_OFF = wordOff
 
 # ==============================================================
-# 2) FIXATION / TASK / INSTRUCTION setting
+# 2) Fixation / Task / Instruction setting
 # ==============================================================
 
 fixationOn = 60
@@ -101,7 +101,7 @@ longestWord = "none"
 longestSentence = 0
 
 # -------------------------------------------------
-# trialList (one loop)
+# TrialList (one loop)
 # -------------------------------------------------
 for trialIndex in range(totalTrials):
 
@@ -142,13 +142,13 @@ print("Break trials:", totalBreakCount)
 print("Questions:", totalQuestionCount)
 
 # ==============================================================
-# 4) practiceCount
+# 4) PracticeCount
 # ==============================================================
 
 practiceCount = totalPracticeCount
 
 # ==============================================================
-# 5) generating DataFrame
+# 5) Generating DataFrame
 # ==============================================================
 
 subjectColumns = ['name', 'age', 'sex', 'handedness',
@@ -162,7 +162,7 @@ myColumns = subjectColumns + wordColumns
 results = pd.DataFrame(index=range(totalTrials), columns=myColumns)
 
 # ==============================================================
-# 6) participant information GUI (참가자 정보)
+# 6) Participant information GUI (참가자 정보)
 # ==============================================================
 
 myDlg = gui.Dlg(title="RSVP MEG experiment", size=(600, 600))
@@ -558,22 +558,19 @@ for trialIndex in range(totalTrials):
     # Hide fixation box
     box.setAutoDraw(False)
 
-    # ------------------------------------------------------------
-    # PART 4(질문 처리)로 계속됨
-    # ------------------------------------------------------------
 # ============================================================
 # ======================= PART 4 ==============================
 # ============================================================
 
     # ------------------------------------------------------------
-    # 질문 표시: Block 1/3 → 2지선다 / Block 2 → taskQuestion
+    #Show question: Block 1 & 3 use two-choice questions; Block 2 uses taskQuestion field
     # ------------------------------------------------------------
 
     option1 = str(trialList[trialIndex].get('option1', '')).strip()
     option2 = str(trialList[trialIndex].get('option2', '')).strip()
 
     # ============================================================
-    # 2지선다 (block 1 & 3)
+    #Two-choice questions (block 1 & 3)
     # ============================================================
     if curr_block in (1, 3) and (option1 or option2):
 
@@ -606,7 +603,7 @@ for trialIndex in range(totalTrials):
 
         core.wait(TIME_TO_RESET_BUTTON_BOX)
 
-        # 정답 처리
+        #Process correctness of the participant’s response
         if trialList[trialIndex]['correctAnswer'] == 9 and responses[-1] == ('right box', 'red'):
             recentCorrectResponses += 1
             totalCorrectResponses += 1
@@ -625,7 +622,7 @@ for trialIndex in range(totalTrials):
         trialsSinceLastBreak += 1
 
     # ============================================================
-    # block2 OR 2지선다 옵션 없을 때 → 기존 taskQuestion 방식
+    # block2 (no two-choice questions = previous taskQuestion)
     # ============================================================
     else:
         if isinstance(trialList[trialIndex]['taskQuestion'], str) and len(trialList[trialIndex]['taskQuestion']) >= 4:
@@ -675,7 +672,7 @@ for trialIndex in range(totalTrials):
             trialsSinceLastBreak += 1
 
     # ============================================================
-    # 결과 저장 (기존 코드 구조 유지)
+    # Save results
     # ============================================================
 
     results.loc[trialIndex, 'name'] = participantInfo[0]
@@ -688,7 +685,7 @@ for trialIndex in range(totalTrials):
     results.loc[trialIndex, 'taskQuestion'] = trialList[trialIndex]['taskQuestion']
     results.loc[trialIndex, 'trigger'] = trialList[trialIndex]['trigger']
 
-    # 옵션 저장
+    # Save results of option
     results.loc[trialIndex, 'option1'] = option1
     results.loc[trialIndex, 'option2'] = option2
 
@@ -705,7 +702,7 @@ for trialIndex in range(totalTrials):
         results.loc[trialIndex, 'participantAnswer'] = ''
         results.loc[trialIndex, 'answer'] = ''
 
-    # 실시간 저장
+    # Save results to CSV in real time
     participantName = participantInfo[0].replace(" ", "")
     filename = 'results.' + participantName + '.csv'
     results.to_csv(filename, encoding='utf-8-sig')
@@ -715,7 +712,7 @@ for trialIndex in range(totalTrials):
 # ============================================================
 
     # ------------------------------------------------------------
-    # inter-trial 안내 메시지 (기존 코드 유지)
+    # Inter-trial instruction messag
     # ------------------------------------------------------------
 
     event.clearEvents()
@@ -744,13 +741,13 @@ for trialIndex in range(totalTrials):
     win.flip()
 
     # ------------------------------------------------------------
-    # 루프 끝 — 다음 trial로 이동
+    # end of the loop-next trial
     # ------------------------------------------------------------
 # ============================================================
 # ======================= PART 6 ==============================
 # ============================================================
 
-# 루프 끝 — 실험 전체 종료 메시지
+# End of experiment — show final message
 event.clearEvents()
 
 stim = visual.TextStim(
@@ -776,17 +773,17 @@ stim.setPos((0, 0))
 stim.draw()
 win.flip()
 
-# 종료 전에 키 입력 대기
+# Wait for user input before closing
 event.waitKeys()
 
-# 최종 저장
+# Final save of results file
 participantName = participantInfo[0].replace(" ", "")
 filename = 'results.' + participantName + '.csv'
 results.to_csv(filename, encoding='utf-8-sig')
 
-# 창 닫기
+# Close PsychoPy window
 win.close()
 core.quit()
 
-# VPixx 장비 종료
+# Close VPixx connection
 dp.DPxClose()
