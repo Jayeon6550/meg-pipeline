@@ -517,6 +517,232 @@ for trialIndex in range(totalTrials):
 
     box.setAutoDraw(False)
 
+    # ============================================================
+    # ======================= PART 4 ==============================
+    # ============================================================
+
     # ------------------------------------------------------------
-    # PART 4 continues…
+    # Show question: Block 1 & 3 use two-choice questions; Block 2 uses taskQuestion field
     # ------------------------------------------------------------
+
+    option1 = str(trialList[trialIndex].get('option1', '')).strip()
+    option2 = str(trialList[trialIndex].get('option2', '')).strip()
+
+    # ============================================================
+    # Two-choice questions (block 1 & 3)
+    # ============================================================
+    if curr_block in (1, 3) and (option1 or option2):
+
+        event.clearEvents()
+
+        question_text = f"① {option1}\n\n② {option2}\n\n"
+
+        stim = visual.TextStim(
+            win, text=question_text,
+            font=stimuliFont, units='deg',
+            height=1.5, color=taskQuestionColor,
+            alignText='center', wrapWidth=30
+        )
+        stim.setPos((0, -2.5))
+        stim.draw()
+        win.flip()
+
+        response = getbuttonColor(RESPONSE_SELECTION)
+        responses.append(response)
+
+        stim = visual.TextStim(
+            win, text='모든 버튼에서 손가락을 떼주세요.\n\n',
+            font=stimuliFont, units='deg',
+            height=1.5, color=taskQuestionColor,
+            alignText='center', wrapWidth=30
+        )
+        stim.setPos((0, -1.5))
+        stim.draw()
+        win.flip()
+
+        core.wait(TIME_TO_RESET_BUTTON_BOX)
+
+        # Process correctness of the participant’s response
+        if trialList[trialIndex]['correctAnswer'] == 9 and responses[-1] == ('right box', 'red'):
+            recentCorrectResponses += 1
+            totalCorrectResponses += 1
+            answer = 1
+        elif trialList[trialIndex]['correctAnswer'] == 7 and responses[-1] == ('right box', 'yellow'):
+            recentCorrectResponses += 1
+            totalCorrectResponses += 1
+            answer = 1
+        else:
+            answer = 0
+
+        for frameN in range(taskQuestionOff - 1):
+            win.flip()
+        win.flip()
+
+        trialsSinceLastBreak += 1
+
+    # ============================================================
+    # block2 (no two-choice questions = previous taskQuestion)
+    # ============================================================
+    else:
+        if isinstance(trialList[trialIndex]['taskQuestion'], str) and len(trialList[trialIndex]['taskQuestion']) >= 4:
+
+            event.clearEvents()
+
+            stim = visual.TextStim(
+                win, text=trialList[trialIndex]['taskQuestion'],
+                font=stimuliFont, units='deg',
+                height=1.5, color=taskQuestionColor,
+                alignText='center', wrapWidth=30
+            )
+            stim.setPos((0, 0))
+            stim.draw()
+            win.flip()
+
+            response = getbuttonColor(RESPONSE_SELECTION)
+            responses.append(response)
+
+            stim = visual.TextStim(
+                win, text='모든 버튼에서 손가락을 떼주세요.\n\n',
+                font=stimuliFont, units='deg',
+                height=1, color=taskQuestionColor,
+                alignText='center', wrapWidth=30
+            )
+            stim.setPos((0, -2.5))
+            stim.draw()
+            win.flip()
+
+            core.wait(TIME_TO_RESET_BUTTON_BOX)
+
+            if trialList[trialIndex]['correctAnswer'] == 9 and responses[-1] == ('right box', 'red'):
+                recentCorrectResponses += 1
+                totalCorrectResponses += 1
+                answer = 1
+            elif trialList[trialIndex]['correctAnswer'] == 7 and responses[-1] == ('right box', 'yellow'):
+                recentCorrectResponses += 1
+                totalCorrectResponses += 1
+                answer = 1
+            else:
+                answer = 0
+
+            for frameN in range(taskQuestionOff - 1):
+                win.flip()
+            win.flip()
+
+            trialsSinceLastBreak += 1
+
+    # ============================================================
+    # Save results
+    # ============================================================
+
+    results.loc[trialIndex, 'name'] = participantInfo[0]
+    results.loc[trialIndex, 'age'] = participantInfo[1]
+    results.loc[trialIndex, 'sex'] = participantInfo[2]
+    results.loc[trialIndex, 'handedness'] = participantInfo[3]
+    results.loc[trialIndex, 'experiment'] = participantInfo[4]
+    results.loc[trialIndex, 'list'] = participantInfo[5]
+    results.loc[trialIndex, 'sentence'] = trialList[trialIndex]['sentence']
+    results.loc[trialIndex, 'taskQuestion'] = trialList[trialIndex]['taskQuestion']
+    results.loc[trialIndex, 'trigger'] = trialList[trialIndex]['trigger']
+
+    # Save results of option
+    results.loc[trialIndex, 'option1'] = option1
+    results.loc[trialIndex, 'option2'] = option2
+
+    if curr_block in (1, 3) and (option1 or option2):
+        results.loc[trialIndex, 'expectedAnswer'] = trialList[trialIndex]['correctAnswer']
+        results.loc[trialIndex, 'participantAnswer'] = responses[-1][1] if responses else ''
+        results.loc[trialIndex, 'answer'] = answer
+    elif isinstance(trialList[trialIndex]['taskQuestion'], str):
+        results.loc[trialIndex, 'expectedAnswer'] = trialList[trialIndex]['correctAnswer']
+        results.loc[trialIndex, 'participantAnswer'] = responses[-1][1] if responses else ''
+        results.loc[trialIndex, 'answer'] = answer
+    else:
+        results.loc[trialIndex, 'expectedAnswer'] = ''
+        results.loc[trialIndex, 'participantAnswer'] = ''
+        results.loc[trialIndex, 'answer'] = ''
+
+    # Save results to CSV in real time
+    participantName = participantInfo[0].replace(" ", "")
+    filename = 'results.' + participantName + '.csv'
+    results.to_csv(filename, encoding='utf-8-sig')
+
+    # ============================================================
+    # ======================= PART 5 ==============================
+    # ============================================================
+
+    # ------------------------------------------------------------
+    # Inter-trial instruction message
+    # ------------------------------------------------------------
+
+    event.clearEvents()
+
+    stim = visual.TextStim(
+        win,
+        text=(
+            '지금은 눈을 깜빡이셔도 괜찮습니다.\n\n'
+            '다음 문장을 읽을 준비가 되면\n\n'
+            '움직이지 말고, 눈을 깜빡이지 않은 채로\n\n'
+            '"예"(검지)를 누르세요.\n\n'
+        ),
+        font=stimuliFont, units='deg',
+        height=1, color=stimuliColor,
+        wrapWidth=30, alignText='center'
+    )
+    stim.setPos((0, -1.5))
+    stim.draw()
+    win.flip()
+
+    # self-paced
+    listenbutton(9)
+
+    for frameN in range(taskQuestionOff - 1):
+        win.flip()
+    win.flip()
+
+    # ------------------------------------------------------------
+    # end of the loop-next trial
+    # ------------------------------------------------------------
+# ============================================================
+# ======================= PART 6 ==============================
+# ============================================================
+
+# End of experiment — show final message
+event.clearEvents()
+
+stim = visual.TextStim(
+    win,
+    text=(
+            '실험을 모두 마치셨습니다.\n\n'
+            '잠시만 움직이지 말아주세요.\n'
+            '약 30초 동안 마지막 기록을 진행합니다.\n\n'
+            '총 %i개의 문장을 읽었고,\n'
+            '%i개의 질문 중 %i개를 맞추셨습니다.'
+            % (
+                (totalTrials - totalBreakCount - practiceCount),
+                totalQuestionCount,
+                totalCorrectResponses
+            )
+    ),
+    font=stimuliFont, units='deg',
+    color=stimuliColor, height=INSTR_HEIGHT,
+    alignText='center', wrapWidth=INSTR_WRAP
+)
+
+stim.setPos((0, 0))
+stim.draw()
+win.flip()
+
+# Wait for user input before closing
+event.waitKeys()
+
+# Final save of results file
+participantName = participantInfo[0].replace(" ", "")
+filename = 'results.' + participantName + '.csv'
+results.to_csv(filename, encoding='utf-8-sig')
+
+# Close PsychoPy window
+win.close()
+core.quit()
+
+# Close VPixx connection
+dp.DPxClose()
