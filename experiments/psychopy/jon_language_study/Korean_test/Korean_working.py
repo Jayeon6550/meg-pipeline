@@ -52,9 +52,9 @@ stimuliColor = 'gold'
 stimuliUnits = 'deg'
 stimuliSize = 2
 
-wordOn = 38
-wordOff = 20
-lastWordOn = 38
+wordOn = 10
+wordOff = 10
+lastWordOn = 10
 
 boxHeight = stimuliSize + 1.5
 boxWidth = 15
