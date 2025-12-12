@@ -663,7 +663,7 @@ for trialIndex in range(totalTrials):
             height=1.5, color=taskQuestionColor,
             alignText='center', wrapWidth=30
         )
-        stim.setPos((0, -2.0))
+        stim.setPos((0, -1))
         stim.draw()
         win.flip()
 
@@ -676,7 +676,7 @@ for trialIndex in range(totalTrials):
             height=1.5, color=taskQuestionColor,
             alignText='center', wrapWidth=30
         )
-        stim.setPos((0, -3))
+        stim.setPos((0, -1))
         stim.draw()
         win.flip()
 
@@ -713,7 +713,7 @@ for trialIndex in range(totalTrials):
                 height=1.5, color=taskQuestionColor,
                 alignText='center', wrapWidth=30
             )
-            stim.setPos((0, -2.0))
+            stim.setPos((0, -1))
             stim.draw()
             win.flip()
 
@@ -726,7 +726,7 @@ for trialIndex in range(totalTrials):
                 height=1, color=taskQuestionColor,
                 alignText='center', wrapWidth=30
             )
-            stim.setPos((0, -3))
+            stim.setPos((0, -1))
             stim.draw()
             win.flip()
 
