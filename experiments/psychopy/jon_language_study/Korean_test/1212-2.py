@@ -256,9 +256,15 @@ for frameN in range(instructionOff - 1):
     win.flip()
 win.flip()
 
+
 recentCorrectResponses = 0
 totalCorrectResponses = 0
 trialsSinceLastBreak = 0
+
+# === FINAL 전체 실험 성과용 ===
+total_real_question_count = 0
+total_real_question_correct = 0
+
 
 
 # ==============================================================
@@ -763,6 +769,12 @@ for trialIndex in range(totalTrials):
             if answer == 1:
                 subblock_question_correct += 1
 
+        # === FINAL 전체 REAL 질문 집계 (마지막 화면용) ===
+        if had_question:
+            total_real_question_count += 1
+            if answer == 1:
+                total_real_question_correct += 1
+
     # ============================================================
     # Save results
     # ============================================================
@@ -835,21 +847,22 @@ event.clearEvents()
 stim = visual.TextStim(
     win,
     text=(
-            '실험을 모두 마치셨습니다.\n\n'
-            '잠시만 움직이지 말아주세요.\n'
-            '약 30초 동안 마지막 기록을 진행합니다.\n\n'
-            '총 %i개의 문장을 읽었고,\n'
-            '%i개의 질문 중 %i개를 맞추셨습니다.'
-            % (
-                (totalTrials - totalBreakCount - practiceCount),
-                totalQuestionCount,
-                totalCorrectResponses
-            )
+        '실험을 모두 마치셨습니다.\n\n'
+        '잠시만 움직이지 말아주세요.\n'
+        '약 30초 동안 마지막 기록을 진행합니다.\n\n'
+        '총 %i개의 문장을 읽었고,\n'
+        '%i개의 질문 중 %i개를 맞추셨습니다.'
+        % (
+            total_real_trial_total,
+            total_real_question_count,
+            total_real_question_correct
+        )
     ),
     font=stimuliFont, units='deg',
     color=stimuliColor, height=INSTR_HEIGHT,
     alignText='center', wrapWidth=INSTR_WRAP
 )
+
 
 stim.setPos((0, 0))
 stim.draw()
