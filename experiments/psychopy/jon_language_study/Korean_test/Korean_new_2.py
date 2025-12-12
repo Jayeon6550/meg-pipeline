@@ -1,9 +1,9 @@
 import os, sys
 import pandas as pd
 from psychopy import core, visual, event, parallel, data, monitors, gui
-
 from pypixxlib import _libdpx as dp
 from experiments.psychopy.general.utilities import *
+
 # ==============================================================
 # 0) Basic VPixx setting
 # ==============================================================
@@ -11,7 +11,8 @@ from experiments.psychopy.general.utilities import *
 TIME_TO_RESET_BUTTON_BOX = 1.7
 TIME_WAIT_BREAK = 0.5
 
-trigger = [[4, 0, 0], [16, 0, 0], [64, 0, 0], [0, 1, 0], [0, 4, 0], [0, 16, 0], [0, 64, 0], [0, 0, 1]]
+trigger = [[4, 0, 0], [16, 0, 0], [64, 0, 0],
+           [0, 1, 0], [0, 4, 0], [0, 16, 0], [0, 64, 0], [0, 0, 1]]
 channel_names = ['224', '225', '226', '227', '228', '229', '230', '231']
 black = [0, 0, 0]
 
@@ -19,8 +20,8 @@ RESPONSE_SELECTION = {
     "right box": ["red", "yellow"],
 }
 
-def RGB2Trigger(color): # helper function determines expected trigger from a given RGB 255 colour value
-        return int((color[2] << 16) + (color[1] << 8) + color[0]) #dhk
+def RGB2Trigger(color):
+    return int((color[2] << 16) + (color[1] << 8) + color[0])
 
 dp.DPxOpen()
 dp.DPxDisableDoutPixelMode()
@@ -28,8 +29,8 @@ dp.DPxWriteRegCache()
 dp.DPxSetDoutValue(RGB2Trigger(black), 0xFFFFFF)
 dp.DPxUpdateRegCache()
 
-#Responsebox. When you need to use it, add this line.
 responses = []
+
 
 # ==============================================================
 # 1) Road csv file + basic setting for parameter
@@ -56,9 +57,9 @@ lastWordOn = 38
 boxHeight = stimuliSize + 1.5
 boxWidth = 15
 
-# Font size for displaying the context sentence
 FULL_SENTENCE_HEIGHT = 1.5
 FULL_SENTENCE_OFF = wordOff
+
 
 # ==============================================================
 # 2) Fixation / Task / Instruction setting
@@ -69,10 +70,9 @@ fixationOff = wordOff
 fixationColor = 'red'
 fixationSize = stimuliSize
 fixationUnits = stimuliUnits
-#fixationTrigger = 255 (기존 실험에서도 사용안함)
 
 taskQuestionColor = 'red'
-taskQuestionSize = 1
+taskQuestionSize = 1.5
 taskQuestionUnits = stimuliUnits
 taskQuestionOff = wordOff
 
@@ -82,15 +82,16 @@ INSTR_HEIGHT = 0.6
 INSTR_WRAP = 30
 instructionUnits = stimuliUnits
 instructionOff = wordOff
-breakKeyword = 'break'
 
+breakKeyword = 'break'
 breakColor = instructionColor
 breakSize = instructionSize
 breakUnits = instructionUnits
 breakOff = wordOff
 
+
 # ==============================================================
-# 3) Compute longestWordCount, longestSentence, and counts of practice/break/question trials
+# 3) Compute longestWordCount, longestSentence, and counts
 # ==============================================================
 
 totalQuestionCount = 0
@@ -100,40 +101,29 @@ longestWordCount = 0
 longestWord = "none"
 longestSentence = 0
 
-# -------------------------------------------------
-# TrialList (one loop)
-# -------------------------------------------------
-for trialIndex in range(totalTrials):
+for idx in range(totalTrials):
 
-    # current number of trial
-    sentence = trialList[trialIndex]['sentence']
-    words = sentence.split()
+    words = trialList[idx]['sentence'].split()
 
-    # ---- find the longest word ----
     for w in words:
         if len(w) > longestWordCount:
             longestWordCount = len(w)
             longestWord = w
 
-    # ---- find the longest sentence  ----
     numWords = len(words)
     if numWords > longestSentence:
         longestSentence = numWords
 
-    # ---- count the number of practice trial ----
-    if str(trialList[trialIndex].get("subblock", "")).lower() == "practice":
+    if str(trialList[idx].get("subblock", "")).lower() == "practice":
         totalPracticeCount += 1
 
-    # ---- count the number of break trial ----
-    if sentence == breakKeyword:
+    if trialList[idx]['sentence'] == breakKeyword:
         totalBreakCount += 1
 
-    # ---- count number of trials with a task question ----
-    taskQ = trialList[trialIndex]['taskQuestion']
-    if isinstance(taskQ, str) and len(taskQ) >= 4:
+    tq = trialList[idx]['taskQuestion']
+    if isinstance(tq, str) and len(tq) >= 4:
         totalQuestionCount += 1
 
-# Debug print (디버그 출력)
 print("Longest word:", longestWord)
 print("Length:", longestWordCount)
 print("Longest sentence (words):", longestSentence)
@@ -141,14 +131,12 @@ print("Practice trials:", totalPracticeCount)
 print("Break trials:", totalBreakCount)
 print("Questions:", totalQuestionCount)
 
-# ==============================================================
-# 4) PracticeCount
-# ==============================================================
 
 practiceCount = totalPracticeCount
 
+
 # ==============================================================
-# 5) Generating DataFrame
+# 5) DataFrame generation
 # ==============================================================
 
 subjectColumns = ['name', 'age', 'sex', 'handedness',
@@ -161,8 +149,9 @@ myColumns = subjectColumns + wordColumns
 
 results = pd.DataFrame(index=range(totalTrials), columns=myColumns)
 
+
 # ==============================================================
-# 6) Participant information GUI (참가자 정보)
+# 6) GUI
 # ==============================================================
 
 myDlg = gui.Dlg(title="RSVP MEG experiment", size=(600, 600))
@@ -182,13 +171,22 @@ else:
     print('user cancelled')
 
 
-# opening window
-win = visual.Window(screen=1, size=[1919.5, 1079.5],
-                    fullscr=False, color=backgroundColor, monitor='testMonitor')
+# ==============================================================
+# Window creation
+# ==============================================================
 
-# ============================================================
-# initial instruction screen
-# ============================================================
+win = visual.Window(
+    screen=1,
+    size=[1919.5, 1079.5],
+    fullscr=False,
+    color=backgroundColor,
+    monitor='testMonitor'
+)
+
+
+# ==============================================================
+# Initial instruction
+# ==============================================================
 
 instructions_text = "실험 개요"
 
@@ -201,28 +199,24 @@ stim = visual.TextStim(
     alignText='center',
     wrapWidth=30
 )
-stim.setPos((0, 0))
 stim.draw()
 win.flip()
 
-# self-paced
 listenbutton(9)
 
 for frameN in range(instructionOff - 1):
     win.flip()
 win.flip()
 
-### >>> NEW: Initialize response counters
 recentCorrectResponses = 0
 totalCorrectResponses = 0
 trialsSinceLastBreak = 0
-### <<< END NEW
 
-# ============================================================
+
+# ==============================================================
 # ======================= PART 2 ==============================
-# ============================================================
+# ==============================================================
 
-# Loop for each trial
 prev_block = None
 last_task_block = None
 
@@ -232,12 +226,8 @@ for trialIndex in range(totalTrials):
     responses = []
     event.clearEvents()
 
-    # Read the subblock field to determine whether this trial is practice
     curr_subblock = str(trialList[trialIndex].get("subblock", "")).lower()
 
-    # ------------------------------------------------------------
-    # NEW: Safely convert the block value (handle blank/NaN cases)
-    # ------------------------------------------------------------
     raw_block = trialList[trialIndex].get("block")
     try:
         curr_block = int(float(raw_block)) if raw_block not in (None, "", "nan", "NaN", "NA") else 0
@@ -246,28 +236,20 @@ for trialIndex in range(totalTrials):
 
     if curr_block not in (1, 2, 3):
         curr_block = 0
-    # ------------------------------------------------------------
 
     sentence_text = trialList[trialIndex]['sentence']
 
     # ============================================================
-    #  (A) Handling break trials
+    #  (A) BREAK LOGIC
     # ============================================================
     if sentence_text == breakKeyword:
 
-        ### >>> Check if this break occurs right after a practice block (practice 종료 break인지 확인)
         is_practice_end_break = (prev_subblock == "practice")
-        ### <<< END NEW
 
         if is_practice_end_break:
-            # -----------------------------------------------------
-            # Break that appears after finishing practice → show "Practice is over" message
-            # (practice 후에 등장하는 break → "연습문항이 끝났습니다!")
-            # -----------------------------------------------------
             msg = (
                 '연습문항이 끝났습니다!\n\n'
                 '지금까지 %i개의 문항 중 %i문항을 맞추셨습니다.\n\n'
-                '본 실험을 시작할 준비가 되면\n'
                 '"예"(검지)를 눌러주세요.'
             ) % (trialsSinceLastBreak, recentCorrectResponses)
 
@@ -284,19 +266,13 @@ for trialIndex in range(totalTrials):
             core.wait(TIME_WAIT_BREAK)
             listenbutton(9)
 
-            # Reset practice-related counters
             recentCorrectResponses = 0
             trialsSinceLastBreak = 0
 
         else:
-            # -----------------------------------------------------
-            # Regular break (occurs between subblocks)
-            # -----------------------------------------------------
             msg = (
                 '지금까지 %i개의 문장을 완료했고,\n'
                 '앞으로 %i개의 문장이 남았습니다.\n\n'
-                '다음 문장을 읽을 준비가 되면\n'
-                '움직이지 말고 눈을 깜박이지 않은 채로\n\n'
                 '"예"(검지)를 누르세요.'
             ) % (recentCorrectResponses, (totalTrials - trialIndex))
 
@@ -309,7 +285,6 @@ for trialIndex in range(totalTrials):
 
             print("break window")
 
-            stim.setPos((0, 0))
             stim.draw()
             win.flip()
 
@@ -319,42 +294,30 @@ for trialIndex in range(totalTrials):
             recentCorrectResponses = 0
             trialsSinceLastBreak = 0
 
-        # Log break trial into the results table
-        results.loc[trialIndex, 'name'] = participantInfo[0]
-        results.loc[trialIndex, 'age'] = participantInfo[1]
-        results.loc[trialIndex, 'sex'] = participantInfo[2]
-        results.loc[trialIndex, 'handedness'] = participantInfo[3]
-        results.loc[trialIndex, 'experiment'] = participantInfo[4]
-        results.loc[trialIndex, 'list'] = participantInfo[5]
         results.loc[trialIndex, 'sentence'] = 'break'
-
         prev_subblock = curr_subblock
         continue
 
+
     # ============================================================
-    #  (B) Show block instruction at the beginning of each block (block 시작 시 인스트럭션 표시)
+    # BLOCK Instruction
     # ============================================================
-    ### >>> NEW: block changed + instruction befoer practice (block전환, practice 시작 전 인스트럭션)
     if curr_block in (1, 2, 3) and curr_block != prev_block:
-        # Show instruction only if practice has not been performed in this new block
         if curr_subblock == "practice":
             if curr_block == 1:
                 instr_text = (
-                    '이번 세션은 문장을 읽고 질문에 답하는 과제입니다.\n\n'
-                    '잠시 후 연습문항이 먼저 제시됩니다.\n'
-                    '"예"(검지)를 눌러 연습문항을 시작하세요.'
+                    '블록 1: 문장 이해 실험입니다.\n'
+                    '"예"를 누르면 연습문항이 시작됩니다.'
                 )
             elif curr_block == 2:
                 instr_text = (
-                    '이번 세션에서는 단어 단위로 문장이 제시됩니다.\n\n'
-                    '잠시 후 연습문항이 먼저 제시됩니다.\n'
-                    '"예"(검지)를 눌러 연습문항을 시작하세요.'
+                    '블록 2: RSVP 실험입니다.\n'
+                    '"예"를 누르면 연습문항이 시작됩니다.'
                 )
-            else:  # block 3
+            else:
                 instr_text = (
-                    '이번 세션은 wh-질문 이해 과제입니다.\n\n'
-                    '잠시 후 연습문항이 먼저 제시됩니다.\n'
-                    '"예"(검지)를 눌러 연습문항을 시작하세요.'
+                    '블록 3: wh-질문 이해 실험입니다.\n'
+                    '"예"를 누르면 연습문항이 시작됩니다.'
                 )
 
             stim = visual.TextStim(
@@ -369,55 +332,44 @@ for trialIndex in range(totalTrials):
             listenbutton(9)
 
         prev_block = curr_block
-    ### <<< END NEW
 
     prev_subblock = curr_subblock
 
-# ============================================================
-# ======================= PART 3 ==============================
-# ============================================================
 
-    # ------------------------------------------------------------
-    # Start actual trial (including practice trials)
-    # ------------------------------------------------------------
+# ============================================================
+# ======================= PART 3 — RSVP (FIXED) ===============
+# ============================================================
 
     print(trialList[trialIndex]['sentence'])
 
-    #Update last_task_block because current trial is an actual task trial
     last_task_block = curr_block
 
     words = trialList[trialIndex]['sentence'].split()
     numWords = len(words)
 
-    # get ready with trigger
     triggerList = range(
         int(trialList[trialIndex]['trigger']),
         int(trialList[trialIndex]['trigger']) + numWords
     )
 
-    # create fixation box (fixation 박스 생성 )
-    box = visual.Rect(
-        win, width=boxWidth, height=boxHeight, units='deg'
-    )
+    box = visual.Rect(win, width=boxWidth, height=boxHeight, units='deg')
     box.setPos((0, 0))
     box.setLineColor('red')
     box.setAutoDraw(True)
 
-    # fixation ON
+    # Fixation ON
     for frameN in range(fixationOn):
         win.flip()
         if frameN == 0:
             clock.reset()
     win.flip()
 
-    # fixation OFF
+    # Fixation OFF
     for frameN in range(fixationOff - 2):
         win.flip()
     win.flip()
 
-    # ------------------------------------------------------------
-    # Display context sentence — only for block1 and 3 (block 1과 3에서만 context 문장)
-    # ------------------------------------------------------------
+    # Context sentence (block 1 & 3)
     if curr_block in (1, 3):
         option1 = str(trialList[trialIndex].get('option1', '')).strip()
         option2 = str(trialList[trialIndex].get('option2', '')).strip()
@@ -438,14 +390,11 @@ for trialIndex in range(totalTrials):
                 alignText='center',
                 wrapWidth=30
             )
-            full_stim.setPos((0, 0))
             full_stim.draw()
             win.flip()
 
-            # self-paced
             listenbutton(9)
 
-            # context → word transition
             for frameN in range(FULL_SENTENCE_OFF - 1):
                 win.flip()
             win.flip()
@@ -455,124 +404,132 @@ for trialIndex in range(totalTrials):
             except:
                 pass
 
+
     # ============================================================
-    # Present words one by one
+    # *** FIXED RSVP — single correct loop ***
     # ============================================================
-        # ============================================================
-        # RSVP — 단어 단위 제시 (FIXED)
-        # ============================================================
 
     for wordIndex in range(numWords):
-            print(repr(words[wordIndex]))
 
-            stim = visual.TextStim(
-                win, text=words[wordIndex],
-                font=stimuliFont, units='deg',
-                height=stimuliSize, color=stimuliColor,
-                alignText='center'
-            )
-            stim.setPos((0, 0))
+        stim = visual.TextStim(
+            win, text=words[wordIndex],
+            font=stimuliFont, units='deg',
+            height=stimuliSize, color=stimuliColor,
+            alignText='center'
+        )
+        stim.setPos((0, 0))
 
-            # --------------------------------------------------------
-            # 마지막 단어
-            # --------------------------------------------------------
-            if wordIndex == (numWords - 1):
-                for frameN in range(lastWordOn):
-                    stim.draw()
-                    win.flip()
+        # --------------------------------------------------------
+        # LAST WORD
+        # --------------------------------------------------------
+        if wordIndex == (numWords - 1):
 
-                    if frameN == 0:
-                        clock.reset()
-
-                    if frameN < 10:
-                        combined_trigger_value = (
-                                trialList[trialIndex]['trigger224w'] * trigger_channels_dictionary[224] +
-                                trialList[trialIndex]['trigger225w'] * trigger_channels_dictionary[225] +
-                                trialList[trialIndex]['trigger226w'] * trigger_channels_dictionary[226] +
-                                trialList[trialIndex]['trigger227w'] * trigger_channels_dictionary[227] +
-                                trialList[trialIndex]['trigger228w'] * trigger_channels_dictionary[228] +
-                                trialList[trialIndex]['trigger229w'] * trigger_channels_dictionary[229] +
-                                trialList[trialIndex]['trigger230w'] * trigger_channels_dictionary[230] +
-                                trialList[trialIndex]['trigger231w'] * trigger_channels_dictionary[231]
-                        )
-                        dp.DPxSetDoutValue(int(combined_trigger_value), 0xFFFFFF)
-                        dp.DPxUpdateRegCache()
-
-                    if frameN == 10:
-                        dp.DPxSetDoutValue(RGB2Trigger(black), 0xFFFFFF)
-                        dp.DPxUpdateRegCache()
-
+            for frameN in range(lastWordOn):
+                stim.draw()
                 win.flip()
-                results.loc[trialIndex, wordIndex + len(subjectColumns)] = clock.getTime()
 
-            # --------------------------------------------------------
-            # 첫 단어 + 중간 단어
-            # --------------------------------------------------------
-            else:
-                for frameN in range(wordOn):
-                    stim.draw()
-                    win.flip()
+                if frameN == 0:
+                    clock.reset()
 
-                    if frameN == 0:
-                        clock.reset()
+                if frameN < 10:
+                    combined_trigger_value = (
+                        trialList[trialIndex]['trigger224w'] * trigger_channels_dictionary[224] +
+                        trialList[trialIndex]['trigger225w'] * trigger_channels_dictionary[225] +
+                        trialList[trialIndex]['trigger226w'] * trigger_channels_dictionary[226] +
+                        trialList[trialIndex]['trigger227w'] * trigger_channels_dictionary[227] +
+                        trialList[trialIndex]['trigger228w'] * trigger_channels_dictionary[228] +
+                        trialList[trialIndex]['trigger229w'] * trigger_channels_dictionary[229] +
+                        trialList[trialIndex]['trigger230w'] * trigger_channels_dictionary[230] +
+                        trialList[trialIndex]['trigger231w'] * trigger_channels_dictionary[231]
+                    )
 
-                    if frameN < 10:
-                        if wordIndex == 0:
-                            combined_trigger_value = (
-                                    trialList[trialIndex]['trigger224'] * trigger_channels_dictionary[224] +
-                                    trialList[trialIndex]['trigger225'] * trigger_channels_dictionary[225] +
-                                    trialList[trialIndex]['trigger226'] * trigger_channels_dictionary[226] +
-                                    trialList[trialIndex]['trigger227'] * trigger_channels_dictionary[227] +
-                                    trialList[trialIndex]['trigger228'] * trigger_channels_dictionary[228] +
-                                    trialList[trialIndex]['trigger229'] * trigger_channels_dictionary[229] +
-                                    trialList[trialIndex]['trigger230'] * trigger_channels_dictionary[230] +
-                                    trialList[trialIndex]['trigger231'] * trigger_channels_dictionary[231]
-                            )
-                        else:
-                            combined_trigger_value = (
-                                    trialList[trialIndex]['trigger224w'] * trigger_channels_dictionary[224] +
-                                    trialList[trialIndex]['trigger225w'] * trigger_channels_dictionary[225] +
-                                    trialList[trialIndex]['trigger226w'] * trigger_channels_dictionary[226] +
-                                    trialList[trialIndex]['trigger227w'] * trigger_channels_dictionary[227] +
-                                    trialList[trialIndex]['trigger228w'] * trigger_channels_dictionary[228] +
-                                    trialList[trialIndex]['trigger229w'] * trigger_channels_dictionary[229] +
-                                    trialList[trialIndex]['trigger230w'] * trigger_channels_dictionary[230] +
-                                    trialList[trialIndex]['trigger231w'] * trigger_channels_dictionary[231]
-                            )
+                    print(f"Trial {trialIndex}, Trigger: Combined Value = {combined_trigger_value}")
+                    print("wordIndex", wordIndex)
+                    print("frameN", frameN)
 
-                        dp.DPxSetDoutValue(int(combined_trigger_value), 0xFFFFFF)
-                        dp.DPxUpdateRegCache()
+                    dp.DPxSetDoutValue(int(combined_trigger_value), 0xFFFFFF)
+                    dp.DPxUpdateRegCache()
 
-                    if frameN == 10:
-                        dp.DPxSetDoutValue(RGB2Trigger(black), 0xFFFFFF)
-                        dp.DPxUpdateRegCache()
+                if frameN == 10:
+                    dp.DPxSetDoutValue(RGB2Trigger(black), 0xFFFFFF)
+                    dp.DPxUpdateRegCache()
 
-                win.flip()
-                results.loc[trialIndex, wordIndex + len(subjectColumns)] = clock.getTime()
-
-            # --------------------------------------------------------
-            # 단어 간 공백
-            # --------------------------------------------------------
-            for frameN in range(wordOff - 2):
-                win.flip()
             win.flip()
+            results.loc[trialIndex, wordIndex + len(subjectColumns)] = clock.getTime()
 
-        # End loop
+
+        # --------------------------------------------------------
+        # FIRST or MIDDLE WORD
+        # --------------------------------------------------------
+        else:
+
+            for frameN in range(wordOn):
+                stim.draw()
+                win.flip()
+
+                if frameN == 0:
+                    clock.reset()
+
+                if frameN < 10:
+
+                    if wordIndex == 0:  # first word
+                        combined_trigger_value = (
+                            trialList[trialIndex]['trigger224'] * trigger_channels_dictionary[224] +
+                            trialList[trialIndex]['trigger225'] * trigger_channels_dictionary[225] +
+                            trialList[trialIndex]['trigger226'] * trigger_channels_dictionary[226] +
+                            trialList[trialIndex]['trigger227'] * trigger_channels_dictionary[227] +
+                            trialList[trialIndex]['trigger228'] * trigger_channels_dictionary[228] +
+                            trialList[trialIndex]['trigger229'] * trigger_channels_dictionary[229] +
+                            trialList[trialIndex]['trigger230'] * trigger_channels_dictionary[230] +
+                            trialList[trialIndex]['trigger231'] * trigger_channels_dictionary[231]
+                        )
+
+                    else:  # middle words
+                        combined_trigger_value = (
+                            trialList[trialIndex]['trigger224w'] * trigger_channels_dictionary[224] +
+                            trialList[trialIndex]['trigger225w'] * trigger_channels_dictionary[225] +
+                            trialList[trialIndex]['trigger226w'] * trigger_channels_dictionary[226] +
+                            trialList[trialIndex]['trigger227w'] * trigger_channels_dictionary[227] +
+                            trialList[trialIndex]['trigger228w'] * trigger_channels_dictionary[228] +
+                            trialList[trialIndex]['trigger229w'] * trigger_channels_dictionary[229] +
+                            trialList[trialIndex]['trigger230w'] * trigger_channels_dictionary[230] +
+                            trialList[trialIndex]['trigger231w'] * trigger_channels_dictionary[231]
+                        )
+
+                    print(f"Trial {trialIndex}, Trigger: Combined Value = {combined_trigger_value}")
+                    print("wordIndex", wordIndex)
+                    print("frameN", frameN)
+
+                    dp.DPxSetDoutValue(int(combined_trigger_value), 0xFFFFFF)
+                    dp.DPxUpdateRegCache()
+
+                if frameN == 10:
+                    dp.DPxSetDoutValue(RGB2Trigger(black), 0xFFFFFF)
+                    dp.DPxUpdateRegCache()
+
+            win.flip()
+            results.loc[trialIndex, wordIndex + len(subjectColumns)] = clock.getTime()
+
+        # inter-word blank
+        for frameN in range(wordOff - 2):
+            win.flip()
+        win.flip()
+
     box.setAutoDraw(False)
 
     # ============================================================
-# ======================= PART 4 ==============================
-# ============================================================
+    # ======================= PART 4 ==============================
+    # ============================================================
 
     # ------------------------------------------------------------
-    #Show question: Block 1 & 3 use two-choice questions; Block 2 uses taskQuestion field
+    # Show question: Block 1 & 3 use two-choice questions; Block 2 uses taskQuestion field
     # ------------------------------------------------------------
 
     option1 = str(trialList[trialIndex].get('option1', '')).strip()
     option2 = str(trialList[trialIndex].get('option2', '')).strip()
 
     # ============================================================
-    #Two-choice questions (block 1 & 3)
+    # Two-choice questions (block 1 & 3)
     # ============================================================
     if curr_block in (1, 3) and (option1 or option2):
 
@@ -605,7 +562,7 @@ for trialIndex in range(totalTrials):
 
         core.wait(TIME_TO_RESET_BUTTON_BOX)
 
-        #Process correctness of the participant’s response
+        # Process correctness of the participant’s response
         if trialList[trialIndex]['correctAnswer'] == 9 and responses[-1] == ('right box', 'red'):
             recentCorrectResponses += 1
             totalCorrectResponses += 1
@@ -709,9 +666,9 @@ for trialIndex in range(totalTrials):
     filename = 'results.' + participantName + '.csv'
     results.to_csv(filename, encoding='utf-8-sig')
 
-# ============================================================
-# ======================= PART 5 ==============================
-# ============================================================
+    # ============================================================
+    # ======================= PART 5 ==============================
+    # ============================================================
 
     # ------------------------------------------------------------
     # Inter-trial instruction message
@@ -755,16 +712,16 @@ event.clearEvents()
 stim = visual.TextStim(
     win,
     text=(
-        '실험을 모두 마치셨습니다.\n\n'
-        '잠시만 움직이지 말아주세요.\n'
-        '약 30초 동안 마지막 기록을 진행합니다.\n\n'
-        '총 %i개의 문장을 읽었고,\n'
-        '%i개의 질문 중 %i개를 맞추셨습니다.'
-        % (
-            (totalTrials - totalBreakCount - practiceCount),
-            totalQuestionCount,
-            totalCorrectResponses
-        )
+            '실험을 모두 마치셨습니다.\n\n'
+            '잠시만 움직이지 말아주세요.\n'
+            '약 30초 동안 마지막 기록을 진행합니다.\n\n'
+            '총 %i개의 문장을 읽었고,\n'
+            '%i개의 질문 중 %i개를 맞추셨습니다.'
+            % (
+                (totalTrials - totalBreakCount - practiceCount),
+                totalQuestionCount,
+                totalCorrectResponses
+            )
     ),
     font=stimuliFont, units='deg',
     color=stimuliColor, height=INSTR_HEIGHT,
