@@ -337,40 +337,45 @@ for trialIndex in range(totalTrials):
     # ### FIX: BLOCK instruction (CSV practice block=0 대응)
     # - practice 구간이 시작될 때, 다음 real block을 look-ahead로 찾아서 instruction 표시
     # ============================================================
-    if is_practice and prev_subblock != "practice":
-        upcoming_block = find_upcoming_real_block(trialIndex)
-        if upcoming_block in (1, 2, 3) and (not shown_block_instruction[upcoming_block]):
-            if upcoming_block == 1:
-                instr_text = (
-                    '블록 1: 문장 이해 실험입니다.\n\n'
-                    '잠시 후 연습문항이 먼저 제시됩니다.\n'
-                    '"예"(검지)를 눌러 연습문항을 시작하세요.'
-                )
-            elif upcoming_block == 2:
-                instr_text = (
-                    '블록 2: RSVP 실험입니다.\n\n'
-                    '잠시 후 연습문항이 먼저 제시됩니다.\n'
-                    '"예"(검지)를 눌러 연습문항을 시작하세요.'
-                )
-            else:
-                instr_text = (
-                    '블록 3: wh-질문 이해 실험입니다.\n\n'
-                    '잠시 후 연습문항이 먼저 제시됩니다.\n'
-                    '"예"(검지)를 눌러 연습문항을 시작하세요.'
-                )
+    # ============================================================
+    # ### FINAL: real block 전환 시 instruction (정확히 1번)
+    # ============================================================
+    if is_real:
+        if prev_block is None or curr_block != prev_block:
+            if curr_block in (1, 2, 3) and not shown_block_instruction[curr_block]:
 
-            stim = visual.TextStim(
-                win, text=instr_text,
-                font=stimuliFont, units='deg',
-                color=instructionColor, height=INSTR_HEIGHT,
-                alignText='center', wrapWidth=INSTR_WRAP
-            )
-            stim.setPos((0, 0))
-            stim.draw()
-            win.flip()
-            listenbutton(9)
+                if curr_block == 1:
+                    instr_text = (
+                        '블록 1: 문장 이해 실험입니다.\n\n'
+                        '"예"(검지)를 눌러 시작하세요.'
+                    )
+                elif curr_block == 2:
+                    instr_text = (
+                        '블록 2: RSVP 실험입니다.\n\n'
+                        '"예"(검지)를 눌러 시작하세요.'
+                    )
+                else:  # block 3
+                    instr_text = (
+                        '블록 3: wh-질문 이해 실험입니다.\n\n'
+                        '"예"(검지)를 눌러 시작하세요.'
+                    )
 
-            shown_block_instruction[upcoming_block] = True
+                stim = visual.TextStim(
+                    win,
+                    text=instr_text,
+                    font=stimuliFont,
+                    units='deg',
+                    color=instructionColor,
+                    height=INSTR_HEIGHT,
+                    alignText='center',
+                    wrapWidth=INSTR_WRAP
+                )
+                stim.setPos((0, 0))
+                stim.draw()
+                win.flip()
+                listenbutton(9)
+
+                shown_block_instruction[curr_block] = True
 
     # ============================================================
     #  (A) ### FIX: BREAK LOGIC (practice/real 분리 + 남은 개수)
@@ -837,6 +842,8 @@ for trialIndex in range(totalTrials):
     for frameN in range(taskQuestionOff - 1):
         win.flip()
     win.flip()
+
+    prev_block = curr_block
 
 # ============================================================
 # ======================= PART 6 ==============================
