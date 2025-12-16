@@ -537,11 +537,11 @@ for trialIndex in range(startItem - 1, totalTrials):
             win.close()
             core.quit()
 
-        if trialList[trialIndex]['correctAnswer'] == 9 and responses[-1]==('right box', 'red'):
+        if trialList[trialIndex]['correctAnswer'] == "red" and responses[-1]==('right box', 'red'):
             recentCorrectResponses += 1
             totalCorrectResponses += 1
             answer = 1
-        elif trialList[trialIndex]['correctAnswer'] == 7 and responses[-1]==('right box', 'yellow'):
+        elif trialList[trialIndex]['correctAnswer'] == "yellow" and responses[-1]==('right box', 'yellow'):
             recentCorrectResponses += 1
             totalCorrectResponses += 1
             answer = 1
@@ -583,12 +583,12 @@ for trialIndex in range(startItem - 1, totalTrials):
                 win.close()
                 core.quit()
 
-            if trialList[trialIndex]['correctAnswer'] == 9 and responses[-1]==('right box', 'red'):
+            if trialList[trialIndex]['correctAnswer'] == "red" and responses[-1]==('right box', 'red'):
 
                 recentCorrectResponses += 1
                 totalCorrectResponses += 1
                 answer = 1
-            elif trialList[trialIndex]['correctAnswer'] == 7 and responses[-1]==('right box', 'yellow'):
+            elif trialList[trialIndex]['correctAnswer'] == "yellow" and responses[-1]==('right box', 'yellow'):
 
                 recentCorrectResponses += 1
                 totalCorrectResponses += 1
