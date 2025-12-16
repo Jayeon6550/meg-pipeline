@@ -89,6 +89,7 @@ for trialIndex in range(totalTrials):
             longestWordCount = len(word)
             longestWord = word
 
+
 print(longestWord)
 print(longestWordCount)
 
@@ -112,7 +113,9 @@ INSTR_WRAP   = 30        # 줄바꿈 폭 좁히기 (기존 30 → 22)
 instructionUnits = stimuliUnits
 instructionOff = wordOff
 
-practiceCount = 5 #
+#practiceCount = 5 #
+
+practiceCount = sum(1 for row in trialList if row['condition'] == 'practice')
 breakKeyword = 'break'
 breakColor = instructionColor
 breakSize = instructionSize
@@ -195,8 +198,14 @@ win.flip()
 prev_block = None
 last_task_block = None  # <<< 마지막으로 수행한 블록(1/2/3)을 기록하여 break 화면에서 점수 표시 여부 결정
 
+completed_real_trial =0
+
 # Loop for each trial
 for trialIndex in range(startItem - 1, totalTrials):
+
+
+    if trialList[trialIndex]['condition'] != 'practice' and trialList[trialIndex]['condition']!=None:
+        completed_real_trial+=1
 
     pauseResponse = []
     responses = []
@@ -207,23 +216,16 @@ for trialIndex in range(startItem - 1, totalTrials):
         event.clearEvents()
         currentBreakCount += 1
         completedTrials = trialIndex + 1 - practiceCount - currentBreakCount
-        remainingTrials = (totalTrials - totalBreakCount - practiceCount) - completedTrials
+        remainingTrials = (totalTrials - totalBreakCount - practiceCount) - completed_real_trial
 
         # ---- 점수 표시는 블록 1/3일 때만 ----
-        if last_task_block in (1, 3):
+        if last_task_block in (1,2, 3):
             msg = (
                 '%i개의 문항 중에서 %i문항을 맞혔습니다.\n\n'
                 '지금까지 %i개의 문장을 완료했고, 앞으로 %i개의 문장이 남았습니다. \n\n'
                 '다음 문장을 읽을 준비가 되면 움직이지 말고 눈을 깜박이지 않은 채로 \n\n'
                 '"예"(검지)를 누르세요.'
-            ) % (trialsSinceLastBreak, recentCorrectResponses, completedTrials, remainingTrials)
-        else:
-            # 블록 2: 점수 라인 없이 깔끔한 안내만
-            msg = (
-                '지금까지 %i개의 문장을 완료했고, 앞으로 %i개의 문장이 남았습니다. \n\n'
-                '다음 문장을 읽을 준비가 되면 움직이지 말고 눈을 깜박이지 않은 채로 \n\n'
-                '"예"(검지)를 누르세요.'
-            ) % (completedTrials, remainingTrials)
+            ) % (trialsSinceLastBreak, recentCorrectResponses, completed_real_trial, remainingTrials)
 
         stim = visual.TextStim(
             win, text=msg, font=stimuliFont, units=instructionUnits,
