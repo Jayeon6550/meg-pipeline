@@ -20,6 +20,11 @@ RESPONSE_SELECTION = {
     "right box": ["red", "yellow"],
 }
 
+
+RESPONSE_PASS = {
+    "right box": ["red"],
+}
+
 def RGB2Trigger(color):
     # helper function determines expected trigger from a given RGB 255 colour value
     # operates by converting individual colours into binary strings and stitching them together
@@ -179,7 +184,9 @@ stim.draw()
 win.flip()
 
 
-listenbutton(9)
+getbuttonColor(RESPONSE_PASS)
+
+
 
 for frameN in range(instructionOff - 1):
     win.flip()
@@ -231,7 +238,7 @@ for trialIndex in range(startItem - 1, totalTrials):
         print('listening to button')
         core.wait(TIME_WAIT_BREAK)
         # Pause until response
-        listenbutton(9)
+        getbuttonColor(RESPONSE_PASS)
 
         core.wait(0.5)
 
@@ -324,7 +331,7 @@ for trialIndex in range(startItem - 1, totalTrials):
         stim.setPos((0, 0))
         stim.draw()
         win.flip()
-        listenbutton(9)  # self-paced 진입
+        getbuttonColor(RESPONSE_PASS)  # self-paced 진입
         prev_block = curr_block
 
     print(trialList[trialIndex]['sentence'])
@@ -370,7 +377,7 @@ for trialIndex in range(startItem - 1, totalTrials):
             full_stim.draw(); win.flip()
 
             # 참가자가 충분히 읽고 스스로 넘김
-            listenbutton(9)
+            getbuttonColor(RESPONSE_PASS)
 
             # 짧은 간격
             for frameN in range(FULL_SENTENCE_OFF - 1):
@@ -647,7 +654,7 @@ for trialIndex in range(startItem - 1, totalTrials):
     # pauseResponse = event.waitKeys(keyList=[responseYes, quitKey])
     # response = getbutton()  # listen to a button
     # responses.append(response) # everytime we get a response we add it to the table
-    listenbutton(9)
+    getbuttonColor(RESPONSE_PASS)
 
     #core.wait(0.5)  # This ensures that the yellow text stays for an additional moment; here it waits for exactly 500 ms
 
