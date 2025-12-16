@@ -20,6 +20,11 @@ RESPONSE_SELECTION = {
     "right box": ["red", "yellow"],
 }
 
+
+RESPONSE_PASS = {
+    "right box": ["red"],
+}
+
 def RGB2Trigger(color):
     return int((color[2] << 16) + (color[1] << 8) + color[0])
 
@@ -50,9 +55,9 @@ stimuliColor = 'gold'
 stimuliUnits = 'deg'
 stimuliSize = 2
 
-wordOn = 38
-wordOff = 20
-lastWordOn = 38
+wordOn = 10
+wordOff = 10
+lastWordOn = 10
 
 boxHeight = stimuliSize + 1.5
 boxWidth = 15
@@ -202,7 +207,8 @@ stim = visual.TextStim(
 stim.draw()
 win.flip()
 
-listenbutton(9)
+getbuttonColor(RESPONSE_PASS)
+
 
 for frameN in range(instructionOff - 1):
     win.flip()
@@ -264,7 +270,7 @@ for trialIndex in range(totalTrials):
             win.flip()
 
             core.wait(TIME_WAIT_BREAK)
-            listenbutton(9)
+            getbuttonColor(RESPONSE_PASS)
 
             recentCorrectResponses = 0
             trialsSinceLastBreak = 0
@@ -289,7 +295,7 @@ for trialIndex in range(totalTrials):
             win.flip()
 
             core.wait(TIME_WAIT_BREAK)
-            listenbutton(9)
+            getbuttonColor(RESPONSE_PASS)
 
             recentCorrectResponses = 0
             trialsSinceLastBreak = 0
@@ -329,7 +335,7 @@ for trialIndex in range(totalTrials):
             stim.setPos((0, 0))
             stim.draw()
             win.flip()
-            listenbutton(9)
+            getbuttonColor(RESPONSE_PASS)
 
         prev_block = curr_block
 
@@ -393,7 +399,7 @@ for trialIndex in range(totalTrials):
             full_stim.draw()
             win.flip()
 
-            listenbutton(9)
+            getbuttonColor(RESPONSE_PASS)
 
             for frameN in range(FULL_SENTENCE_OFF - 1):
                 win.flip()
@@ -693,7 +699,7 @@ for trialIndex in range(totalTrials):
     win.flip()
 
     # self-paced
-    listenbutton(9)
+    getbuttonColor(RESPONSE_PASS)
 
     for frameN in range(taskQuestionOff - 1):
         win.flip()

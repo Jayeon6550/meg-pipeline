@@ -1,4 +1,4 @@
-clearvars
+ clearvars
 
 vpix_use = 1; % 0 if vpixx is not conected
 
@@ -10,7 +10,7 @@ if vpix_use
     Datapixx('RegWr')
 end
 
-PsychDebugWindowConfiguration(0, 1 ;
+PsychDebugWindowConfiguration(0, 1);
 PsychDefaultSetup(2);
 Screen('Preference', 'SkipSyncTests', 1); 
 
