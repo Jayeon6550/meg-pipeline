@@ -572,8 +572,8 @@ for trialIndex in range(startItem - 1, totalTrials):
 
 
             stim = visual.TextStim(win, text='모든 버튼에서 손가락을 떼주세요.\n\n',
-                                   font= stimuliFont, units= stimuliUnits, height=1, color=taskQuestionColor, alignText='center',wrapWidth= 30)
-            stim.setPos((0,-2.5))
+                                   font= stimuliFont, units= stimuliUnits, height=1.5, color=taskQuestionColor, alignText='center',wrapWidth= 30)
+            stim.setPos((0,-1.5))
             stim.draw()
             win.flip()
             core.wait(TIME_TO_RESET_BUTTON_BOX)
