@@ -371,7 +371,8 @@ for trialIndex in range(startItem - 1, totalTrials):
             except:
                 pass
 
-            full_text = str(trialList[trialIndex].get('context', '')).strip()
+            READY_MSG = "\n\n(질문으로 넘어갈 준비가 됐으면 예(검지)를 눌러주세요)"
+            full_text = str(trialList[trialIndex].get('context', '')).strip() + READY_MSG
             full_stim = visual.TextStim(win, text=full_text, font=stimuliFont,
                                         units=stimuliUnits, height=FULL_SENTENCE_HEIGHT,
                                         color=taskQuestionColor, alignText='center', wrapWidth=30)
