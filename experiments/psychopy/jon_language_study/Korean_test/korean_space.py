@@ -36,7 +36,7 @@ def chunk_words(sentence, L=CHUNk_SEPARATOR_L, R=CHUNK_SEPARATOR_R):
 
 # Setup the connection with the Vpixx systems and disable Pixel Mode
 
-TIME_TO_RESET_BUTTON_BOX =1.7
+TIME_TO_RESET_BUTTON_BOX =0.1
 TIME_WAIT_BREAK = 0.5
 # Define the RGB code for each channel on the KIT machine and their name
 trigger = [[4, 0, 0], [16, 0, 0], [64, 0, 0], [0, 1, 0], [0, 4, 0], [0, 16, 0], [0, 64, 0], [0, 0, 1]]
@@ -202,12 +202,30 @@ currentBreakCount = 0
 totalCorrectResponses = 0
 recentCorrectResponses = 0
 trialsSinceLastBreak = 0
-
 longestSentence = 0
+
+# for trialIndex in range(totalTrials):
+#     numWords = len(trialList[trialIndex]['sentence'].split())
+#     if numWords > longestSentence:
+#         longestSentence = numWords
+
+trans_table = str.maketrans('', '', chars_to_ignore)
+
 for trialIndex in range(totalTrials):
-    numWords = len(trialList[trialIndex]['sentence'].split())
-    if numWords > longestSentence:
-        longestSentence = numWords
+    raw_words = trialList[trialIndex]['sentence'].split()
+
+    # 2. Count only words that have length > 0 after cleaning
+    valid_word_count = 0
+    for w in raw_words:
+        if w.translate(trans_table):  # Returns True if the word is not empty after cleaning
+            valid_word_count += 1
+
+    # 3. Update the longest sentence record
+    if valid_word_count > longestSentence:
+        longestSentence = valid_word_count
+
+
+print(f"Longest sentence: {longestSentence} words")
 
 subjectColumns = ['name', 'age', 'sex', 'handedness', 'experiment', 'list', 'sentence', 'taskQuestion', 'trigger', 'expectedAnswer', 'participantAnswer', 'answer']
 wordColumns = ["word" + str(i) for i in range(1, longestSentence + 1)]
