@@ -6,6 +6,28 @@ from pypixxlib import _libdpx as dp
 
 from experiments.psychopy.general.utilities import *
 
+def chunk_words(sentence, L='«', R='»'):
+    tokens = sentence.split()
+    out, buf, in_chunk = [], [], False
+    for t in tokens:
+        starts = t.startswith(L)
+        ends   = t.endswith(R)
+        if starts:
+            in_chunk = True
+            t = t[len(L):]
+        if in_chunk:
+            if ends:
+                buf.append(t[:-len(R)])
+                out.append(' '.join(buf))
+                buf, in_chunk = [], False
+            else:
+                buf.append(t)
+        else:
+            out.append(t)
+    if buf:
+        out.append(' '.join(buf))
+    return out
+
 
 # Setup the connection with the Vpixx systems and disable Pixel Mode
 
