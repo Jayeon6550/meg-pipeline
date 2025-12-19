@@ -427,8 +427,11 @@ for trialIndex in range(startItem - 1, totalTrials):
             win.close()
             core.quit()
 
-        stim = visual.TextStim(win, text=words[wordIndex],  font=stimuliFont, units=stimuliUnits, height=stimuliSize, color=stimuliColor, alignText='center', anchorHoriz = 'center')
-        stim.setPos((0, 0))
+        RSVP_Y_OFFSET = 0.15
+        stim = visual.TextStim(win, text=words[wordIndex],  font=stimuliFont, units=stimuliUnits,
+                               height=stimuliSize, color=stimuliColor, alignText='center',
+                               anchorHoriz = 'center', anchorVert='center')
+        stim.setPos((0, RSVP_Y_OFFSET))
 
 
         if wordIndex == max(range(numWords)):
