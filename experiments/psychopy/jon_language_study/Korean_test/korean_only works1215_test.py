@@ -6,34 +6,6 @@ from pypixxlib import _libdpx as dp
 
 from experiments.psychopy.general.utilities import *
 
-###lines for negation words
-def chunk_korean_negation(sentence):
-    """
-    '안 + 동사', '못 + 동사'일 때만 하나의 RSVP 청크로 묶는다
-    """
-    chunks = []
-    tokens = sentence.split()
-
-    # RSVP 질문/서술에서 충분히 안전한 동사 어미
-    verb_endings = (
-        "니", "까", "어", "었", "았", "요", "해", "했", "다"
-    )
-
-    i = 0
-    while i < len(tokens):
-        if (
-            tokens[i] in ("안", "못")
-            and i + 1 < len(tokens)
-            and tokens[i + 1].endswith(verb_endings)
-        ):
-            # 조건 만족 → 묶기
-            chunks.append(tokens[i] + " " + tokens[i + 1])
-            i += 2
-        else:
-            chunks.append(tokens[i])
-            i += 1
-
-    return chunks
 
 # Setup the connection with the Vpixx systems and disable Pixel Mode
 
@@ -111,9 +83,7 @@ longestWord = 'none'
 
 totalTrials = len(trialList)
 for trialIndex in range(totalTrials):
-    sentence = trialList[trialIndex]['sentence']
-    words = chunk_korean_negation(sentence)
-    numWords = len(words)
+    words = trialList[trialIndex]['sentence'].split()
     for word in words:
         if len(word) > longestWordCount:
             longestWordCount = len(word)
@@ -371,8 +341,7 @@ for trialIndex in range(startItem - 1, totalTrials):
     # 이 trial은 실제 문장 수행 trial이므로 마지막 블록 기록 (break가 아닌 경우에만 도달)
     last_task_block = curr_block
 
-    sentence = trialList[trialIndex]['sentence']
-    words = chunk_korean_negation(sentence)
+    words = trialList[trialIndex]['sentence'].split()
     numWords = len(words)
     triggerList = range(int(trialList[trialIndex]['trigger']), int(trialList[trialIndex]['trigger']) + numWords)
 
