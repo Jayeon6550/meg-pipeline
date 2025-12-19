@@ -1,4 +1,7 @@
 import os, sys
+import re
+import string
+
 import pandas as pd
 from psychopy import core, visual, event, parallel, data, monitors, gui
 
@@ -6,26 +9,29 @@ from pypixxlib import _libdpx as dp
 
 from experiments.psychopy.general.utilities import *
 
-def chunk_words(sentence, L='«', R='»'):
-    tokens = sentence.split()
-    out, buf, in_chunk = [], [], False
-    for t in tokens:
-        starts = t.startswith(L)
-        ends   = t.endswith(R)
-        if starts:
-            in_chunk = True
-            t = t[len(L):]
-        if in_chunk:
-            if ends:
-                buf.append(t[:-len(R)])
-                out.append(' '.join(buf))
-                buf, in_chunk = [], False
-            else:
-                buf.append(t)
-        else:
-            out.append(t)
-    if buf:
-        out.append(' '.join(buf))
+
+CHUNk_SEPARATOR_L = '«'
+CHUNK_SEPARATOR_R = '»'
+
+def chunk_words(sentence, L=CHUNk_SEPARATOR_L, R=CHUNK_SEPARATOR_R):
+    # 1. The pattern looks for content between L and R (Group 1)
+    # 2. OR it looks for normal words (Group 2)
+    # re.escape ensures symbols like « or » are treated as text, not regex commands
+    pattern = f"{re.escape(L)}(.*?){re.escape(R)}|(\S+)"
+
+    matches = re.findall(pattern, sentence)
+
+    # matches returns a list of tuples: [('Kiwi Orange', ''), ('', 'Apple')]
+    # We strip empty matches to get a clean list of words
+    out = []
+    for group_match, single_word in matches:
+        if group_match:
+            # Found a chunk (e.g., "Kiwi Orange"), add it without splitting
+            out.append(group_match.strip())
+        elif single_word:
+            # Found a normal word (e.g., "Apple"), add it
+            out.append(single_word)
+
     return out
 
 # Setup the connection with the Vpixx systems and disable Pixel Mode
@@ -103,20 +109,47 @@ longestWordCount = 0
 longestWord = 'none'
 
 totalTrials = len(trialList)
+# for trialIndex in range(totalTrials):
+#     words = trialList[trialIndex]['sentence'].split()
+#     numWords = len(words)
+#     print("CHUNKED:", words)
+#
+#     for word in words:
+#         if len(word) > longestWordCount:
+#             longestWordCount = len(word)
+#             longestWord = word
+
+
+
+# Define what characters you want to remove.
+# string.punctuation covers common symbols like ! " # $ % & ' ( ) * + , - . / : ; < = > ? @ [ \ ] ^ _ ` { | } ~
+# We add specific chunk brackets (like [ and ]) just to be safe.
+chars_to_ignore = string.punctuation + "[]<>" + CHUNK_SEPARATOR_R + CHUNk_SEPARATOR_L
+
 for trialIndex in range(totalTrials):
-    sentence = trialList[trialIndex]['sentence']
-    words = chunk_words(sentence)
+    raw_words = trialList[trialIndex]['sentence'].split()
+
+    # Optional: If you only want to count valid words (excluding standalone punctuation),
+    # you can clean the list before counting.
+    words = []
+    for w in raw_words:
+        # This removes all punctuation/brackets defined above from the word
+        clean_w = w.translate(str.maketrans('', '', chars_to_ignore))
+        if clean_w:  # Only keep if the word is not empty after cleaning
+            words.append(clean_w)
+
     numWords = len(words)
-    print("CHUNKED:", words)
+    print("CHUNKED (Cleaned):", words)
 
     for word in words:
+        # Now we are checking the length of the CLEANED word
         if len(word) > longestWordCount:
             longestWordCount = len(word)
             longestWord = word
 
 
-print(longestWord)
-print(longestWordCount)
+print("Longest word", longestWord)
+print("Longest word count", longestWordCount)
 
 #fixationPoint = '****'
 fixationOn = 60
@@ -366,7 +399,10 @@ for trialIndex in range(startItem - 1, totalTrials):
     # 이 trial은 실제 문장 수행 trial이므로 마지막 블록 기록 (break가 아닌 경우에만 도달)
     last_task_block = curr_block
 
-    words = trialList[trialIndex]['sentence'].split()
+    #words = trialList[trialIndex]['sentence'].split()
+
+    sentence = trialList[trialIndex]['sentence']
+    words = chunk_words(sentence)
     numWords = len(words)
     triggerList = range(int(trialList[trialIndex]['trigger']), int(trialList[trialIndex]['trigger']) + numWords)
 

@@ -203,7 +203,7 @@ instructions_text = (
 
 stim = visual.TextStim(win,
                         text = instructions_text,
-                       font= instructionsFont, languageStyle='Arabic', units=breakUnits, color=instructionColor, height= 0.8, alignText= 'center',  wrapWidth= 30)
+                       font= instructionsFont, units=breakUnits, color=instructionColor, height= 0.8, alignText= 'center',  wrapWidth= 30)
 stim.setPos((0, 0))
 stim.draw()
 win.flip()
