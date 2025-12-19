@@ -1,5 +1,5 @@
 ﻿list,block,subblock,condition,context,sentence,taskQuestion,option1,option2,correctAnswer,trigger,trigger224,trigger225,trigger226,trigger227,trigger228,trigger229,trigger230,trigger231,word_trigger,trigger224w,trigger225w,trigger226w,trigger227w,trigger228w,trigger229w,trigger230w,trigger231w
-1,1,practice,practice,practice1,그 신중한 간호사가 아이를 치료했니치료했니치료했니?! «안 했니?»,,optionA,optionB,red,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+1,1,practice,practice,practice1,practice sentence1,,optionA,optionB,red,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 1,1,practice,practice,practice2,practice sentence2,,optionA,optionB,red,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 1,1,practice,practice,practice3,practice sentence3,,optionA,optionB,red,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 1,0,,,,break,,,,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
