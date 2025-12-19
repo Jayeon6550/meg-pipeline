@@ -107,6 +107,7 @@ for trialIndex in range(totalTrials):
     sentence = trialList[trialIndex]['sentence']
     words = chunk_words(sentence)
     numWords = len(words)
+    print("CHUNKED:", words)
 
     for word in words:
         if len(word) > longestWordCount:
