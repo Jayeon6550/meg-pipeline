@@ -371,7 +371,8 @@ for trialIndex in range(startItem - 1, totalTrials):
     # 이 trial은 실제 문장 수행 trial이므로 마지막 블록 기록 (break가 아닌 경우에만 도달)
     last_task_block = curr_block
 
-    words = trialList[trialIndex]['sentence'].split()
+    sentence = trialList[trialIndex]['sentence']
+    words = chunk_korean_negation(sentence)
     numWords = len(words)
     triggerList = range(int(trialList[trialIndex]['trigger']), int(trialList[trialIndex]['trigger']) + numWords)
 
