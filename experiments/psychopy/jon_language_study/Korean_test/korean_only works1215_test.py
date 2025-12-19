@@ -371,13 +371,38 @@ for trialIndex in range(startItem - 1, totalTrials):
             except:
                 pass
 
-            READY_MSG = "\n\n(질문으로 넘어갈 준비가 됐으면 예(검지)를 눌러주세요)"
-            full_text = str(trialList[trialIndex].get('context', '')).strip() + READY_MSG
-            full_stim = visual.TextStim(win, text=full_text, font=stimuliFont,
-                                        units=stimuliUnits, height=FULL_SENTENCE_HEIGHT,
-                                        color=taskQuestionColor, alignText='center', wrapWidth=30)
-            full_stim.setPos((0, 0))
-            full_stim.draw(); win.flip()
+            context_text = str(trialList[trialIndex].get('context', '')).strip()
+            READY_MSG = "(질문으로 넘어갈 준비가 됐으면 예(검지)를 눌러주세요)"
+
+            # 1️⃣ 통문장: 화면 중앙, 크게
+            context_stim = visual.TextStim(
+                win,
+                text=context_text,
+                font=stimuliFont,
+                units=stimuliUnits,
+                height=FULL_SENTENCE_HEIGHT,
+                color=taskQuestionColor,
+                alignText='center',
+                wrapWidth=30
+            )
+            context_stim.setPos((0, 0))
+
+            # 2️⃣ READY 메시지: 아래, 작게
+            ready_stim = visual.TextStim(
+                win,
+                text=READY_MSG,
+                font=stimuliFont,
+                units=stimuliUnits,
+                height=FULL_SENTENCE_HEIGHT * 0.6,
+                color=taskQuestionColor,
+                alignText='center',
+                wrapWidth=30
+            )
+            ready_stim.setPos((0, -2.5))
+
+            context_stim.draw()
+            ready_stim.draw()
+            win.flip()
 
             # 참가자가 충분히 읽고 스스로 넘김
             getbuttonColor(RESPONSE_PASS)
