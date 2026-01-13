@@ -3,7 +3,7 @@
   :width: 600
   :alt: MEG lab at NYUAD
 
-asd
+
 **NeuroWaves MEG/EEG NYUAD lab** provides documentation, experiment code and processing pipelines for the Magnetoencephalography (MEG) and
 ElectroEncephaloGraphy (EEG) users at NYUAD. The lab is a core within the BioMedical Imaging Core.
 
