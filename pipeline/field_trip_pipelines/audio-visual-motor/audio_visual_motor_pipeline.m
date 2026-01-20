@@ -753,3 +753,45 @@ neg_cluster_pvals = [stat_planar.negclusters(:).prob];
 neg_clust         = find(neg_cluster_pvals < 0.025);
 neg               = ismember(stat_planar.negclusterslabelmat, neg_clust);
 
+%% Plot
+
+figure;
+timestep      = 0.05; %(in seconds)
+sampling_rate = trials_visual.fsample;
+sample_count  = length(stat_planar.time);
+j = [0:timestep:1]; % Temporal endpoints (in seconds) of the ERP average computed in each subplot
+m = [1:timestep*sampling_rate:sample_count]; % temporal endpoints in M/EEG samples
+
+pos_cluster_pvals = [stat_planar.posclusters(:).prob];
+pos_clust         = find(pos_cluster_pvals < 0.025);
+pos               = ismember(stat_planar.posclusterslabelmat, pos_clust);
+
+% and now for the negative clusters...
+neg_cluster_pvals = [stat_planar.negclusters(:).prob];
+neg_clust         = find(neg_cluster_pvals < 0.025);
+neg               = ismember(stat_planar.negclusterslabelmat, neg_clust);
+
+
+% First ensure the channels to have the same order in the average and in the statistical output.
+% This might not be the case, because ft_math might shuffle the order
+[i1,i2] = match_str(raweffectVisualvsMotor_planar.label, stat_planar.label);
+
+for k = 1:20;
+   figure;
+   cfg                  = [];
+   cfg.xlim             = [j(k) j(k+1)];
+   cfg.zlim             = [-1.0e-13 1.0e-13];
+   pos_int              = zeros(numel(raweffectVisualvsMotor_planar.label),1);
+   pos_int(i1)          = all(pos(i2, m(k):m(k+1)), 2);
+
+   neg_int = zeros(numel(raweffectVisualvsMotor_planar.label),1);
+   neg_int(i1) = all(neg(i2, m(k):m(k+1)), 2);
+
+   cfg.highlight        = 'on';
+   cfg.highlightchannel = find(pos_int | neg_int);
+   cfg.comment          = 'xlim';
+   cfg.commentpos       = 'title';
+   cfg.layout           = kit_layout;
+   cfg.figure           = 'gca';
+   ft_topoplotER(cfg, raweffectVisualvsMotor_planar);
+end
