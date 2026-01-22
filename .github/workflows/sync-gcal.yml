@@ -13,7 +13,7 @@ concurrency:
 
 jobs:
   sync:
-    runs-on: [self-hosted, vpn]
+    runs-on: [MEG Workstation]
 
     steps:
       - name: Checkout
