@@ -24,7 +24,7 @@ jobs:
 
       - name: Create Service Account Key File
         env:
-          GOOGLE_SA_JSON: ${{ secrets.GOOGLE_SA_JSON }}
+          GOOGLE_SA_JSON: ${{ secrets.GOOGLE_SA_JSON }} # Obtain from GCP
         run: |
           $env:GOOGLE_SA_JSON | Set-Content -Path service_account.json -Encoding UTF8
         shell: pwsh
