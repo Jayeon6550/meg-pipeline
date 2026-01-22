@@ -1,4 +1,4 @@
-name: Booked → Google Calendar Sync
+name: Booked CTPSS to Google Calendar Sync
 
 on:
   push:
