@@ -47,7 +47,9 @@ jobs:
           BOOKED_API_ID: ${{ secrets.BOOKED_API_ID }}
           BOOKED_API_KEY: ${{ secrets.BOOKED_API_KEY }}
           GOOGLE_CALENDAR_ID: ${{ secrets.GOOGLE_CALENDAR_ID }}
+          CONDA_ENV_PATH: ${{ secrets.LOCAL_CONDA_ENV_PATH }}
 
         run: |
-          & $env:CONDA_EXE run -n neurowaves-lab-documentation --no-capture-output python scripts/sync-gcal.py
+          $envArgs = if ($env:CONDA_ENV_PATH) { "-p", "$env:CONDA_ENV_PATH" } else { "-n", "neurowaves-lab-documentation" }
+          & $env:CONDA_EXE run @envArgs --no-capture-output python scripts/sync-gcal.py
         shell: pwsh
