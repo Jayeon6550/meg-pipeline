@@ -1,0 +1,54 @@
+name: Booked → Google Calendar Sync
+
+on:
+  schedule:
+    - cron: "*/5 * * * *" # every 5 minutes
+  workflow_dispatch:
+
+concurrency:
+  group: booked-to-gcal-sync
+  cancel-in-progress: true
+
+jobs:
+  sync:
+    runs-on: [self-hosted, vpn]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install requests python-dotenv icalendar google-auth google-api-python-client
+        shell: bash
+
+      - name: Create Service Account Key File
+        run: |
+          echo '${{ secrets.GOOGLE_SA_JSON }}' > service_account.json
+        shell: bash
+
+      - name: Run sync
+        env:
+          # Non-secret configuration
+          SYNC_LOCATION_CONTAINS: "Magnetoencephalography  MEG - KIT"
+          GOOGLE_SA_FILE: "service_account.json"
+          ENABLE_DELETES: "true"
+          MIRROR_START_YEAR: "2000"
+          MIRROR_END_YEAR: "2100"
+
+          # Secrets (Must be set in GitHub Repository Secrets)
+          BOOKED_BASE_URL: ${{ secrets.BOOKED_BASE_URL }}
+          BOOKED_ICS_URL: ${{ secrets.BOOKED_ICS_URL }}
+          BOOKED_API_ID: ${{ secrets.BOOKED_API_ID }}
+          BOOKED_API_KEY: ${{ secrets.BOOKED_API_KEY }}
+          GOOGLE_CALENDAR_ID: ${{ secrets.GOOGLE_CALENDAR_ID }}
+
+        run: |
+          python scripts/sync-gcal.py
+        shell: bash

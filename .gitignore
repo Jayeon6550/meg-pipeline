@@ -13,6 +13,7 @@ rtd-build-output
 .ipynb_checkpoints
 */.ipynb_checkpoints/*
 *_local*
+*.local*
 
 # IPython
 profile_default/
