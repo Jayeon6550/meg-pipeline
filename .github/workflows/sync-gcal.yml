@@ -28,6 +28,9 @@ jobs:
 
       - name: Run sync
         env:
+          # Use secret for local path if set, otherwise try default 'conda'
+          CONDA_EXE: ${{ secrets.LOCAL_CONDA_PATH || 'conda' }}
+
           # Non-secret configuration
           SYNC_LOCATION_CONTAINS: "Magnetoencephalography  MEG - KIT"
           GOOGLE_SA_FILE: "service_account.json"
@@ -43,5 +46,5 @@ jobs:
           GOOGLE_CALENDAR_ID: ${{ secrets.GOOGLE_CALENDAR_ID }}
 
         run: |
-          conda run -n neurowaves-lab-documentation --no-capture-output python scripts/sync-gcal.py
+          & $env:CONDA_EXE run -n neurowaves-lab-documentation --no-capture-output python scripts/sync-gcal.py
         shell: pwsh
