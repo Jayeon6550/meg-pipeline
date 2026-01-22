@@ -19,17 +19,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.11"
-
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install requests python-dotenv icalendar google-auth google-api-python-client
-        shell: bash
-
       - name: Create Service Account Key File
         run: |
           echo '${{ secrets.GOOGLE_SA_JSON }}' > service_account.json
@@ -52,5 +41,5 @@ jobs:
           GOOGLE_CALENDAR_ID: ${{ secrets.GOOGLE_CALENDAR_ID }}
 
         run: |
-          python scripts/sync-gcal.py
-        shell: bash
+          conda run -n neurowaves-lab-documentation --no-capture-output python scripts/sync-gcal.py
+        shell: pwsh
