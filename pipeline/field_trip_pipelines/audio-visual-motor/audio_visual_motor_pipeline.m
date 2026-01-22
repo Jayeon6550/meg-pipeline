@@ -499,7 +499,6 @@ timelock_motor = ft_timelockanalysis(cfg, trials_motor)
 %% Permutation tests
 
 
-
 cfg = [];
 cfg.method='montecarlo'; % we will define a certain number of permutation and perform purely randomly number of permutations
 cfg.statistic = 'indepsamplesT'; % t-value is attributed per sample
@@ -648,23 +647,151 @@ timelock_motor_planar_cmb.grad  = timelock_motor.grad;
 
 
 
-    cfg = [];
-    cfg.xlim = [0.05 1.2];
-    cfg.colorbar = 'yes';
-    cfg.layout = kit_layout;
-    cfg.readbids = 'no';
-    ft_topoplotER(cfg, timelock_visual);
-    %shg;            % "Show Graph" - forces the window to the front
+cfg = [];
+cfg.xlim = [0.05 1.2];
+cfg.colorbar = 'yes';
+cfg.layout = kit_layout;
+cfg.readbids = 'no';
+ft_topoplotER(cfg, timelock_visual);
+%shg;            % "Show Graph" - forces the window to the front
 
-    cfg = [];
-    cfg.xlim = [0.05 1.2];
-    cfg.colorbar = 'yes';
-    cfg.layout = kit_layout;
-    cfg.readbids = 'no';
-    ft_topoplotER(cfg, timelock_visual_planar_cmb);
-    %shg;
-
-
+cfg = [];
+cfg.xlim = [0.05 1.2];
+cfg.colorbar = 'yes';
+cfg.layout = kit_layout;
+cfg.readbids = 'no';
+ft_topoplotER(cfg, timelock_visual_planar_cmb);
+%shg;
 
 
 
+%% Planar data spatio-temporal clustering parameter definition
+
+
+cfg = [];
+cfg.method='montecarlo'; % we will define a certain number of permutation and perform purely randomly number of permutations
+cfg.statistic = 'indepsamplesT'; % t-value is attributed per sample
+
+cfg.correctm = 'cluster';
+cfg.clusteralpha = 0.05;   % threshold level for identifying "good" samples with best t-values
+cfg.clusterstatistic= 'maxsum';
+cfg.minnbchan = 2;  % Minimum number of channels that are in the neighborhood of a sample, to be included in the clustering algorithm
+% (It will still have to pass the alpha threshold constraint)
+
+cfg.tail = 0;  % one-sided or two sided test
+cfg.clusterail=0;
+
+% Neighbours prepare
+ncfg = [];
+ncfg.method = 'distance';
+ncfg.grad = timelock_visual.grad;
+neighbours = ft_prepare_neighbours(ncfg);
+
+cfg.neighbours = neighbours;
+cfg.alpha = 0.025;  % threshold of the permutation test (not exactly sure what that is)
+cfg.numrandomization = 100;
+
+n_visual = size(timelock_visual_planar_cmb.trial, 1);
+
+n_motor = size(timelock_motor_planar_cmb.trial, 1);
+
+cfg.design           = [ones(1,n_visual), ones(1,n_motor)*2]; % design matrix
+cfg.ivar             = 1; % number or list with indices indicating the independent variable(s)
+
+cfg.channel       = {'AG*'};     % cell-array with selected channel labels
+cfg.latency       = [0 1];       % time interval over which the experimental
+                                 % conditions must be compared (in seconds)
+
+
+
+
+%% Spatio-temporal clustering execution
+
+[stat_planar] = ft_timelockstatistics(cfg, timelock_visual_planar_cmb, timelock_motor_planar_cmb)
+save stat_ERF_planar_VisualvsMotor stat_planar
+
+
+%%
+
+load stat_ERF_planar_VisualvsMotor.mat stat_planar
+
+
+
+%%
+
+stat_planar.posclusters(1)
+
+stat_planar.negclusters(1)
+
+
+
+%% Contrast conditions for plotting
+load trials_visual.mat trials_visual
+load trials_motor.mat trials_motor
+
+% Average the trials
+cfg = [];
+avg_visual = ft_timelockanalysis(cfg, trials_visual);
+avg_motor = ft_timelockanalysis(cfg, trials_motor);
+
+% Find the difference of the average
+cfg = [];
+cfg.operation = 'subtract';
+cfg.parameter = 'avg';
+raweffectVisualvsMotor = ft_math(cfg, avg_visual, avg_motor);
+
+
+%% Cluster selection
+
+pos_cluster_pvals = [stat_planar.posclusters(:).prob];
+
+pos_clust = find(pos_cluster_pvals<0.025);
+pos = ismember(stat_planar.posclusterslabelmat, pos_clust);
+
+% and now for the negative clusters...
+neg_cluster_pvals = [stat_planar.negclusters(:).prob];
+neg_clust         = find(neg_cluster_pvals < 0.025);
+neg               = ismember(stat_planar.negclusterslabelmat, neg_clust);
+
+%% Plot
+
+figure;
+timestep      = 0.05; %(in seconds)
+sampling_rate = trials_visual.fsample;
+sample_count  = length(stat_planar.time);
+j = [0:timestep:1]; % Temporal endpoints (in seconds) of the ERP average computed in each subplot
+m = [1:timestep*sampling_rate:sample_count]; % temporal endpoints in M/EEG samples
+
+pos_cluster_pvals = [stat_planar.posclusters(:).prob];
+pos_clust         = find(pos_cluster_pvals < 0.025);
+pos               = ismember(stat_planar.posclusterslabelmat, pos_clust);
+
+% and now for the negative clusters...
+neg_cluster_pvals = [stat_planar.negclusters(:).prob];
+neg_clust         = find(neg_cluster_pvals < 0.025);
+neg               = ismember(stat_planar.negclusterslabelmat, neg_clust);
+
+
+% First ensure the channels to have the same order in the average and in the statistical output.
+% This might not be the case, because ft_math might shuffle the order
+[i1,i2] = match_str(raweffectVisualvsMotor_planar.label, stat_planar.label);
+
+for k = 1:20;
+   figure;
+   cfg                  = [];
+   cfg.xlim             = [j(k) j(k+1)];
+   cfg.zlim             = [-1.0e-13 1.0e-13];
+   pos_int              = zeros(numel(raweffectVisualvsMotor_planar.label),1);
+   pos_int(i1)          = all(pos(i2, m(k):m(k+1)), 2);
+
+   neg_int = zeros(numel(raweffectVisualvsMotor_planar.label),1);
+   neg_int(i1) = all(neg(i2, m(k):m(k+1)), 2);
+
+   cfg.highlight        = 'on';
+   cfg.highlightchannel = find(pos_int | neg_int);
+   cfg.comment          = 'xlim';
+   cfg.commentpos       = 'title';
+   cfg.layout           = kit_layout;
+   cfg.figure           = 'gca';
+   ft_topoplotER(cfg, raweffectVisualvsMotor_planar);
+end

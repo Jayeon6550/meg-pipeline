@@ -1,0 +1,55 @@
+name: Booked CTPSS to Google Calendar Sync
+
+on:
+  push:
+    branches:
+      - main
+      - master
+  pull_request:
+  schedule:
+    - cron: "*/5 * * * *" # every 5 minutes
+  workflow_dispatch:
+
+concurrency:
+  group: booked-to-gcal-sync
+  cancel-in-progress: true
+
+jobs:
+  sync:
+    runs-on: [MEG Workstation]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Create Service Account Key File
+        env:
+          GOOGLE_SA_JSON: ${{ secrets.GOOGLE_SA_JSON }} # Obtain from GCP
+        run: |
+          $env:GOOGLE_SA_JSON | Set-Content -Path service_account.json -Encoding UTF8
+        shell: pwsh
+
+      - name: Run sync
+        env:
+          # Use secret for local path if set, otherwise try default 'conda'
+          CONDA_EXE: ${{ secrets.LOCAL_CONDA_PATH || 'conda' }}
+
+          # Non-secret configuration
+          SYNC_LOCATION_CONTAINS: "Magnetoencephalography  MEG - KIT"
+          GOOGLE_SA_FILE: "service_account.json"
+          ENABLE_DELETES: "true"
+          MIRROR_START_YEAR: "2000"
+          MIRROR_END_YEAR: "2100"
+
+          # Secrets (Must be set in GitHub Repository Secrets)
+          BOOKED_BASE_URL: ${{ secrets.BOOKED_BASE_URL }}
+          BOOKED_ICS_URL: ${{ secrets.BOOKED_ICS_URL }}
+          BOOKED_API_ID: ${{ secrets.BOOKED_API_ID }}
+          BOOKED_API_KEY: ${{ secrets.BOOKED_API_KEY }}
+          GOOGLE_CALENDAR_ID: ${{ secrets.GOOGLE_CALENDAR_ID }}
+          CONDA_ENV_PATH: ${{ secrets.LOCAL_CONDA_ENV_PATH }}
+
+        run: |
+          $envArgs = if ($env:CONDA_ENV_PATH) { "-p", "$env:CONDA_ENV_PATH" } else { "-n", "neurowaves-lab-documentation" }
+          & $env:CONDA_EXE run @envArgs --no-capture-output python scripts/sync-gcal.py
+        shell: pwsh
