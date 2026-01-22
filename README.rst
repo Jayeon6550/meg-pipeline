@@ -28,3 +28,10 @@ Automated Testing for NYUAD Pipelines
       :alt: Automated Testing for NYUAD Pipelines
 
 
+
+Sync GCal Status
+   .. image:: https://github.com/BioMedicalImaging-Core-NYUAD/neurowaves-lab-documentation/actions/workflows/sync-gcal.yml/badge.svg
+      :target: https://github.com/BioMedicalImaging-Core-NYUAD/neurowaves-lab-documentation/actions/workflows/sync-gcal.yml
+      :alt: Sync Google Calendar Status
+
+   Synchronizes the Booked Scheduler calendar with Google Calendar.
