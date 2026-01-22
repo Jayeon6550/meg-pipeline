@@ -2,6 +2,9 @@ name: Booked CTPSS to Google Calendar Sync
 
 on:
   push:
+    branches:
+      - main
+      - master
   pull_request:
   schedule:
     - cron: "*/5 * * * *" # every 5 minutes
