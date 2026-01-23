@@ -1,4 +1,4 @@
-name: Test Schedule
+name: Test Schedule Self Runner
 
 on:
   schedule:
