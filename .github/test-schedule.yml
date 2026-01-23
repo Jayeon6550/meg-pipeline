@@ -1,0 +1,14 @@
+name: Test Schedule
+
+on:
+  schedule:
+    - cron: "*/5 * * * *"
+  workflow_dispatch:
+
+jobs:
+  test-scheduler:
+    runs-on: [MEG Workstation]
+    steps:
+      - name: Echo testing message
+        run: echo "Scheduler is working!"
+        shell: pwsh
