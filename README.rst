@@ -35,3 +35,4 @@ Sync GCal Status
       :alt: Sync Google Calendar Status
 
    Synchronizes the Booked Scheduler calendar with Google Calendar.
+
