@@ -250,3 +250,53 @@ To use the **Connection** kernel:
 2. In Jupyter, select the **Matlab (Connection)** kernel. You can now access variables from your standalone MATLAB session using commands like ``who`` or simply typing the variable name.
 
 Thank you for your contribution!
+
+
+
+
+
+Calendar Synchronisation Technical Setup
+========================================
+
+The MEG Lab uses a synchronization workflow to mirror bookings from the Corelabs (Booked) portal to a Google Calendar. This allows researchers to use Google Calendar features like "Appointment Schedules" to manage participant bookings while automatically respecting the lab's availability.
+
+Infrastructure Overview
+^^^^^^^^^^^^^^^^^^^^^^^
+
+The synchronization consists of three main components:
+
+1. **Python Script**: :github-file:`scripts/sync-gcal.py` fetches the lab's ICS feed, parses events, and upserts them into Google Calendar via the Google Calendar API.
+2. **Google Cloud Project**: A service account with "Editor" access to the specific Lab Google Calendar.
+3. **GitHub Actions**: A workflow :github-file:`.github/workflows/sync-gcal.yml` that runs every 5 minutes on a self-hosted Windows workstation.
+
+Google Cloud Platform Setup
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+To maintain or update the synchronization, you need access to the Google Cloud Project:
+
+1. **Service Account**: Create a service account in the GCP Console.
+2. **API Key**: Generate a JSON key for the service account and store it securely.
+3. **Calendar Access**: Share the target Google Calendar with the service account's email (found in the JSON key) with **Make changes to events** permissions.
+
+GitHub Repository Secrets
+^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The following secrets must be configured in the GitHub repository (Settings > Secrets and variables > Actions):
+
+* ``GOOGLE_SA_JSON``: The entire content of the service account JSON key file.
+* ``GOOGLE_CALENDAR_ID``: The ID of the target Google Calendar.
+* ``BOOKED_ICS_URL``: The private iCal subscription URL from Corelabs.
+* ``LOCAL_CONDA_PATH``: (Optional) Path to the ``conda`` executable on the self-hosted runner.
+* ``LOCAL_CONDA_ENV_PATH``: (Optional) Path to the conda environment to use (e.g., ``C:\Users\hz3752\anaconda3\envs\neurowaves-lab-documentation``).
+
+Self-Hosted Runner Configuration
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The workflow is designed to run on a **Windows** runner (specifically the MEG workstation) to avoid dependencies on cloud-hosted runners and to leverage local environments.
+
+**Windows-specific tips:**
+- The workflow uses ``pwsh`` (PowerShell Core) for robust command execution.
+- Environmental variables like ``CONDA_EXE`` and ``CONDA_ENV_PATH`` are used to invoke the correct Python environment without requiring a full ``conda init`` in every run, which prevents path recursion limits.
+- The service account JSON is dynamically created on the runner during each run using the ``GOOGLE_SA_JSON`` secret and deleted afterward.
+
+Thank you for your contribution!
