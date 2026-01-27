@@ -16,7 +16,7 @@ from googleapiclient.discovery import build
 # ----------------------------
 SYNC_SOURCE = "booked-ics"
 # Set to "true" in env if you want to delete events that disappeared from ICS
-ENABLE_DELETES = False
+ENABLE_DELETES = True
 
 
 def env_bool(name: str, default: bool = False) -> bool:

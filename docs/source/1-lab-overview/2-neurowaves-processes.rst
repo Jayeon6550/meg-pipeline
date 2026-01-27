@@ -60,45 +60,27 @@ Identifying your usage
 
 
 
+
 Booking a session for testing/debugging your stimulus code
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-.. mermaid::
 
-    graph TD;
-        A["🧑‍💻 <b>Need to Test/Debug<br/>Code</b>"] --> B{👨‍🔬 <b>Need MEG Scientist<br/>Assistance?</b>};
+**If you do NOT need MEG Scientist assistance:**
 
-        %% Path: No Scientist Needed
-        B -- No --> C["✅ <b>Book Lab Anytime<br/>(24/7)</b>"];
-        C --> D["🖥️ <b><a href='https://corelabs.abudhabi.nyu.edu/dashboard.php'>
-        MEG Booking Portal</a></b>"];
-        D --> E["🧠 <b>Select MEG<br/>System - KIT</b>"];
+- You can book the lab anytime (24/7)
+- Go to the `MEG Booking Portal <https://corelabs.abudhabi.nyu.edu/dashboard.php>`_
+- Select **MEG System - KIT**
 
-        %% Path: Scientist Needed
-        B -- Yes --> F["🕘 <b>Restricted to<br/>9:00 AM – 5:00 PM</b>"];
-        F --> G["📅 <b>Check MEG Scientist’s<br/>Availability</b>"];
-        G --> H["📅 <b><a href='https://calendar.google.com/calendar/u/0/r?cid=aHozNzUyQG55dS5lZHU'>
-        Book Scientist’s Calendar</a></b>"];
-        G --> I["📧 <b><a href='mailto:hadi.zaatiti@nyu.edu'>
-        Email MEG Scientist</a></b>"];
-        H --> J["🖥️ <b><a href='https://corelabs.abudhabi.nyu.edu/dashboard.php'>
-        Book Lab Slot</a></b>"];
-        J --> K["🧠 <b>Select MEG<br/>System - KIT</b>"];
+**If you DO need MEG Scientist assistance:**
 
-        %% Alternative Booking
-        C --> O["🖥️ <b><a href='https://corelabs.abudhabi.nyu.edu/'>
-        Alternative: Corelabs Reservations</a></b>"];
-        K --> O;
+- Sessions are restricted to **9:00 AM – 5:00 PM**
+- Check the MEG Scientist's availability on his `calendar <https://calendar.google.com/calendar/u/0/r?cid=aHozNzUyQG55dS5lZHU>`_ or `email him <mailto:hadi.zaatiti@nyu.edu>`_
+- Once availability is confirmed, book your lab slot via the `MEG Booking Portal <https://corelabs.abudhabi.nyu.edu/dashboard.php>`_
+- Select **MEG System - KIT**
 
-        %% Style Definitions
-        classDef primary fill:#4CAF50,stroke:#2E7D32,color:#fff,font-weight:bold;
-        classDef warning fill:#FF5722,stroke:#D84315,color:#fff,font-weight:bold;
-        classDef process fill:#2196F3,stroke:#1976D2,color:#fff,font-weight:bold;
-        classDef highlight fill:#FF9800,stroke:#F57C00,color:#fff,font-weight:bold;
+Alternatively, you can book via `Corelabs Reservations <https://corelabs.abudhabi.nyu.edu/>`_.
 
-        class A,B primary;
-        class C,D,E,F,G,H,I,J,K,O process;
-
+    
 
 
 
@@ -114,8 +96,8 @@ Booking an MEG data acquisition session
    Provide your `netID` to the MEG scientists `nyuad.meg@nyu.edu` for you to have access to the lab booking calendar.
 
 
-Subscribing to the MEG Lab Calendar
------------------------------------
+Subscribing to the Google MEG Lab Calendar mirroring CTPSS Calendar
+-------------------------------------------------------------------
 
 To see the lab's availability directly in your Google Calendar:
 
@@ -125,13 +107,18 @@ To see the lab's availability directly in your Google Calendar:
 
    .. code-block:: text
 
-      c_d1b96678ce423bfc812258762d3c85a92fe9907b3eb898cdeb4028792762924b@group.calendar.google.com
+      [MEG LAB] Corelabs CTPSS Data Acquisition Bookings
 
 4. The calendar will now appear in your list under "Other calendars".
 
+.. note::
 
-Scheduling Participants with Appointment Schedules
---------------------------------------------------
+   This calendar is not for booking the lab but acts only as a mirror to the official CTPSS calendar.
+   Do not use this calendar for booking your lab, but only to schedule your participants as detailed below.
+
+
+Scheduling Participants with Appointment Schedules on Google Calendar
+---------------------------------------------------------------------
 
 When recruiting participants, you can provide them with a link to book their own slots based on your availability **and** the lab's availability.
 
@@ -142,7 +129,7 @@ When recruiting participants, you can provide them with a link to book their own
 **2. Check Multiple Calendars for Availability:**
     - In the appointment schedule configuration, look for the **Calendars checked for availability** section.
     - Ensure **your primary calendar** is selected so slots aren't offered when you are busy.
-    - Click **+ Add calendar** and select the **MEG Lab Calendar** (subscribed to in the previous step). This ensures participants can only book when the lab is also free.
+    - Click **Calendars** and select the **[MEG LAB] Corelabs CTPSS Data Acquisition Bookings** (subscribed to in the previous step). This ensures participants can only book when the lab is also free.
 
 **3. Share the Booking Link:**
     - Once the schedule is created, click **Share** to get a booking link.
@@ -159,13 +146,16 @@ When recruiting participants, you can provide them with a link to book their own
         :alt: MEG Calendar QR code
         :align: center
 
+
+    or simply go to  `https://corelabs.abudhabi.nyu.edu/ <https://corelabs.abudhabi.nyu.edu/>`_
+
     If you do not have access to the booking system, please email `nyuad.meg@nyu.edu` to be added to the system.
-    Alternatively, schedule your experiment in the MEG lab using link `https://corelabs.abudhabi.nyu.edu/ <https://corelabs.abudhabi.nyu.edu/>`_
+    
     Under Reservations, Schedule, from the upper drop down menu pick `Brain Imaging` and then book the `MagnetoEncephaloGraphy MEG-KIT`.
 
     If you need the MEG scientist (Hadi Zaatiti) to be present during the booking (e.g., for training):
-    - Ensure the slot is available on his calendar `nyuad.meg@nyu.edu`.
-    - Send a meeting invite to `nyuad.meg@nyu.edu` with subject `MEG Training of [name and netID of trainee]`.
+    - Ensure the slot is available on his calendar `hz3752@nyu.edu`.
+    - Send a meeting invite to `hz3752` with subject `MEG Training (or Debug or other) of [name and netID of trainee]`.
     - Confirm the lab booking via Corelabs.
 
 
