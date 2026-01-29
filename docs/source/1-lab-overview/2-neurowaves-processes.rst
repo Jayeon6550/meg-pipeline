@@ -103,11 +103,10 @@ To see the lab's availability directly in your Google Calendar:
 
 1. Open `Google Calendar <https://calendar.google.com/>`_.
 2. On the left side, next to **Other calendars**, click the **+** (plus) icon and select **Subscribe to calendar**.
-3. In the **Add calendar** box, enter the following Lab Calendar ID:
+3. In the **Add calendar** box, click below:
 
-   .. code-block:: text
+   `Click here to add [MEG LAB] Corelabs CTPSS Data Acquisition Bookings to your Google Calendar <https://calendar.google.com/calendar/u/0?cid=Y19kMWI5NjY3OGNlNDIzYmZjODEyMjU4NzYyZDNjODVhOTJmZTk5MDdiM2ViODk4Y2RlYjQwMjg3OTI3NjI5MjRiQGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20>`_
 
-      [MEG LAB] Corelabs CTPSS Data Acquisition Bookings
 
 4. The calendar will now appear in your list under "Other calendars".
 
