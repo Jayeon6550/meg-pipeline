@@ -2,11 +2,12 @@ name: Automated Testing for NYUAD Pipelines
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
 
 jobs:
   test:
+    if: ${{ !github.event.pull_request.head.repo.fork }}
     name: Test on ${{ matrix.os }} (Python ${{ matrix.python-version }})
     runs-on: ${{ matrix.os }}
     strategy:
@@ -60,13 +61,12 @@ jobs:
         shell: bash
         env:
           PYTHONPATH: ${{ github.workspace }}
-          MPLBACKEND: Agg   # avoid TkAgg on headless CI
+          MPLBACKEND: Agg # avoid TkAgg on headless CI
           MEG_DATA: ${{ github.workspace }}/pipeline/mne_pipelines/kit_general_pipelines
           BOX_CLIENT_SDK_CONFIG: ${{ secrets.BOX_CLIENT_SDK_CONFIG }}
           BOX_MEG_DATA_PARENT_FOLDER_ID: ${{ secrets.BOX_MEG_DATA_PARENT_FOLDER_ID }}
-          PYTHONIOENCODING: "utf-8"   # ← add this line
+          PYTHONIOENCODING: "utf-8" # ← add this line
         run: pytest -v tests/
-
 
       - name: Upload pytest results (on failure)
         if: failure()
