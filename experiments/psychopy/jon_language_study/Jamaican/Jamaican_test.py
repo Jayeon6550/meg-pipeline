@@ -49,7 +49,7 @@ SCREEN_NUMBER = 2
 #Try 1 or 2 as screen_number
 #SCREEN_NUMBER = 1
 
-trialList = data.importConditions('jamaican_test1.csv')
+trialList = data.importConditions('jamaican_.csv')
 
 #mon = monitors.Monitor('BenQ24', width=53, distance=100)
 #port = parallel.ParallelPort(address=0xD010)
@@ -62,12 +62,12 @@ stimuliColor = 'gold' #rgb(255, 215, 0)
 stimuliUnits = 'deg'
 stimuliSize = 2
 instructionSize = 1
-wordOn = 42 #350ms
-wordOff = 24 #200ms
-lastWordOn =  132  #1100
+wordOn = 3 #36 #300ms #42 #350ms
+wordOff = 3 #24 #200ms #24 #200ms
+lastWordOn = 3 #120  #1000 #132  #1100
 
 boxHeight = stimuliSize + 1.5
-boxWidth = 11
+boxWidth = 12
 
 longestWordCount = 0
 longestWord = 'none'
@@ -148,7 +148,7 @@ myDlg.addField('Age:', 21)
 myDlg.addField('Biological Sex:', choices=["Female", "Male"])
 myDlg.addField('Handedness:', 100)
 myDlg.addText('Experiment Info', color='Red')
-myDlg.addField('Experiment Name:', 'Mandarin')
+myDlg.addField('Experiment Name:', 'Jamaican Creole')
 myDlg.addField('Experiment List:', 1)
 myDlg.show()
 
@@ -174,7 +174,7 @@ stim = visual.TextStim(win, text= 'Inna dah experiment yah, yah go read di sente
                                   'Yuh can blink afta di sentence and during di\n'
                                   'comprehension question dem.\n\n'
                                   'Press di YES key fi see some example.',
-                       font= 'Noto Sans', units= instructionUnits, color=instructionColor, height= 0.7, alignText= 'center', wrapWidth= 30)
+                       font= 'Noto Sans', units= instructionUnits, color=instructionColor, height= 0.75, alignText= 'center', wrapWidth= 40)
 stim.setPos((0, 0))
 stim.draw()
 win.flip()
@@ -425,9 +425,10 @@ for trialIndex in range(startItem - 1, totalTrials):
         responses.append(response)
 
 
-        stim = visual.TextStim(win, text='Please mek sure yuh finger nah press dung pon nuh button.\n\n',
-                               font= stimuliFont, units= stimuliUnits, height=1.5, color=taskQuestionColor, alignText = 'center',wrapWidth= 30)
-        stim.setPos((0,-1.5))
+        stim = visual.TextStim(win, text='Please mek sure yuh finger \n'
+                                         'nah press dung pon nuh button.',
+                               font= stimuliFont, units= stimuliUnits, height= instructionSize, color=taskQuestionColor, alignText = 'center',wrapWidth= 50)
+        stim.setPos((0,-0.5))
         stim.draw()
         win.flip()
         core.wait(TIME_TO_RESET_BUTTON_BOX)
@@ -492,8 +493,8 @@ for trialIndex in range(startItem - 1, totalTrials):
                                 'Wen yuh ready fi di next sentence,\n'
                                 'stay still, stop blink,\n'
                                 'and press di YES key.',
-                           font= stimuliFont, units= stimuliUnits, height= instructionSize, color=stimuliColor, alignText = 'center')
-    stim.setPos((0, -1.5))
+                           font= stimuliFont, units= stimuliUnits, height= instructionSize, color=stimuliColor, alignText = 'center', wrapWidth= 30)
+    stim.setPos((0, -0.5))
     stim.draw()
     win.flip()
 
