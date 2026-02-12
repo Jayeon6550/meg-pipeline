@@ -49,7 +49,7 @@ SCREEN_NUMBER = 2
 #Try 1 or 2 as screen_number
 #SCREEN_NUMBER = 1
 
-trialList = data.importConditions('jamaican_.csv')
+trialList = data.importConditions('jamaican_list1_test.csv')
 
 #mon = monitors.Monitor('BenQ24', width=53, distance=100)
 #port = parallel.ParallelPort(address=0xD010)
@@ -217,7 +217,7 @@ for trialIndex in range(startItem - 1, totalTrials):
                                               'Yuh ready fi di actual experiment now. \n\n '
                                               'Yuh have %i sentences fi read. \n\n '
                                               'Please stay still, stop blink , and press di YES key when yuh ready fi di first sentence.'
-                                              % (trialsSinceLastBreak,recentCorrectResponses, remainingTrials),
+                                              % (recentCorrectResponses, trialsSinceLastBreak, remainingTrials),
                                    font= 'Noto Sans', units=instructionUnits, color=instructionColor, height = 1, alignText = 'center', wrapWidth= 30)
 
 
@@ -234,8 +234,8 @@ for trialIndex in range(startItem - 1, totalTrials):
         else:
             stim = visual.TextStim(win, text='Yuh answer %i outta %i questions correct since di last break.\n\n '
                                              'Yuh complete %i sentence and have %i leff.\n\n'
-                                             'Wen yuh ready fi next sentence, please stay still, stop blink, and press di YES key.'
-                                             % (trialsSinceLastBreak,recentCorrectResponses, completedTrials, remainingTrials),
+                                             'Wen yuh ready fi di next sentence, please stay still, stop blink, and press di YES key.'
+                                             % (recentCorrectResponses, trialsSinceLastBreak, completedTrials, remainingTrials),
                                    font= 'Noto Sans', units=instructionUnits, color=instructionColor, height = 1, alignText = 'center', wrapWidth= 30)
             print('break window')
 
@@ -426,7 +426,7 @@ for trialIndex in range(startItem - 1, totalTrials):
 
 
         stim = visual.TextStim(win, text='Please mek sure yuh finger \n'
-                                         'nah press dung pon nuh button.',
+                                         'nah press dung pon none a di button dem.',
                                font= stimuliFont, units= stimuliUnits, height= instructionSize, color=taskQuestionColor, alignText = 'center',wrapWidth= 50)
         stim.setPos((0,-0.5))
         stim.draw()
