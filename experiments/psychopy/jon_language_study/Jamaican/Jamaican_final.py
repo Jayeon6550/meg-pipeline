@@ -49,7 +49,7 @@ SCREEN_NUMBER = 2
 #Try 1 or 2 as screen_number
 #SCREEN_NUMBER = 1
 
-trialList = data.importConditions('jamaican_list1_test.csv')
+trialList = data.importConditions('jamaican_list1.csv.csv')
 
 #mon = monitors.Monitor('BenQ24', width=53, distance=100)
 #port = parallel.ParallelPort(address=0xD010)
@@ -67,7 +67,7 @@ wordOff = 24 #200ms #24 #200ms
 lastWordOn = 120  #1000 #132  #1100
 
 boxHeight = stimuliSize + 1.5
-boxWidth = 12
+boxWidth = 16
 
 longestWordCount = 0
 longestWord = 'none'
