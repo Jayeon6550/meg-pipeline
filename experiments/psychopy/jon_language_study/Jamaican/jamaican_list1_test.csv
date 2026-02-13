@@ -96,9 +96,9 @@ Was di pamphlet bout di disease?,9,1,WH.control.39,A di pamphlet bout di disease
 ,,1,WH.control.52,A di comment bout di bribe surprise di reporter after di meeting?,129,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,1
 ,,1,WH.control.53,A di complaint by di worker criticize di manager during di review?,129,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,1
 ,,1,WH.control.54,A di decision bout di regulations dissatisfy di investors after di vote?,129,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,1
-,,1,WH.control.55,A di discovery a di ruins astound di archaeologists during di tour?,129,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,1
-,,1,WH.control.56,A di email bout di fundraiser surprise di philanthropist after di announcement?,129,1,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0
-,,1,WH.control.57,A di experiment by di doctors deceive di nurse during di procedure?,129,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,1
+Di discovery was bout a shipwreck?,,1,WH.control.55,A di discovery a di ruins astound di archaeologists during di tour?,129,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,1
+Di email was bout a fundraiser?,,1,WH.control.56,A di email bout di fundraiser surprise di philanthropist after di announcement?,129,1,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0
+Di experiment was by di mad scientist?,,1,WH.control.57,A di experiment by di doctors deceive di nurse during di procedure?,129,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,1
 ,,1,WH.control.58,A di film bout di recession enlighten di audience during di screening?,129,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,1
 ,,1,WH.control.59,A di hypothesis bout di climate frustrate di scientist before di conference?,129,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,1
 ,,1,WH.control.60,A di rejection a di treaty hurt di imports after di vote?,129,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,1
@@ -171,7 +171,7 @@ Di woman did address di broadcaster?,9,1,TF.verb.063,A address di kind woman did
 Di bwoy mek di call?,7,1,TF.verb.064,A mek di excited girl did mek di call inna di visa office.,5,0,0,0,0,0,1,0,1,1,0,0,0,0,0,0,0,1
 Di visitors rent di car?,9,1,TF.verb.065,A rent di foreign visitors did rent di car from di rental company.,132,1,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,1
 Di actor did challenge him family?,7,1,TF.verb.066,A challenge di famous actor did challenge di colleague inna di awards ceremony.,72,0,1,0,0,1,0,0,0,1,0,0,0,0,0,0,0,1
-,,,TF.verb.067,A hug di affectionate madda did hug di daughter inna di primary school.,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+,,1,TF.verb.067,A hug di affectionate madda did hug di daughter inna di primary school.,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 ,,1,TF.verb.068,A treat di skilled vet did treat di dog amongst di clinic patients.,66,0,1,0,0,0,0,1,0,1,0,0,0,0,0,0,0,1
 ,,1,TF.verb.069,A scold di annoying client did scold di employee pon di work phone.,20,0,0,0,1,0,1,0,0,1,0,0,0,0,0,0,0,1
 ,,1,TF.verb.070,A solve di smart student did solve di exam inna di exam hall.,65,0,1,0,0,0,0,0,1,1,0,0,0,0,0,0,0,1
@@ -196,21 +196,21 @@ Di actor did challenge him family?,7,1,TF.verb.066,A challenge di famous actor d
 ,,1,TF.verb.089,A buy di interior designer did buy di vase from di website listing.,5,0,0,0,0,0,1,0,1,1,0,0,0,0,0,0,0,1
 ,,1,TF.verb.090,A help di kind nurse did help di woman pon di hospital ward.,72,0,1,0,0,1,0,0,0,1,0,0,0,0,0,0,0,1
 ,,,,break,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-Di student complete di exam?,9,1,TF.control.031,Yessideh di noble queen prefer di advisor among di royal ministers.,66,0,1,0,0,0,0,1,0,1,0,0,0,0,0,0,0,1
-Di director discuss di play?,7,1,TF.control.032,Yessideh di famous singer sing di ballad inna di party tonight.,4,0,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,1
-Di footballer meet di fan backstage?,9,1,TF.control.033,Yessideh di young clerk accept di box from di delivery driver.,65,0,1,0,0,0,0,0,1,1,0,0,0,0,0,0,0,1
-Di mada prepare di laundry?,7,1,TF.control.034,Yessideh di family friend bake di cake fi di bithday party.,20,0,0,0,1,0,1,0,0,1,0,0,0,0,0,0,0,1
-Di man love di girl?,9,1,TF.control.035,Yessideh di expert surgeon treat di captain inna di team lockeroom.,68,0,1,0,0,0,1,0,0,1,0,0,0,0,0,0,0,1
-Di painter did draw di pig?,7,1,TF.control.036,Yessideh di charity team collect di check during di fundraiser banquet.,129,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,1
+,,1,TF.control.031,Yessideh di noble queen prefer di advisor among di royal ministers.,66,0,1,0,0,0,0,1,0,1,0,0,0,0,0,0,0,1
+,,1,TF.control.032,Yessideh di famous singer sing di ballad inna di party tonight.,4,0,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,1
+,,1,TF.control.033,Yessideh di young clerk accept di box from di delivery driver.,65,0,1,0,0,0,0,0,1,1,0,0,0,0,0,0,0,1
+,,1,TF.control.034,Yessideh di family friend bake di cake fi di bithday party.,20,0,0,0,1,0,1,0,0,1,0,0,0,0,0,0,0,1
+,,1,TF.control.035,Yessideh di expert surgeon treat di captain inna di team lockeroom.,68,0,1,0,0,0,1,0,0,1,0,0,0,0,0,0,0,1
+,,1,TF.control.036,Yessideh di charity team collect di check during di fundraiser banquet.,129,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,1
 ,,1,TF.control.037,Yessideh di night crew unload di crate at di warehouse dock.,21,0,0,0,1,0,1,0,1,1,0,0,0,0,0,0,0,1
 ,,1,TF.control.038,Yessideh di sick person see di docta inna di hospital lobby.,130,1,0,0,0,0,0,1,0,1,0,0,0,0,0,0,0,1
 ,,1,TF.control.039,Yessideh di strict boss fire di employee inna di work meeting.,68,0,1,0,0,0,1,0,0,1,0,0,0,0,0,0,0,1
-,,1,TF.control.040,Yessideh di hardworking student complete di exam inna di school library.,132,1,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,1
-,,1,TF.control.041,Yessideh di famous director discuss di film inna di studio office.,72,0,1,0,0,1,0,0,0,1,0,0,0,0,0,0,0,1
-,,1,TF.control.042,Yessideh di excited fan meet di footballer inna di backstage area.,132,1,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,1
-,,1,TF.control.043,Yessideh di tidy mada prepare di furniture inna di new house.,66,0,1,0,0,0,0,1,0,1,0,0,0,0,0,0,0,1
-,,,TF.control.044,Yessideh di respectable man love di girl inna di community circle.,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,,1,TF.control.045,Yessideh di creative painter draw di horse inna di school competition.,65,0,1,0,0,0,0,0,1,1,0,0,0,0,0,0,0,1
+Di student complete di exam?,9,1,TF.control.040,Yessideh di hardworking student complete di exam inna di school library.,132,1,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,1
+Di director discuss di play?,7,1,TF.control.041,Yessideh di famous director discuss di film inna di studio office.,72,0,1,0,0,1,0,0,0,1,0,0,0,0,0,0,0,1
+Di footballer meet di fan backstage?,9,1,TF.control.042,Yessideh di excited fan meet di footballer inna di backstage area.,132,1,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,1
+Di mada prepare di laundry?,7,1,TF.control.043,Yessideh di tidy mada prepare di furniture inna di new house.,66,0,1,0,0,0,0,1,0,1,0,0,0,0,0,0,0,1
+Di man love di girl?,9,1,TF.control.044,Yessideh di respectable man love di girl inna di community circle.,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Di painter did draw di pig?,7,1,TF.control.045,Yessideh di creative painter draw di horse inna di school competition.,65,0,1,0,0,0,0,0,1,1,0,0,0,0,0,0,0,1
 ,,1,TF.control.046,Yessideh di skilled electrician fix di light inna di electronics store.,20,0,0,0,1,0,1,0,0,1,0,0,0,0,0,0,0,1
 ,,1,TF.control.047,Yessideh di nervous intern read di magazine before di monthly meeting.,66,0,1,0,0,0,0,1,0,1,0,0,0,0,0,0,0,1
 ,,1,TF.control.048,Yessideh di overworked employee help di manager inna di late project.,6,0,0,0,0,0,1,1,0,1,0,0,0,0,0,0,0,1
@@ -228,7 +228,7 @@ Di painter did draw di pig?,7,1,TF.control.036,Yessideh di charity team collect 
 ,,1,TF.control.060,Yessideh di thirsty coach drink di wata inna di football field.,7,0,0,0,0,0,1,1,1,1,0,0,0,0,0,0,0,1
 ,,,,break,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 ,,1,BA.target.01,"Wen him did deh a di airport, di pilot prepare di paperwork.",130,1,0,0,0,0,0,1,0,1,0,0,0,0,0,0,0,1
-,,,BA.target.02,"Wen him did deh a di conference, di ambassador give di speech.",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+,,1,BA.target.02,"Wen him did deh a di conference, di ambassador give di speech.",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 ,,1,BA.target.03,"Wen him did deh a di dock, di captain encourage di crew.",65,0,1,0,0,0,0,0,1,1,0,0,0,0,0,0,0,1
 ,,1,BA.target.04,"Wen him did deh a di field, di coach train di players.",20,0,0,0,1,0,1,0,0,1,0,0,0,0,0,0,0,1
 ,,1,BA.target.05,"Wen him did deh a di hanger, di pilot meet di crew.",68,0,1,0,0,0,1,0,0,1,0,0,0,0,0,0,0,1
@@ -239,13 +239,13 @@ Di painter did draw di pig?,7,1,TF.control.036,Yessideh di charity team collect 
 ,,1,BA.target.10,"Wen him did deh a di port, di sailor prepare di boat.",132,1,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,1
 ,,1,BA.target.11,"Wen him did deh a di restaurant, di chef feed di waiter.",8,0,0,0,0,1,0,0,0,1,0,0,0,0,0,0,0,1
 ,,1,BA.target.12,"Wen him did deh a di site, di engineer notice di foreman.",130,1,0,0,0,0,0,1,0,1,0,0,0,0,0,0,0,1
-,,1,BA.target.13,"Wen him did deh a di station, di officer salute di captain.",66,0,1,0,0,0,0,1,0,1,0,0,0,0,0,0,0,1
-Di officer salute di captain a di station?,9,1,BA.target.14,"Wen him did deh a di theater, di producer adjust di scene.",129,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,1
-A di movie di producer adjust?,7,1,BA.target.15,"Wen him did deh a di warehouse, di electrician fix di lights.",72,0,1,0,0,1,0,0,0,1,0,0,0,0,0,0,0,1
-A di lights di elctrician fix?,9,1,BA.target.16,"Wen him did deh a di workshop, di tailor prepare di suit.",20,0,0,0,1,0,1,0,0,1,0,0,0,0,0,0,0,1
-A di skirt di tailor prepare?,7,1,BA.target.17,Wen she did deh a di audition di ballerina forget di routine.,132,1,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,1
-Di ballerina did forget di routine?,9,1,BA.target.18,"Wen she did deh a di church, di nun help di priest.",4,0,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,1
-Di maid help di priest a church?,7,1,BA.target.19,"Wen she did deh a di clinic, di caregiver assist di doctor.",129,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,1
+Di officer salute di captain a di station?,9,1,BA.target.13,"Wen him did deh a di station, di officer salute di captain.",66,0,1,0,0,0,0,1,0,1,0,0,0,0,0,0,0,1
+A di movie di producer adjust?,7,1,BA.target.14,"Wen him did deh a di theater, di producer adjust di scene.",129,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,1
+A di lights di elctrician fix?,9,1,BA.target.15,"Wen him did deh a di warehouse, di electrician fix di lights.",72,0,1,0,0,1,0,0,0,1,0,0,0,0,0,0,0,1
+A di skirt di tailor prepare?,7,1,BA.target.16,"Wen him did deh a di workshop, di tailor prepare di suit.",20,0,0,0,1,0,1,0,0,1,0,0,0,0,0,0,0,1
+Di ballerina did forget di routine?,9,1,BA.target.17,Wen she did deh a di audition di ballerina forget di routine.,132,1,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,1
+Di maid help di priest a church?,7,1,BA.target.18,"Wen she did deh a di church, di nun help di priest.",4,0,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,1
+,,1,BA.target.19,"Wen she did deh a di clinic, di caregiver assist di doctor.",129,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,1
 ,,1,BA.target.20,"Wen she did deh a di convention, di actress sign di autographs.",72,0,1,0,0,1,0,0,0,1,0,0,0,0,0,0,0,1
 ,,1,BA.target.21,"Wen she did deh a di farm, di florist cut di flowers.",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 ,,1,BA.target.22,"Wen she did deh a di hospital, di pharmacist dispense di medicine.",20,0,0,0,1,0,1,0,0,1,0,0,0,0,0,0,0,1
@@ -320,33 +320,33 @@ Di bwoy kick weh di bat?,7,1,N400.congruent.15.07,Di likkle bwoy kick weh di bal
 ,,1,N400.congruent.29.09,"Afta dem rob him, di victim call di police.",68,0,1,0,0,0,1,0,0,1,0,0,0,0,0,0,0,1
 ,,1,N400.congruent.30.09,"While di volley a gwaan, Joe twist him ankle.",72,0,1,0,0,1,0,0,0,1,0,0,0,0,0,0,0,1
 ,,,,break,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,,,N400.incongruent.31.05,Betsy coulda neva tell circle.,130,1,0,0,0,0,0,1,0,1,0,0,0,0,0,0,0,1
-,,,N400.incongruent.32.05,Motorbike can mek nuff fur.,68,0,1,0,0,0,1,0,0,1,0,0,0,0,0,0,0,1
-,,,N400.incongruent.33.06,Emily pour cereal inna one desk.,4,0,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,1
-,,,N400.incongruent.34.06,Dem name har afta har cake.,72,0,1,0,0,1,0,0,0,1,0,0,0,0,0,0,0,1
-,,,N400.incongruent.35.06,Dem raise pig pon dem dream.,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,,,N400.incongruent.36.06,Mi generally smoke filtered menthol energy.,21,0,0,0,1,0,1,0,1,1,0,0,0,0,0,0,0,1
-,,,N400.incongruent.37.06,She put on har high-heel stamp.,129,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,1
-,,,N400.incongruent.38.07,Abby brush har teeth afta every leash.,66,0,1,0,0,0,0,1,0,1,0,0,0,0,0,0,0,1
-,,,N400.incongruent.39.07,Mi add mi name to di baby.,129,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,1
-,,,N400.incongruent.40.07,Mi order one ham and cheese band.,5,0,0,0,0,0,1,0,1,1,0,0,0,0,0,0,0,1
-,,,N400.incongruent.41.07,Karen wake up afta one bad carpet.,130,1,0,0,0,0,0,1,0,1,0,0,0,0,0,0,0,1
-,,,N400.incongruent.42.07,New York a one very busy cream.,65,0,1,0,0,0,0,0,1,1,0,0,0,0,0,0,0,1
-,,,N400.incongruent.43.08,Ray drop down an skin up him smell.,132,1,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,1
-,,,N400.incongruent.44.07,Di ship disappear inna di thick soil.,68,0,1,0,0,0,1,0,0,1,0,0,0,0,0,0,0,1
-,,,N400.incongruent.45.07,Every Monday di gardener mow di safe.,130,1,0,0,0,0,0,1,0,1,0,0,0,0,0,0,0,1
-,,,N400.incongruent.46.07,Fred put di worm pon one dictionary.,72,0,1,0,0,1,0,0,0,1,0,0,0,0,0,0,0,1
-,,,N400.incongruent.47.07,Him loosen di tie roun him horses.,6,0,0,0,0,0,1,1,0,1,0,0,0,0,0,0,0,1
-,,,N400.incongruent.48.07,Hers new shoes dida di wrong year.,68,0,1,0,0,0,1,0,0,1,0,0,0,0,0,0,0,1
-,,,N400.incongruent.49.07,John full up di pen wid milk.,72,0,1,0,0,1,0,0,0,1,0,0,0,0,0,0,0,1
-,,,N400.incongruent.50.07,She season di steak wid black bags.,21,0,0,0,1,0,1,0,1,1,0,0,0,0,0,0,0,1
-,,,N400.incongruent.51.07,Di boat pass easy unda di hour.,66,0,1,0,0,0,0,1,0,1,0,0,0,0,0,0,0,1
-,,,N400.incongruent.52.07,Di lecture fi last bout one space.,65,0,1,0,0,0,0,0,1,1,0,0,0,0,0,0,0,1
-,,,N400.incongruent.53.07,Di sprinter run di last quarter hunt.,132,1,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,1
-,,,N400.incongruent.54.07,Dem picnic get ruin by di broom.,132,1,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,1
-,,,N400.incongruent.55.08,"Before him exercise, Jack always stretch him word.",68,0,1,0,0,0,1,0,0,1,0,0,0,0,0,0,0,1
-,,,N400.incongruent.56.08,Di bwoy dem help Jane wax har church.,130,1,0,0,0,0,0,1,0,1,0,0,0,0,0,0,0,1
-,,,N400.incongruent.57.08,Di racing car dem get di checkered shore.,72,0,1,0,0,1,0,0,0,1,0,0,0,0,0,0,0,1
-,,,N400.incongruent.58.08,Brian pour some sauce pon him rare disease.,6,0,0,0,0,0,1,1,0,1,0,0,0,0,0,0,0,1
-,,,N400.incongruent.59.09,All a di planet dem circle roun di number.,68,0,1,0,0,0,1,0,0,1,0,0,0,0,0,0,0,1
-,,,N400.incongruent.60.011,"While di movie a gwaan, wi nyam popcorn wid buttered luck.",68,0,1,0,0,0,1,0,0,1,0,0,0,0,0,0,0,1
+,,1,N400.incongruent.31.05,Betsy coulda neva tell circle.,130,1,0,0,0,0,0,1,0,1,0,0,0,0,0,0,0,1
+,,1,N400.incongruent.32.05,Motorbike can mek nuff fur.,68,0,1,0,0,0,1,0,0,1,0,0,0,0,0,0,0,1
+,,1,N400.incongruent.33.06,Emily pour cereal inna one desk.,4,0,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,1
+,,1,N400.incongruent.34.06,Dem name har afta har cake.,72,0,1,0,0,1,0,0,0,1,0,0,0,0,0,0,0,1
+,,1,N400.incongruent.35.06,Dem raise pig pon dem dream.,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+,,1,N400.incongruent.36.06,Mi generally smoke filtered menthol energy.,21,0,0,0,1,0,1,0,1,1,0,0,0,0,0,0,0,1
+,,1,N400.incongruent.37.06,She put on har high-heel stamp.,129,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,1
+,,1,N400.incongruent.38.07,Abby brush har teeth afta every leash.,66,0,1,0,0,0,0,1,0,1,0,0,0,0,0,0,0,1
+,,1,N400.incongruent.39.07,Mi add mi name to di baby.,129,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,1
+,,1,N400.incongruent.40.07,Mi order one ham and cheese band.,5,0,0,0,0,0,1,0,1,1,0,0,0,0,0,0,0,1
+,,1,N400.incongruent.41.07,Karen wake up afta one bad carpet.,130,1,0,0,0,0,0,1,0,1,0,0,0,0,0,0,0,1
+,,1,N400.incongruent.42.07,New York a one very busy cream.,65,0,1,0,0,0,0,0,1,1,0,0,0,0,0,0,0,1
+,,1,N400.incongruent.43.08,Ray drop down an skin up him smell.,132,1,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,1
+,,1,N400.incongruent.44.07,Di ship disappear inna di thick soil.,68,0,1,0,0,0,1,0,0,1,0,0,0,0,0,0,0,1
+,,1,N400.incongruent.45.07,Every Monday di gardener mow di safe.,130,1,0,0,0,0,0,1,0,1,0,0,0,0,0,0,0,1
+,,1,N400.incongruent.46.07,Fred put di worm pon one dictionary.,72,0,1,0,0,1,0,0,0,1,0,0,0,0,0,0,0,1
+,,1,N400.incongruent.47.07,Him loosen di tie roun him horses.,6,0,0,0,0,0,1,1,0,1,0,0,0,0,0,0,0,1
+,,1,N400.incongruent.48.07,Hers new shoes dida di wrong year.,68,0,1,0,0,0,1,0,0,1,0,0,0,0,0,0,0,1
+,,1,N400.incongruent.49.07,John full up di pen wid milk.,72,0,1,0,0,1,0,0,0,1,0,0,0,0,0,0,0,1
+,,1,N400.incongruent.50.07,She season di steak wid black bags.,21,0,0,0,1,0,1,0,1,1,0,0,0,0,0,0,0,1
+,,1,N400.incongruent.51.07,Di boat pass easy unda di hour.,66,0,1,0,0,0,0,1,0,1,0,0,0,0,0,0,0,1
+,,1,N400.incongruent.52.07,Di lecture fi last bout one space.,65,0,1,0,0,0,0,0,1,1,0,0,0,0,0,0,0,1
+,,1,N400.incongruent.53.07,Di sprinter run di last quarter hunt.,132,1,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,1
+,,1,N400.incongruent.54.07,Dem picnic get ruin by di broom.,132,1,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,1
+,,1,N400.incongruent.55.08,"Before him exercise, Jack always stretch him word.",68,0,1,0,0,0,1,0,0,1,0,0,0,0,0,0,0,1
+,,1,N400.incongruent.56.08,Di bwoy dem help Jane wax har church.,130,1,0,0,0,0,0,1,0,1,0,0,0,0,0,0,0,1
+,,1,N400.incongruent.57.08,Di racing car dem get di checkered shore.,72,0,1,0,0,1,0,0,0,1,0,0,0,0,0,0,0,1
+,,1,N400.incongruent.58.08,Brian pour some sauce pon him rare disease.,6,0,0,0,0,0,1,1,0,1,0,0,0,0,0,0,0,1
+,,1,N400.incongruent.59.09,All a di planet dem circle roun di number.,68,0,1,0,0,0,1,0,0,1,0,0,0,0,0,0,0,1
+,,1,N400.incongruent.60.011,"While di movie a gwaan, wi nyam popcorn wid buttered luck.",68,0,1,0,0,0,1,0,0,1,0,0,0,0,0,0,0,1
