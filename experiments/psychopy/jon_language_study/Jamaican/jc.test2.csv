@@ -1,0 +1,62 @@
+﻿order,block,List,condition,sentence,taskQuestion,correctAnswer,trigger,trigger224,trigger225,trigger226,trigger227,trigger228,trigger229,trigger230,trigger231,word_trigger,trigger224w,trigger225w,trigger226w,trigger227w,trigger228w,trigger229w,trigger230w,trigger231w
+1,,1,practice,Mi post di vacation picture pan Instagram after di weekend trip.,,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+2,,1,practice,She lose har wallet somewhere downtown near di market area.,,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+3,,1,practice,Wi try a new restaurant over di weekend evening.,Wi try di restaurant during di week?,7,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+4,,1,practice,Mi wake up early fi go jog round di park before work.,,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+5,,1,practice,Di phone battery dead before mi reach home from town.,Di phone battery alive when mi reach home?,7,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+6,,1,practice,Mi forget mi umbrella and get soak inna di heavy rain.,,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+7,,1,practice,A today mi a gah town fi buy groceries from di supermarket.,Mi a gah town today?,9,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+8,,1,practice,Mi hear seh plenty traffic deh pon di toll road today.,,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+9,,1,practice,Every week di gas price raise a dah station yah.,Di gas price stay di same every week? ,7,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+10,,1,practice,Him seh him nah badda go church wid har today.,,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+11,,1,practice,Mi check mi bank account before mi pay di monthly bill.,,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+12,,1,practice,Wi book di flight tickets early fi avoid di rush.,Wi book di tickets late?,7,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+13,,1,practice,Him teach im little brother fi ride di bike safely.,Him teach im brother fi ride di bike?,9,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+14,,1,practice,Wi celebrate him achievement with a small family dinner.,,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+15,,1,practice,Wi help di neighbor move dem furniture last weekend.,Wi celebrate wid a big public party?,7,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+12,1,1,TF.control.046,Yessideh di skilled electrician fix di light inna di electronics store.,,,72,0,1,0,0,1,0,0,0,1,0,0,0,0,0,0,0,1
+13,1,1,N400.incongruent.31.05,Betsy coulda neva tell circle.,,,21,0,0,0,1,0,1,0,1,1,0,0,0,0,0,0,0,1
+14,1,1,WH.control.31,A di blueprints by di engineer describe di ship before di construction?,,,132,1,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,1
+15,1,1,TF.noun.106,A dah madda deh di hungry pitney did meet inna di restaurant booth.,,,68,0,1,0,0,0,1,0,0,1,0,0,0,0,0,0,0,1
+16,1,1,N400.congruent.16.07,Fada carve di turkey wid a knife.,,,7,0,0,0,0,0,1,1,1,1,0,0,0,0,0,0,0,1
+17,1,1,WH.a.16,A who di advice from di consultant assist before di interview?,,,144,1,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,1
+18,1,1,TF.verb.076,A cook di busy mada did cook di lunch inna di outside kitchen.,,,65,0,1,0,0,0,0,0,1,1,0,0,0,0,0,0,0,1
+19,1,1,WH.wh.76,Wah di survey bout di issue reveal during di meeting?,Di survey was bout di town election?,7,136,1,0,0,0,1,0,0,0,1,0,0,0,0,0,0,0,1
+20,1,1,BA.control.46,"Wen mi did deh a di airport, di stewardess help di travellers.",,,33,0,0,1,0,0,0,0,1,1,0,0,0,0,0,0,0,1
+21,1,1,N400.incongruent.46.07,Fred put di worm pon one dictionary.,,,23,0,0,0,1,0,1,1,1,1,0,0,0,0,0,0,0,1
+22,1,1,WH.control.46,A di verdict from di judge cause di debate during di trial?,,,132,1,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,1
+23,1,1,TF.verb.061,A interview di senior official did interview di agent inna di government office.,Di senior official interview di agent?,9,65,0,1,0,0,0,0,0,1,1,0,0,0,0,0,0,0,1
+24,1,1,BA.control.31,"Wen mi did deh a di capital, di minister meet di president.",,,33,0,0,1,0,0,0,0,1,1,0,0,0,0,0,0,0,1
+25,1,1,TF.topic.001,"Dah accountant deh, di new manager did hire him inna di office department.",,,66,0,1,0,0,0,0,1,0,1,0,0,0,0,0,0,0,1
+26,1,1,BA.target.16,"Wen him did deh a di workshop, di tailor prepare di suit.",A di skirt di tailor prepare?,7,34,0,0,1,0,0,0,1,0,1,0,0,0,0,0,0,0,1
+27,1,1,N400.congruent.01.05,A female chicken name hen.,,,5,0,0,0,0,0,1,0,1,1,0,0,0,0,0,0,0,1
+28,1,1,TF.topic.016,"Dah lesson deh, di smart teacha did read it inna di quiet library.",,,66,0,1,0,0,0,0,1,0,1,0,0,0,0,0,0,0,1
+29,1,1,WH.wh.61,Wah di blueprints fi di building reveal during di inspection?,,,136,1,0,0,0,1,0,0,0,1,0,0,0,0,0,0,0,1
+30,1,1,TF.noun.091,A dah anthem deh di cheerful teacha did sing inna di morning lineup.,,,68,0,1,0,0,0,1,0,0,1,0,0,0,0,0,0,0,1
+31,1,1,BA.target.01,"Wen him did deh a di airport, di pilot prepare di paperwork.",,,34,0,0,1,0,0,0,1,0,1,0,0,0,0,0,0,0,1
+32,1,1,WH.a.01,A wah di advertisement fi di show interrupt during di broadcast?,Was di advertisment fi di show?,9,144,1,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,1
+33,1,1,TF.control.031,Yessideh di noble queen prefer di advisor among di royal ministers.,,,72,0,1,0,0,1,0,0,0,1,0,0,0,0,0,0,0,1
+34,,1,,break,,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+35,2,1,TF.noun.092,A dah barrier deh di distracted driver did strike inna di parking area.,,,68,0,1,0,0,0,1,0,0,1,0,0,0,0,0,0,0,1
+36,2,1,WH.a.17,A who di blackmail by di mistress threaten during di election?,,,144,1,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,1
+37,2,1,N400.congruent.17.07,Him buy dem inna di candy store.,,,7,0,0,0,0,0,1,1,1,1,0,0,0,0,0,0,0,1
+38,2,1,TF.control.032,Yessideh di famous singer sing di ballad inna di party tonight.,,,72,0,1,0,0,1,0,0,0,1,0,0,0,0,0,0,0,1
+39,2,1,WH.control.32,A di consultation wid di lawyers achieve di deal before di signing?,,,132,1,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,1
+40,2,1,N400.incongruent.32.05,Motorbike can mek nuff fur.,,,21,0,0,0,1,0,1,0,1,1,0,0,0,0,0,0,0,1
+41,2,1,TF.verb.062,A guard di private security did guard di bank near di campus courtyard.,Di private security guard di church?,7,65,0,1,0,0,0,0,0,1,1,0,0,0,0,0,0,0,1
+42,2,1,BA.control.32,"Wen mi did deh a di conference, di surgeon explain di technique.",,,33,0,0,1,0,0,0,0,1,1,0,0,0,0,0,0,0,1
+43,2,1,WH.wh.62,Wah di bribe from di lobbyist cause after di hearing?,,,136,1,0,0,0,1,0,0,0,1,0,0,0,0,0,0,0,1
+44,2,1,N400.congruent.02.05,Him buy one wall-to-wall carpet.,,,5,0,0,0,0,0,1,0,1,1,0,0,0,0,0,0,0,1
+45,2,1,WH.a.02,A wah di article bout di scandal reveal after di investigation?,Was di article bout di investigation?,7,144,1,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,1
+46,2,1,TF.verb.077,A rescue di heroic passerby did rescue di man inna di car accident.,,,65,0,1,0,0,0,0,0,1,1,0,0,0,0,0,0,0,1
+47,2,1,WH.wh.77,Wah di tutorial pon di internet teach during di session?,Di tutorial did deh pon di internet?,9,136,1,0,0,0,1,0,0,0,1,0,0,0,0,0,0,0,1
+48,2,1,BA.target.17,Wen she did deh a di audition di ballerina forget di routine.,Di ballerina did forget di routine?,9,34,0,0,1,0,0,0,1,0,1,0,0,0,0,0,0,0,1
+49,2,1,TF.topic.002,"Dah assitant deh, di professional hairdresser did pay har inna di back office.",,,66,0,1,0,0,0,0,1,0,1,0,0,0,0,0,0,0,1
+50,2,1,WH.control.47,A di auction fi di land destroy di community after di sale?,,,132,1,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,1
+51,2,1,BA.target.02,"Wen him did deh a di conference, di ambassador give di speech.",,,34,0,0,1,0,0,0,1,0,1,0,0,0,0,0,0,0,1
+52,2,1,TF.control.047,Yessideh di nervous intern read di magazine before di monthly meeting.,,,72,0,1,0,0,1,0,0,0,1,0,0,0,0,0,0,0,1
+53,2,1,BA.control.47,"Wen mi did deh a di camp, di nurse treat di campers.",,,33,0,0,1,0,0,0,0,1,1,0,0,0,0,0,0,0,1
+54,2,1,TF.topic.017,"Dah madda deh, di lost bwoy did find har inna di mall corridor.",,,66,0,1,0,0,0,0,1,0,1,0,0,0,0,0,0,0,1
+55,2,1,N400.incongruent.47.07,Him loosen di tie roun him horses.,,,23,0,0,0,1,0,1,1,1,1,0,0,0,0,0,0,0,1
+56,2,1,TF.noun.107,A dah man deh di muscular lifeguard did rescue inna di swimming pool.,,,68,0,1,0,0,0,1,0,0,1,0,0,0,0,0,0,0,1
+57,,1,,break,,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
