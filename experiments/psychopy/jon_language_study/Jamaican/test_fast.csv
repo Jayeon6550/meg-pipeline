@@ -1,0 +1,46 @@
+﻿order,block,List,condition,sentence,taskQuestion,correctAnswer,trigger,trigger224,trigger225,trigger226,trigger227,trigger228,trigger229,trigger230,trigger231,word_trigger,trigger224w,trigger225w,trigger226w,trigger227w,trigger228w,trigger229w,trigger230w,trigger231w
+12,1,11,TF.control.097,Yessideh di professional chef prepare di dinner inna di restaurant kitchen.,Di chef mek dinner?,9,33,0,0,1,0,0,0,0,1,1,0,0,0,0,0,0,0,1
+13,1,11,WH.wh.22,Who di documentary by di director confuse after di screening?,,,72,0,1,0,0,1,0,0,0,1,0,0,0,0,0,0,0,1
+14,1,11,N400.incongruent.52.07,Di lecture fi last bout one space.,,,65,0,1,0,0,0,0,0,1,1,0,0,0,0,0,0,0,1
+15,1,11,TF.topic.082,"Dah policy deh, di forgiving consultant did explain it inna di meeting office.",,,72,0,1,0,0,1,0,0,0,1,0,0,0,0,0,0,0,1
+16,1,11,WH.wh.07,Wah di painting by di monk sekkle after di auction?,,,5,0,0,0,0,0,1,0,1,1,0,0,0,0,0,0,0,1
+17,1,11,N400.incongruent.37.06,She put on har high-heel stamp.,,,136,1,0,0,0,1,0,0,0,1,0,0,0,0,0,0,0,1
+18,1,11,TF.noun.052,A dah poet deh di office supervisor did quote inna di annual report.,,,136,1,0,0,0,1,0,0,0,1,0,0,0,0,0,0,0,1
+19,1,11,WH.control.67,A di lecture by di professor cover di syllabus before di exam?,,,136,1,0,0,0,1,0,0,0,1,0,0,0,0,0,0,0,1
+20,1,11,TF.noun.037,A dah crate deh di night crew did unload at di warehouse dock.,,,34,0,0,1,0,0,0,1,0,1,0,0,0,0,0,0,0,1
+21,1,11,WH.a.37,A wah di meeting bout di embargo incite after di announcement?,Was di meeting bout di embargo?,9,66,0,1,0,0,0,0,1,0,1,0,0,0,0,0,0,0,1
+22,1,11,N400.congruent.07.06,It unlucky fi walk unda ladder.,,,66,0,1,0,0,0,0,1,0,1,0,0,0,0,0,0,0,1
+23,1,11,TF.control.112,Yessideh di small bwoy win di prize inna di drawing competition.,,,23,0,0,0,1,0,1,1,1,1,0,0,0,0,0,0,0,1
+24,1,11,WH.a.52,A who di comment bout di bribe surprise after di meeting?,,,132,1,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,1
+25,1,11,BA.target.22,"Wen she did deh a di hospital, di pharmacist dispense di medicine.",,,144,1,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,1
+26,1,11,TF.verb.022,A disqualify di unfair referee did disqualify di player during di volleyball game.,,,33,0,0,1,0,0,0,0,1,1,0,0,0,0,0,0,0,1
+27,1,11,WH.control.82,A di comment by di principal hurt di student during di assembly?,,,132,1,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,1
+28,1,11,BA.control.37,"Wen mi did deh a di lab, di scientist teach di assistant.",A di baby di scientist teach?,7,68,0,1,0,0,0,1,0,0,1,0,0,0,0,0,0,0,1
+29,1,11,N400.congruent.22.07,Di careless smoker cause a forest fire.,,,65,0,1,0,0,0,0,0,1,1,0,0,0,0,0,0,0,1
+30,1,11,TF.topic.067,"Dah daughter deh, di affectionate madda did hug har inna di primary school.",,,68,0,1,0,0,0,1,0,0,1,0,0,0,0,0,0,0,1
+31,1,11,BA.target.07,"Wen him did deh a di job, di driver drive di customer.",,,65,0,1,0,0,0,0,0,1,1,0,0,0,0,0,0,0,1
+32,1,11,TF.verb.007,A wash di generous woman did wash di costume fi di neighbor pitney.,Di woman wash di mat fi di neighbour pitney?,7,136,1,0,0,0,1,0,0,0,1,0,0,0,0,0,0,0,1
+33,1,11,BA.control.52,"Wen mi did deh a di hotel, di maid wash di clothes.",,,132,1,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,1
+34,,,,break,,,7,0,0,0,0,0,1,1,1,1,0,0,0,0,0,0,0,1
+35,2,11,TF.control.102,Yessideh di mischievous teenager fight di fren inna di side alley.,Di teenager did fight har bredda?,7,23,0,0,0,1,0,1,1,1,1,0,0,0,0,0,0,0,1
+36,2,11,WH.wh.27,Who di information bout di stocks deceive before di decision?,,,132,1,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,1
+37,2,11,N400.congruent.27.08,Di organist play along wid di church choir.,,,5,0,0,0,0,0,1,0,1,1,0,0,0,0,0,0,0,1
+38,2,11,TF.noun.042,A dah footballer deh di excited fan did meet inna di backstage area.,Di footballer meet di fan backstage?,9,21,0,0,0,1,0,1,0,1,1,0,0,0,0,0,0,0,1
+39,2,11,WH.a.42,A wah di protest by di workers challenge after di announcement?,,,144,1,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,1
+40,2,11,N400.incongruent.42.07,New York a one very busy cream.,,,7,0,0,0,0,0,1,1,1,1,0,0,0,0,0,0,0,1
+41,2,11,TF.topic.072,"Dah forest deh, di ambitious photographer did capture it inna di exhibition series",,,144,1,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,1
+42,2,11,BA.control.42,"Wen mi did deh a di site, di engineer revise di design.",,,34,0,0,1,0,0,0,1,0,1,0,0,0,0,0,0,0,1
+43,2,11,WH.control.72,A di problem wid di engine prevent di flight before di takeoff?,,,34,0,0,1,0,0,0,1,0,1,0,0,0,0,0,0,0,1
+44,2,11,N400.congruent.12.07,Mi cat cover up inna white fur.,Yuh cat cover inna white fur?,9,72,0,1,0,0,1,0,0,0,1,0,0,0,0,0,0,0,1
+45,2,11,WH.wh.12,Wah di review by di critic affect after di release?,,,66,0,1,0,0,0,0,1,0,1,0,0,0,0,0,0,0,1
+46,2,11,TF.topic.087,"Dah sword deh, di brave heroine did wield it inna di battle arena.",,,33,0,0,1,0,0,0,0,1,1,0,0,0,0,0,0,0,1
+47,2,11,WH.control.87,A di film by di journalist offend di pastor after di sermon?,,,33,0,0,1,0,0,0,0,1,1,0,0,0,0,0,0,0,1
+48,2,11,BA.target.27,"Wen she did deh a di restaurant, di cook prepare di dinner.",,,66,0,1,0,0,0,0,1,0,1,0,0,0,0,0,0,0,1
+49,2,11,TF.verb.012,A nyam di hungry patient did nyam di food inna di recoverry ward.,,,34,0,0,1,0,0,0,1,0,1,0,0,0,0,0,0,0,1
+50,2,11,WH.a.57,A who di experiment by di doctor decieve during di procedure?,Di experiment was by di mad scientist?,7,21,0,0,0,1,0,1,0,1,1,0,0,0,0,0,0,0,1
+51,2,11,BA.target.12,"Wen him did deh a di site, di engineer notice di foreman.",,,144,1,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,1
+52,2,11,TF.noun.057,A dah swimmer deh di talented coach did train inna di African championship.,,,68,0,1,0,0,0,1,0,0,1,0,0,0,0,0,0,0,1
+53,2,11,BA.control.57,"Wen mi did deh a di salon, di hairdresser prepare di customer.",,,72,0,1,0,0,1,0,0,0,1,0,0,0,0,0,0,0,1
+54,2,11,TF.verb.027,A oppose di stubborn journalist did oppose di surgeon inna di morning article.,,,68,0,1,0,0,0,1,0,0,1,0,0,0,0,0,0,0,1
+55,2,11,N400.incongruent.57.08,Di racing car dem get di checkered shore.,,,65,0,1,0,0,0,0,0,1,1,0,0,0,0,0,0,0,1
+56,2,11,TF.control.117,Yessideh di relentless blogger expose di teacher inna di online post.,,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0

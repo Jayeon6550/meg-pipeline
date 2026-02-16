@@ -1,0 +1,46 @@
+﻿order,block,List,condition,sentence,taskQuestion,correctAnswer,trigger,trigger224,trigger225,trigger226,trigger227,trigger228,trigger229,trigger230,trigger231,word_trigger,trigger224w,trigger225w,trigger226w,trigger227w,trigger228w,trigger229w,trigger230w,trigger231w
+12,1,12,TF.noun.084,A dah scholarship deh di high schooler did win inna di robotics contest.,,,72,0,1,0,0,1,0,0,0,1,0,0,0,0,0,0,0,1
+13,1,12,N400.congruent.54.07,Dem picnic get ruin by di rain.,,,21,0,0,0,1,0,1,0,1,1,0,0,0,0,0,0,0,1
+14,1,12,WH.wh.39,Wah di pamphlet bout di disease suggest before di launch?,Was di pamphlet bout di disease?,9,132,1,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,1
+15,1,12,TF.verb.039,A fire di strict boss did fire di employee inna di work meeting.,,,68,0,1,0,0,0,1,0,0,1,0,0,0,0,0,0,0,1
+16,1,12,N400.congruent.39.07,Mi add mi name to di list.,,,7,0,0,0,0,0,1,1,1,1,0,0,0,0,0,0,0,1
+17,1,12,BA.control.09,"Wen mi did deh a di office, di accountant review di accounts.",,,144,1,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,1
+18,1,12,WH.wh.54,Who di decision bout di regulations dissatisfy after di vote?,,,65,0,1,0,0,0,0,0,1,1,0,0,0,0,0,0,0,1
+19,1,12,TF.control.009,Yessideh di lead manager delete di email from di company phone.,Di liad man delete di contract?,7,136,1,0,0,0,1,0,0,0,1,0,0,0,0,0,0,0,1
+20,1,12,N400.incongruent.24.07,Di winter did very harsh dis water.,,,33,0,0,1,0,0,0,0,1,1,0,0,0,0,0,0,0,1
+21,1,12,BA.target.54,"Wen she did deh a di mall, di madda buy di dress.",,,23,0,0,0,1,0,1,1,1,1,0,0,0,0,0,0,0,1
+22,1,12,WH.control.24,A di experiment bout di bacteria intrigue di scientist after di results?,,,132,1,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,1
+23,1,12,TF.noun.069,A dah employee deh di annoying client did scold pon di work phone.,,,65,0,1,0,0,0,0,0,1,1,0,0,0,0,0,0,0,1
+24,1,12,BA.target.39,"Wen him did deh a di office, di manager organize di meetings.",Di receptionist organize di meetings?,7,33,0,0,1,0,0,0,0,1,1,0,0,0,0,0,0,0,1
+25,1,12,WH.a.69,A wah di objection by di attorney delay before di decision?,,,66,0,1,0,0,0,0,1,0,1,0,0,0,0,0,0,0,1
+26,1,12,TF.topic.099,"Dah equation deh, di curious student did learned it at di math conference.",Di student learn di equation?,9,34,0,0,1,0,0,0,1,0,1,0,0,0,0,0,0,0,1
+27,1,12,N400.incongruent.09.07,George write one chapter inna di drink.,,,5,0,0,0,0,0,1,0,1,1,0,0,0,0,0,0,0,1
+28,1,12,TF.control.024,Yessideh di talkative woman start di rumor inna di family gathering.,,,66,0,1,0,0,0,0,1,0,1,0,0,0,0,0,0,0,1
+29,1,12,WH.control.09,A di presentation bout di climate predict di drought before di drought?,,,136,1,0,0,0,1,0,0,0,1,0,0,0,0,0,0,0,1
+30,1,12,TF.verb.054,A capture di professional photographar did capture di scene inna di mountain side.,,,68,0,1,0,0,0,1,0,0,1,0,0,0,0,0,0,0,1
+31,1,12,WH.a.84,A who di drawing of di king please during di exhibition?,,,34,0,0,1,0,0,0,1,0,1,0,0,0,0,0,0,0,1
+32,1,12,TF.topic.114,"Dah servant deh, di seasoned reporter did contact him inna di palace residence.",,,144,1,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,1
+33,1,12,BA.control.24,"Wen mi did deh a di kitchen, di waitress prep di food.",,,72,0,1,0,0,1,0,0,0,1,0,0,0,0,0,0,0,1
+34,,,,break,,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+35,2,12,WH.control.19,A di complaint bout di testimony worry di lawyer after di allegations?,Was di complaint bout a loud party?,7,68,0,1,0,0,0,1,0,0,1,0,0,0,0,0,0,0,1
+36,2,12,TF.topic.094,"Dah candidate deh, di former mayor did endorse har at di campaign rally.",,,144,1,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,1
+37,2,12,N400.incongruent.19.07,Joan warm di baby bottle a work.,,,7,0,0,0,0,0,1,1,1,1,0,0,0,0,0,0,0,1
+38,2,12,TF.verb.034,A bake di family friend did bake di cake fi di bithday party.,,,72,0,1,0,0,1,0,0,0,1,0,0,0,0,0,0,0,1
+39,2,12,WH.a.79,A who di speech bout di law incite during di rally?,,,132,1,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,1
+40,2,12,TF.topic.109,"Dah package deh, di reliable courier did deliver it to di vacation house.",,,21,0,0,0,1,0,1,0,1,1,0,0,0,0,0,0,0,1
+41,2,12,N400.congruent.49.07,John full up di pen wid ink.,,,65,0,1,0,0,0,0,0,1,1,0,0,0,0,0,0,0,1
+42,2,12,TF.verb.049,A circulate di assistant teacher did circulate di note during di class period.,,,33,0,0,1,0,0,0,0,1,1,0,0,0,0,0,0,0,1
+43,2,12,BA.control.19,"Wen mi did deh a di clinic, di caregiver assist di doctor.",,,136,1,0,0,0,1,0,0,0,1,0,0,0,0,0,0,0,1
+44,2,12,TF.noun.079,A dah package deh di injured engineer did carry inna di transport truck.,,,5,0,0,0,0,0,1,0,1,1,0,0,0,0,0,0,0,1
+45,2,12,WH.control.04,A di decision by di teacher sekkle di argument after di discussion?,,,144,1,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,1
+46,2,12,TF.control.019,Yessideh di professional artist paint di mural pan di old wall.,,,65,0,1,0,0,0,0,0,1,1,0,0,0,0,0,0,0,1
+47,2,12,BA.target.34,"Wen him did deh a di gym, di coach train di contestants.",Di coach train di contestants a di gym?,9,136,1,0,0,0,1,0,0,0,1,0,0,0,0,0,0,0,1
+48,2,12,WH.a.64,A wah di diplomacy by di general avert before di attack?,,,34,0,0,1,0,0,0,1,0,1,0,0,0,0,0,0,0,1
+49,2,12,BA.target.49,"Wen she did deh a di clinic, di nurse advise di patient.",,,66,0,1,0,0,0,0,1,0,1,0,0,0,0,0,0,0,1
+50,2,12,TF.control.004,Yessideh di kind man hug di bwoy inna di prizegiving ceremony.,Di man hug di bwoy inna di prizegiving ceremony?,9,132,1,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,1
+51,2,12,BA.control.04,"Wen mi did deh a di field, di coach train di players.",,,34,0,0,1,0,0,0,1,0,1,0,0,0,0,0,0,0,1
+52,2,12,WH.wh.49,Who di arrest a di politician disappoint during di election?,,,72,0,1,0,0,1,0,0,0,1,0,0,0,0,0,0,0,1
+53,2,12,N400.congruent.34.06,Dem name har afta har mother.,,,33,0,0,1,0,0,0,0,1,1,0,0,0,0,0,0,0,1
+54,2,12,N400.incongruent.04.06,Hal write har one love sandwich.,,,66,0,1,0,0,0,0,1,0,1,0,0,0,0,0,0,0,1
+55,2,12,TF.noun.064,A dah call deh di excited girl did make inna di visa office.,Di bwoy mek di call?,7,23,0,0,0,1,0,1,1,1,1,0,0,0,0,0,0,0,1
+56,2,12,WH.wh.34,Wah di exhibition by di painter celebrate during di festival?,,,68,0,1,0,0,0,1,0,0,1,0,0,0,0,0,0,0,1
