@@ -6,7 +6,7 @@
 # gitignore template for Jupyter Notebooks
 # website: http://jupyter.org/
 
-
+.gemini
 local/
 data/localdata/
 rtd-build-output
