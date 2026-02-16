@@ -62,9 +62,9 @@ stimuliColor = 'gold' #rgb(255, 215, 0)
 stimuliUnits = 'deg'
 stimuliSize = 2
 instructionSize = 1
-wordOn = 36 #300ms #42 #350ms
-wordOff = 24 #200ms #24 #200ms
-lastWordOn = 120  #1000 #132  #1100
+wordOn = 42 #350ms
+wordOff = 24 #200ms
+lastWordOn = 132 #1100
 
 boxHeight = stimuliSize + 1.5
 boxWidth = 16
