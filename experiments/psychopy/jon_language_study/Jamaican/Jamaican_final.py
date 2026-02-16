@@ -56,6 +56,7 @@ trialList = data.importConditions('jamaican_list3.csv')
 #port = parallel.ParallelPort(address=0xD010)
 clock = core.Clock()
 
+
 backgroundColor = 'black'
 instructionsFont = 'Arial'
 stimuliFont = 'Arial'
