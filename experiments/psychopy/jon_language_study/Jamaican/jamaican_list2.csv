@@ -143,7 +143,7 @@ order,block,List,condition,sentence,taskQuestion,correctAnswer,trigger,trigger22
 142,6,2,WH.a.55,A who di discovery of di ruins astound during di tour?,Di discovery was bout a shipwreck?,7,144,1,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,1
 143,6,2,BA.control.10,"Wen mi did deh a di port, di sailor prepare di boat.",,,33,0,0,1,0,0,0,0,1,1,0,0,0,0,0,0,0,1
 144,6,2,N400.congruent.55.08,"Before him exercise, Jack always stretch him muscles.",,,8,0,0,0,0,1,0,0,0,1,0,0,0,0,0,0,0,1
-145,6,2,TF.verb.100,A admire di junior employee did admire di executive from di company workshop.,Di junior employee did hate di executive?,,65,0,1,0,0,0,0,0,1,1,0,0,0,0,0,0,0,1
+145,6,2,TF.verb.100,A admire di junior employee did admire di executive from di company workshop.,Di junior employee did hate di executive?,7,65,0,1,0,0,0,0,0,1,1,0,0,0,0,0,0,0,1
 146,6,2,BA.target.40,"Wen him did deh a di prison, di guard fight di inmates.",,,34,0,0,1,0,0,0,1,0,1,0,0,0,0,0,0,0,1
 147,6,2,TF.topic.040,"Dah exam deh, di hardworking student did complete it inna di library hall.",Di student complete di exam?,9,66,0,1,0,0,0,0,1,0,1,0,0,0,0,0,0,0,1
 148,6,2,BA.control.25,"Wen mi did deh a di meeting, di secretary write di notes.",,,33,0,0,1,0,0,0,0,1,1,0,0,0,0,0,0,0,1
@@ -177,7 +177,7 @@ order,block,List,condition,sentence,taskQuestion,correctAnswer,trigger,trigger22
 176,8,2,TF.control.068,Yessideh di skilled vet treat di dog inna di clinic room.,,,72,0,1,0,0,1,0,0,0,1,0,0,0,0,0,0,0,1
 177,8,2,N400.congruent.53.07,Di sprinter run di last quarter mile.,,,7,0,0,0,0,0,1,1,1,1,0,0,0,0,0,0,0,1
 178,8,2,WH.wh.23,Who di excuse by di student frustrate before di test?,,,136,1,0,0,0,1,0,0,0,1,0,0,0,0,0,0,0,1
-179,8,2,TF.verb.098,A embroider di skilled tailor did embroider di dress pon di wedding day.,Di tailer mek a pants?,,65,0,1,0,0,0,0,0,1,1,0,0,0,0,0,0,0,1
+179,8,2,TF.verb.098,A embroider di skilled tailor did embroider di dress pon di wedding day.,Di tailer mek a pants?,7,65,0,1,0,0,0,0,0,1,1,0,0,0,0,0,0,0,1
 180,8,2,BA.target.53,"Wen she did deh a di house, di midwife help di madda.",,,34,0,0,1,0,0,0,1,0,1,0,0,0,0,0,0,0,1
 181,8,2,TF.verb.113,A rob di jailed thief did rob di resident inna di housing compound.,,,65,0,1,0,0,0,0,0,1,1,0,0,0,0,0,0,0,1
 182,8,2,N400.incongruent.23.07,Di pig dem wallow inna di drawer.,,,23,0,0,0,1,0,1,1,1,1,0,0,0,0,0,0,0,1
