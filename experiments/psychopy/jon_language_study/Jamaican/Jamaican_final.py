@@ -57,6 +57,7 @@ trialList = data.importConditions('jamaican_list3.csv')
 clock = core.Clock()
 
 
+
 backgroundColor = 'black'
 instructionsFont = 'Arial'
 stimuliFont = 'Arial'
