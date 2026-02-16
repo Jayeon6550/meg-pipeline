@@ -50,7 +50,7 @@ SCREEN_NUMBER = 2
 #Try 1 or 2 as screen_number
 #SCREEN_NUMBER = 1
 
-trialList = data.importConditions('jamaican_list2.csv')
+trialList = data.importConditions('jamaican_list3.csv')
 
 #mon = monitors.Monitor('BenQ24', width=53, distance=100)
 #port = parallel.ParallelPort(address=0xD010)
@@ -63,9 +63,9 @@ stimuliColor = 'gold' #rgb(255, 215, 0)
 stimuliUnits = 'deg'
 stimuliSize = 2
 instructionSize = 1
-wordOn = 42 #42 #350ms
-wordOff = 24 #24 #200ms
-lastWordOn = 132 #132 #1100
+wordOn = 3#42 #42 #350ms
+wordOff = 2#24 #24 #200ms
+lastWordOn = 2 #132 #132 #1100
 
 boxHeight = stimuliSize + 1.5
 boxWidth = 16
