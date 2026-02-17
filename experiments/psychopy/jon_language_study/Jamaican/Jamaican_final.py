@@ -9,8 +9,9 @@ from experiments.psychopy.general.utilities import *
 
 # Setup the connection with the Vpixx systems and disable Pixel Mode
 
-TIME_TO_RESET_BUTTON_BOX =1.7
-TIME_WAIT_BREAK = 0.5
+TIME_TO_RESET_BUTTON_BOX =1 # This is the time for the instruction to release the button press stays on the screen,
+# this was added because if they keep pressing the button they wont have time to blink (they would miss the blink screen)
+TIME_WAIT_BREAK = 0.5  # This is the time
 # Define the RGB code for each channel on the KIT machine and their name
 trigger = [[4, 0, 0], [16, 0, 0], [64, 0, 0], [0, 1, 0], [0, 4, 0], [0, 16, 0], [0, 64, 0], [0, 0, 1]]
 channel_names  = ['224', '225', '226', '227', '228', '229', '230', '231']
@@ -49,11 +50,13 @@ SCREEN_NUMBER = 2
 #Try 1 or 2 as screen_number
 #SCREEN_NUMBER = 1
 
-trialList = data.importConditions('test_fast.csv')
+trialList = data.importConditions('jamaican_list3.csv')
 
 #mon = monitors.Monitor('BenQ24', width=53, distance=100)
 #port = parallel.ParallelPort(address=0xD010)
 clock = core.Clock()
+
+
 
 backgroundColor = 'black'
 instructionsFont = 'Arial'
@@ -62,9 +65,9 @@ stimuliColor = 'gold' #rgb(255, 215, 0)
 stimuliUnits = 'deg'
 stimuliSize = 2
 instructionSize = 1
-wordOn =  36 #36 #300ms #42 #350ms
-wordOff = 24 #24 #200ms #24 #200ms
-lastWordOn = 120  #120  #1000 #132  #1100
+wordOn = 3#42 #42 #350ms
+wordOff = 2#24 #24 #200ms
+lastWordOn = 2 #132 #132 #1100
 
 boxHeight = stimuliSize + 1.5
 boxWidth = 16
