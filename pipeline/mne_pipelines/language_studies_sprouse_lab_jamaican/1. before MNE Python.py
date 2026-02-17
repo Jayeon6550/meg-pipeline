@@ -62,8 +62,11 @@ import pandas as pd
 
 #loop through participants
 
+BOX_PATH = os.getenv("MEG_DATA")
 
-DATASET_PATH = "/Users/Jayeon/Library/CloudStorage/Box-Box/jamaican-language-study"
+DATASET_NAME = "jamaican-language-study"
+
+DATASET_PATH = os.path.join(BOX_PATH, DATASET_NAME)
 
 #quickly create a list of names that we will need in the loop
 #uses the f-string syntax to pad the integer to 3 places
