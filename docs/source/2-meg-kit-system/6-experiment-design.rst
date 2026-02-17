@@ -7,7 +7,7 @@ Experiment design
 Purpose
 -------
 
-This section provides information to help you out designing your MEG experiment.
+This section provides information to help you implement the concept you have about your MEG experiment into runnable code.
 What is meant by experiment, is the stimuli involving usually visual and auditory or other perception-type stimulus.
 The experiment defines the timing of display of the stimuli, tracks responses from the participants and controls the different settings related
 to the content being presented to the participant.
@@ -17,7 +17,7 @@ Roughly speaking, the experiment should be designed in a way such that:
 - when the participant performs the experiment, a specific behavior in the brain is triggered due to the stimulus from the experiment
 - which you should "beleive" that, when MEG/EEG measurements are obtained, would nicely `highlight` the specific behavior
 
-Therefore, the design of an experiment should come after extensive research about the phenomena that we would like to characterize.
+Therefore, the design of an experiment should come after extensive research about the phenomena that we would like to characterize and related details are not covered in this page.
 
 
 There are three tools primarily used for designing the experiment used in NYUAD MEG Lab
@@ -54,6 +54,32 @@ The eyetracker sends three different signals to the MEG/EEG channels:
 - The Area of the pupil of the eye as function of time
 
 
+Define your events and trigger protocol
+---------------------------------------
+
+The KIT system has 8 channels (Channels 224 to 231 in KIT indexing) that can be used for coding trigger events.
+Depending on the number of different event types that you require for your experiment you can use one of the two trigger-coding modes:
+
+- TriggerMode: `single_channel` : in single channel mode, each event code is associated to a single channel, whenever this event should happen, a pulse is sent on that channel typically lasting for a single frame (8.3 ms when using a 120Hz frequency monitor)
+- TriggerMode: `binary_coded` : in binary coded mode, each event code is interpreted as a byte over the 8 channels, allows to represent maximum 255 event types (the zero code is not usable to code an event)
+
+
+
+Saving your event file
+----------------------
+
+Your experiment should save a tabular event file (.csv or .tsv) with the following columns:
+
+- `onset`: the onset time of the event in seconds (do not fill this column from your experiment code, it will be filled later when pre-processing your data)
+- `duration`: the duration of the event in seconds (if relevant for the research question, if not leave blank)
+- `trial_type`: the trial type defined as a string symbolising the type of trial (no need to be very detailed: example: cat, dog, afraid, fruit, emotion etc...). This information is used to average trials with the same type together.
+
+Additionally,
+- if you are using TriggerMode: `single_channel` then add the following column:
+- `channel`: an ordered sequence of the channels on which any trigger is sent in their chronological order
+- if you are using TriggerMode: `binary_coded` then add the following column:
+- `binary_code`: the binary code associated to the event type, in its chronological order
+
 Files produced by the experiment design
 ---------------------------------------
 
@@ -68,7 +94,6 @@ If using python library PsychoPy:
 * you can run from within the psycopy builder the experiment file with .psyexp extension c
 
 
-
 Pixel mode experiments
 ----------------------
 
@@ -76,6 +101,13 @@ All experiments that uses the Vpixx pixel mode should follow these rules:
 
 - Once the experiment script is run, the experiment should land on an `Introduction page` that requires a button press to be able to continue by the project owner (the participant should not be able to continue through this page)
 - Prior to landing on the `Introduction page` within your script, you should deactivate the Vpixx Pixel Mode, otherwise there could be false trigger events in the data recording
+
+
+"Psychtoolbox" based experiments
+--------------------------------
+
+- Ensure that if you want to flip a visual to the screen, without triggering, that every `Screen('Flip', win);` is preceded by `Screen('FillRect', win, black_rgb, trigRect);` (i.e. the top left pixel of the screen is black = no triggers)
+- Ensure saving the MATLAB console output in your experiment, a sample script to do that can be found here `experiments\psychtoolbox\general\save_matlab_output.m`
 
 
 "Presentation" based experiments

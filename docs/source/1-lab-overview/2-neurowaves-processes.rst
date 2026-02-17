@@ -14,39 +14,39 @@ Add as many known details as possible regarding:
 - the research question you are addressing
 - additional systems that you will need to run your experiment successfully
 
-.. mermaid::
+.. .. mermaid::
 
-    graph TD;
-        A[🎓 <b>User arrives<br/>at MEG lab</b>] -->|🚀 Start| B[🧪 <b>Design<br/>Experiment</b>];
-        B -->|📢 Present| C[📝 <b>Present<br/>Research</b>];
+..     graph TD;
+..         A[🎓 <b>User arrives<br/>at MEG lab</b>] -->|🚀 Start| B[🧪 <b>Design<br/>Experiment</b>];
+..         B -->|📢 Present| C[📝 <b>Present<br/>Research</b>];
 
-        %% Contribution Guide
-        C --> X[📖 <b><a href='https://neurowaves.readthedocs.io/en/latest/1-lab-overview/6-neurowaves-contribution.html'>
-        Contribution Guide</a></b>];
+..         %% Contribution Guide
+..         C --> X[📖 <b><a href='https://neurowaves.readthedocs.io/en/latest/1-lab-overview/6-neurowaves-contribution.html'>
+..         Contribution Guide</a></b>];
 
-        X -->|📂 Submit| D[💻 <b>Submit Draft Code<br/>via Pull Request</b>];
-        D -->|🔍 Review| E[✅ <b>Code<br/>Reviewed</b>];
-        E -->|🤔 Decision| F{⚖️ <b>Does Code<br/>Work?</b>};
+..         X -->|📂 Submit| D[💻 <b>Submit Draft Code<br/>via Pull Request</b>];
+..         D -->|🔍 Review| E[✅ <b>Code<br/>Reviewed</b>];
+..         E -->|🤔 Decision| F{⚖️ <b>Does Code<br/>Work?</b>};
 
-        F --❌ No --> G[🔄 <b>Iterate & Revise<br/>Code</b>];
-        G -->|📂 Resubmit| D;
+..         F --❌ No --> G[🔄 <b>Iterate & Revise<br/>Code</b>];
+..         G -->|📂 Resubmit| D;
 
-        F --✅ Yes --> H[🔬 <b>Keep Testing<br/>Code</b>];
-        H -->|🏆 Success| I[🎉 <b>Experiment<br/>Finalized</b>];
+..         F --✅ Yes --> H[🔬 <b>Keep Testing<br/>Code</b>];
+..         H -->|🏆 Success| I[🎉 <b>Experiment<br/>Finalized</b>];
 
-        %% Clickable Node for GitHub PR
-        click D "https://github.com/BioMedicalImaging-Core-NYUAD/neurowaves-lab-documentation/pulls" "Visit GitHub Repository"
+..         %% Clickable Node for GitHub PR
+..         click D "https://github.com/BioMedicalImaging-Core-NYUAD/neurowaves-lab-documentation/pulls" "Visit GitHub Repository"
 
-        %% Style Definitions
-        classDef success fill:#4CAF50,stroke:#2E7D32,color:#fff;
-        classDef decision fill:#FFEB3B,stroke:#FBC02D,color:#000;
-        classDef process fill:#2196F3,stroke:#1976D2,color:#fff;
-        classDef warning fill:#FF5722,stroke:#E64A19,color:#fff;
+..         %% Style Definitions
+..         classDef success fill:#4CAF50,stroke:#2E7D32,color:#fff;
+..         classDef decision fill:#FFEB3B,stroke:#FBC02D,color:#000;
+..         classDef process fill:#2196F3,stroke:#1976D2,color:#fff;
+..         classDef warning fill:#FF5722,stroke:#E64A19,color:#fff;
 
-        class A,B,C,D,E,H,X process;
-        class F decision;
-        class G warning;
-        class I success;
+..         class A,B,C,D,E,H,X process;
+..         class F decision;
+..         class G warning;
+..         class I success;
 
 
 
@@ -60,45 +60,27 @@ Identifying your usage
 
 
 
+
 Booking a session for testing/debugging your stimulus code
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-.. mermaid::
 
-    graph TD;
-        A["🧑‍💻 <b>Need to Test/Debug<br/>Code</b>"] --> B{👨‍🔬 <b>Need MEG Scientist<br/>Assistance?</b>};
+**If you do NOT need MEG Scientist assistance:**
 
-        %% Path: No Scientist Needed
-        B -- No --> C["✅ <b>Book Lab Anytime<br/>(24/7)</b>"];
-        C --> D["🖥️ <b><a href='https://corelabs.abudhabi.nyu.edu/dashboard.php'>
-        MEG Booking Portal</a></b>"];
-        D --> E["🧠 <b>Select MEG<br/>System - KIT</b>"];
+- You can book the lab anytime (24/7)
+- Go to the `MEG Booking Portal <https://corelabs.abudhabi.nyu.edu/dashboard.php>`_
+- Select **MEG System - KIT**
 
-        %% Path: Scientist Needed
-        B -- Yes --> F["🕘 <b>Restricted to<br/>9:00 AM – 5:00 PM</b>"];
-        F --> G["📅 <b>Check MEG Scientist’s<br/>Availability</b>"];
-        G --> H["📅 <b><a href='https://calendar.google.com/calendar/u/0/r?cid=aHozNzUyQG55dS5lZHU'>
-        Book Scientist’s Calendar</a></b>"];
-        G --> I["📧 <b><a href='mailto:hadi.zaatiti@nyu.edu'>
-        Email MEG Scientist</a></b>"];
-        H --> J["🖥️ <b><a href='https://corelabs.abudhabi.nyu.edu/dashboard.php'>
-        Book Lab Slot</a></b>"];
-        J --> K["🧠 <b>Select MEG<br/>System - KIT</b>"];
+**If you DO need MEG Scientist assistance:**
 
-        %% Alternative Booking
-        C --> O["🖥️ <b><a href='https://corelabs.abudhabi.nyu.edu/'>
-        Alternative: Corelabs Reservations</a></b>"];
-        K --> O;
+- Sessions are restricted to **9:00 AM – 5:00 PM**
+- Check the MEG Scientist's availability on his `calendar <https://calendar.google.com/calendar/u/0/r?cid=aHozNzUyQG55dS5lZHU>`_ or `email him <mailto:hadi.zaatiti@nyu.edu>`_
+- Once availability is confirmed, book your lab slot via the `MEG Booking Portal <https://corelabs.abudhabi.nyu.edu/dashboard.php>`_
+- Select **MEG System - KIT**
 
-        %% Style Definitions
-        classDef primary fill:#4CAF50,stroke:#2E7D32,color:#fff,font-weight:bold;
-        classDef warning fill:#FF5722,stroke:#D84315,color:#fff,font-weight:bold;
-        classDef process fill:#2196F3,stroke:#1976D2,color:#fff,font-weight:bold;
-        classDef highlight fill:#FF9800,stroke:#F57C00,color:#fff,font-weight:bold;
+Alternatively, you can book via `Corelabs Reservations <https://corelabs.abudhabi.nyu.edu/>`_.
 
-        class A,B primary;
-        class C,D,E,F,G,H,I,J,K,O process;
-
+    
 
 
 
@@ -109,72 +91,72 @@ Booking an MEG data acquisition session
 .. warning::
 
    While scheduling your experiment, avoid rush hours 8:30am and 5:30pm, and friday prayer time, as more noise can be introduced into the data due to outside movement.
-   All bookings should not happen on a monday morning, as Helium refill is scheduled for monday mornings (9:00 am till 10:30 am)
+   All bookings should not happen on a monday morning, as Helium refill is scheduled for monday mornings (8:00 am till 10:30 am)
    and it is not possible to acquire data during this period.
-   Provide your `netID` to the MEG scientists for you to have access to the lab booking calendar.
+   Provide your `netID` to the MEG scientists `nyuad.meg@nyu.edu` for you to have access to the lab booking calendar.
 
 
+Subscribing to the Google MEG Lab Calendar mirroring CTPSS Calendar
+-------------------------------------------------------------------
+
+To see the lab's availability directly in your Google Calendar:
+
+1. Open `Google Calendar <https://calendar.google.com/>`_.
+2. On the left side, next to **Other calendars**, click the **+** (plus) icon and select **Subscribe to calendar**.
+3. In the **Add calendar** box, click below:
+
+   `Click here to add [MEG LAB] Corelabs CTPSS Data Acquisition Bookings to your Google Calendar <https://calendar.google.com/calendar/u/0?cid=Y19kMWI5NjY3OGNlNDIzYmZjODEyMjU4NzYyZDNjODVhOTJmZTk5MDdiM2ViODk4Y2RlYjQwMjg3OTI3NjI5MjRiQGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20>`_
+
+
+4. The calendar will now appear in your list under "Other calendars".
+
+.. note::
+
+   This calendar is not for booking the lab but acts only as a mirror to the official CTPSS calendar.
+   Do not use this calendar for booking your lab, but only to schedule your participants as detailed below.
+
+
+Scheduling Participants with Appointment Schedules on Google Calendar
+---------------------------------------------------------------------
+
+When recruiting participants, you can provide them with a link to book their own slots based on your availability **and** the lab's availability.
+
+**1. Create an Appointment Schedule:**
+    - In Google Calendar, click the **Create** button and select **Appointment schedule**.
+    - Set your preferred hours and duration for the MEG sessions.
+
+**2. Check Multiple Calendars for Availability:**
+    - In the appointment schedule configuration, look for the **Calendars checked for availability** section.
+    - Ensure **your primary calendar** is selected so slots aren't offered when you are busy.
+    - Click **Calendars** and select the **[MEG LAB] Corelabs CTPSS Data Acquisition Bookings** (subscribed to in the previous step). This ensures participants can only book when the lab is also free.
+
+**3. Share the Booking Link:**
+    - Once the schedule is created, click **Share** to get a booking link.
+    - Send this link to your participants. They will see the available slots that work for both you and the lab.
 
 .. important::
 
-    Scan the QR code below to book your lab for your usage, login with `Gmail` using your `@nyu.edu` account
+    **After a participant books a slot via the link:**
+    You must still ensure the lab is officially reserved in the Corelabs system.
+
+    Scan the QR code below to book your lab for your usage, login with `Gmail` using your `@nyu.edu` account:
 
     .. image:: ../graphic/meg-calendar-qr.png
         :alt: MEG Calendar QR code
         :align: center
 
-    If you do not have access to the booking system, please email `hz3752@nyu.edu` to be added to the system.
-    Alternatively, schedule your experiment in the MEG lab using link `https://corelabs.abudhabi.nyu.edu/ <https://corelabs.abudhabi.nyu.edu/>`_
-    Under Reservations, Schedule, from the upper drop down menu pick `Brain Imaging` and then book the `MagnetoEncephaloGraphy MEG-KIT`
-    If you need the MEG scientist (Hadi Zaatiti) to be present during the booking (in the case of a training for example) please first make sure before booking the MEG lab to do the following:
 
-    - ensure that the slot is available on his gmail calendar `hz3752@nyu.edu` (the calendar is kept up to date)
-    - send a meeting on google calendar at the requested slot with subject `MEG Training of [name and netID of trainee]`
-    - then book the lab at the same slot using the above QR code/link
+    or simply go to  `https://corelabs.abudhabi.nyu.edu/ <https://corelabs.abudhabi.nyu.edu/>`_
 
-.. mermaid::
+    If you do not have access to the booking system, please email `nyuad.meg@nyu.edu` to be added to the system.
+    
+    Under Reservations, Schedule, from the upper drop down menu pick `Brain Imaging` and then book the `MagnetoEncephaloGraphy MEG-KIT`.
 
-    graph TD;
-        A["🎉 <b>Experiment Finalized</b>"] -->|📩 Submit| B["🆔 <b>Provide NetID to MEG Scientists</b>"];
-        B -->|🔑 Get Access| C["🔓 <b>Gain Access to MEG Booking System</b>"];
+    If you need the MEG scientist (Hadi Zaatiti) to be present during the booking (e.g., for training):
+    - Ensure the slot is available on his calendar `hz3752@nyu.edu`.
+    - Send a meeting invite to `hz3752` with subject `MEG Training (or Debug or other) of [name and netID of trainee]`.
+    - Confirm the lab booking via Corelabs.
 
-        %% Booking Process
-        C --> D["🖥️ <b>Go to Booking Portal</b>"];
-        D -->|🔗 Visit| E["🔗 <b><a href='https://corelabs.abudhabi.nyu.edu/dashboard.php'>MEG Booking Portal</a></b>"];
-        E -->|📌 Pick| F["🧠 <b>Select Magnetoencephalography MEG - KIT</b>"];
-
-        %% Restrictions & Warnings
-        F --> G{⚠️ <b>Check Scheduling Rules</b>};
-        G --❌ Avoid --> G1["⏰ <b>Rush Hours (8:30 AM - 5:30 PM)</b>"];
-        G --❌ Avoid --> G2["🛑 <b>Monday Morning (9:00 - 10:30 AM) - Helium Refill</b>"];
-        G --❌ Avoid --> G3["🕌 <b>Friday Prayer Time</b>"];
-
-        %% Decision: Does the user need a scientist?
-        F --> I{👨‍🔬 <b>Need MEG Scientist Assistance?</b>};
-        I -- No --> L["✅ <b>Book Lab at Desired Slot</b>"];
-        I -- Yes --> J["📅 <b>Check Availability on Their Calendar</b>"];
-        J --> K["📧 <b>Send Google Calendar Invite</b>"];
-        K -->|Meeting Subject: MEG Training of Name & NetID| L;
-
-        %% Decide Whether to Book Hadi or Haidee
-        I --> M["🔗 <b><a href='https://meg-pipeline.readthedocs.io/en/latest/1-systems/5-team.html'>Who to Book? Responsibilities</a></b>"];
-        M -->|📧 Contact| N{📩 <b>Email Hadi or Haidee?</b>};
-        N --📩 Hadi Zaatiti --> O["📧 <b><a href='mailto:hadi.zaatiti@nyu.edu'>hadi.zaatiti@nyu.edu</a></b>"];
-        N --📩 Haidee Paterson --> P["📧 <b><a href='mailto:haidee.paterson@nyu.edu'>haidee.paterson@nyu.edu</a></b>"];
-
-        %% Alternative Booking Process
-        F --> R["🖥️ <b><a href='https://corelabs.abudhabi.nyu.edu/'>Alternative: Corelabs Reservations</a></b>"];
-
-        %% Style Definitions for Enhanced Coloring
-        classDef primary fill:#4CAF50,stroke:#2E7D32,color:#fff,font-weight:bold;
-        classDef warning fill:#FF5722,stroke:#D84315,color:#fff,font-weight:bold;
-        classDef process fill:#2196F3,stroke:#1976D2,color:#fff,font-weight:bold;
-        classDef highlight fill:#FF9800,stroke:#F57C00,color:#fff,font-weight:bold;
-
-        class A primary;
-        class B,C,D,E,F,H,L,Q,R process;
-        class G,G1,G2,G3 warning;
-        class I,J,K,M,N,O,P highlight;
 
 
 
