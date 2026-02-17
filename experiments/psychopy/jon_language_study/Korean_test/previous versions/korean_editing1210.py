@@ -20,11 +20,6 @@ RESPONSE_SELECTION = {
     "right box": ["red", "yellow"],
 }
 
-
-RESPONSE_PASS = {
-    "right box": ["red"],
-}
-
 def RGB2Trigger(color):
     # helper function determines expected trigger from a given RGB 255 colour value
     # operates by converting individual colours into binary strings and stitching them together
@@ -89,7 +84,6 @@ for trialIndex in range(totalTrials):
             longestWordCount = len(word)
             longestWord = word
 
-
 print(longestWord)
 print(longestWordCount)
 
@@ -113,16 +107,14 @@ INSTR_WRAP   = 30        # 줄바꿈 폭 좁히기 (기존 30 → 22)
 instructionUnits = stimuliUnits
 instructionOff = wordOff
 
-#practiceCount = 5 #
-
-practiceCount = sum(1 for row in trialList if row['condition'] == 'practice')
+practiceCount = 5 #
 breakKeyword = 'break'
 breakColor = instructionColor
 breakSize = instructionSize
 breakUnits = instructionUnits
 breakOff = wordOff
 
-quitKey = 'escape'
+#quitKey = 'escape'
 #responseYes = 'j'
 #responseNo = 'f'
 #correctTrigger = 251
@@ -181,15 +173,13 @@ instructions_text = (
 
 stim = visual.TextStim(win,
                         text = instructions_text,
-                       font= instructionsFont, units=breakUnits, color=instructionColor, height= 0.8, alignText= 'center',  wrapWidth= 30)
+                       font= instructionsFont, languageStyle='Arabic', units=breakUnits, color=instructionColor, height= 0.8, alignText= 'center',  wrapWidth= 30)
 stim.setPos((0, 0))
 stim.draw()
 win.flip()
 
 
-getbuttonColor(RESPONSE_PASS)
-
-
+listenbutton(9)
 
 for frameN in range(instructionOff - 1):
     win.flip()
@@ -198,14 +188,8 @@ win.flip()
 prev_block = None
 last_task_block = None  # <<< 마지막으로 수행한 블록(1/2/3)을 기록하여 break 화면에서 점수 표시 여부 결정
 
-completed_real_trial =0
-
 # Loop for each trial
 for trialIndex in range(startItem - 1, totalTrials):
-
-
-    if trialList[trialIndex]['condition'] != 'practice' and trialList[trialIndex]['condition']!=None:
-        completed_real_trial+=1
 
     pauseResponse = []
     responses = []
@@ -216,33 +200,44 @@ for trialIndex in range(startItem - 1, totalTrials):
         event.clearEvents()
         currentBreakCount += 1
         completedTrials = trialIndex + 1 - practiceCount - currentBreakCount
-        remainingTrials = (totalTrials - totalBreakCount - practiceCount) - completed_real_trial
+        remainingTrials = (totalTrials - totalBreakCount - practiceCount) - completedTrials
 
-        # ---- 점수 표시는 블록 1/3일 때만 ----
-       #if last_task_block in (1,2, 3): ##이 줄 삭제후 밑에 줄 들여쓰기함.
-        msg = (
-                '%i개의 문항 중에서 %i문항을 맞혔습니다.\n\n'
-                '지금까지 %i개의 문장을 완료했고, 앞으로 %i개의 문장이 남았습니다. \n\n'
-                '다음 문장을 읽을 준비가 되면 움직이지 말고 눈을 깜박이지 않은 채로 \n\n'
-                '"예"(검지)를 누르세요.'
-            ) % (trialsSinceLastBreak, recentCorrectResponses, completed_real_trial, remainingTrials)
 
-        stim = visual.TextStim(
-            win, text=msg, font=stimuliFont, units=instructionUnits,
-            height=INSTR_HEIGHT*1.2, alignText='center', color=instructionColor,
-            wrapWidth=INSTR_WRAP
-        )
-        print('break window')
+        if currentBreakCount == 1:
+            stim = visual.TextStim(win,
+                                   text='연습문항이 끝났습니다! %i개의 문항 중에서 %i문항을 맞추셨습니다.\n\n'
+                                        '본 실험을 시작하실 준비가 되면 움직이지 말고 눈을 깜박이지 않은 채로 \n\n'
+                                        '"예"(검지)를 누르세요.' %
+                                        (recentCorrectResponses, trialsSinceLastBreak, remainingTrials),
+                                        font=instructionsFont, languageStyle='Arabic', units=breakUnits, color=breakColor, height=0.8, alignText= 'center', wrapWidth= 30)
+            totalCorrectResponses = 0
+            print('congratulations window')
 
-        stim.setPos((0, 0))
-        stim.draw()
-        win.flip()
-        print('listening to button')
-        core.wait(TIME_WAIT_BREAK)
+            stim.setPos((0, 0))
+            stim.draw()
+            win.flip()
+            print('listening to button')
+            core.wait(TIME_WAIT_BREAK)
+            # Pause until response
+            event.waitKeys(keyList=['space', 'enter'])
+        else:
+            stim = visual.TextStim(win, text = '지금까지 %i개의 문장을 완료했고, 앞으로 %i개의 문장이 남았습니다. \n\n'
+                                                '다음 문장을 읽을 준비가 되면 움직이지 말고 눈을 깜박이지 않은 채로 \n\n'
+                                                '"예"(검지)를 누르세요.' %
+                                        (recentCorrectResponses, trialsSinceLastBreak, completedTrials, remainingTrials),
+                                        font=instructionsFont, languageStyle='Arabic', units=breakUnits, color=breakColor, height=0.8, alignText= 'center', wrapWidth= 30)
+            print('break window')
+
+
+            stim.setPos((0, 0))
+            stim.draw()
+            win.flip()
+            print('listening to button')
+            core.wait(TIME_WAIT_BREAK)
         # Pause until response
-        getbuttonColor(RESPONSE_PASS)
+            listenbutton(9)
 
-        core.wait(0.5)
+            core.wait(0.5)
 
         trialsSinceLastBreak = 0
         recentCorrectResponses = 0
@@ -333,7 +328,7 @@ for trialIndex in range(startItem - 1, totalTrials):
         stim.setPos((0, 0))
         stim.draw()
         win.flip()
-        getbuttonColor(RESPONSE_PASS)  # self-paced 진입
+        listenbutton(9)  # self-paced 진입
         prev_block = curr_block
 
     print(trialList[trialIndex]['sentence'])
@@ -371,41 +366,15 @@ for trialIndex in range(startItem - 1, totalTrials):
             except:
                 pass
 
-            context_text = str(trialList[trialIndex].get('context', '')).strip()
-            READY_MSG = "(질문으로 넘어갈 준비가 됐으면 예(검지)를 눌러주세요)"
-
-            # 1️⃣ 통문장: 화면 중앙, 크게
-            context_stim = visual.TextStim(
-                win,
-                text=context_text,
-                font=stimuliFont,
-                units=stimuliUnits,
-                height=FULL_SENTENCE_HEIGHT,
-                color=taskQuestionColor,
-                alignText='center',
-                wrapWidth=30
-            )
-            context_stim.setPos((0, 0))
-
-            # 2️⃣ READY 메시지: 아래, 작게
-            ready_stim = visual.TextStim(
-                win,
-                text=READY_MSG,
-                font=stimuliFont,
-                units=stimuliUnits,
-                height=FULL_SENTENCE_HEIGHT * 0.6,
-                color=taskQuestionColor,
-                alignText='center',
-                wrapWidth=30
-            )
-            ready_stim.setPos((0, -2.5))
-
-            context_stim.draw()
-            ready_stim.draw()
-            win.flip()
+            full_text = str(trialList[trialIndex].get('context', '')).strip()
+            full_stim = visual.TextStim(win, text=full_text, font=stimuliFont,
+                                        units=stimuliUnits, height=FULL_SENTENCE_HEIGHT,
+                                        color=taskQuestionColor, alignText='center', wrapWidth=30)
+            full_stim.setPos((0, 0))
+            full_stim.draw(); win.flip()
 
             # 참가자가 충분히 읽고 스스로 넘김
-            getbuttonColor(RESPONSE_PASS)
+            listenbutton(9)
 
             # 짧은 간격
             for frameN in range(FULL_SENTENCE_OFF - 1):
@@ -427,11 +396,8 @@ for trialIndex in range(startItem - 1, totalTrials):
             win.close()
             core.quit()
 
-        RSVP_Y_OFFSET = 0.15
-        stim = visual.TextStim(win, text=words[wordIndex],  font=stimuliFont, units=stimuliUnits,
-                               height=stimuliSize, color=stimuliColor, alignText='center',
-                               anchorHoriz = 'center', anchorVert='center')
-        stim.setPos((0, RSVP_Y_OFFSET))
+        stim = visual.TextStim(win, text=words[wordIndex],  font=stimuliFont, units=stimuliUnits, height=stimuliSize, color=stimuliColor, alignText='center', anchorHoriz = 'center')
+        stim.setPos((0, 0))
 
 
         if wordIndex == max(range(numWords)):
@@ -568,11 +534,11 @@ for trialIndex in range(startItem - 1, totalTrials):
             win.close()
             core.quit()
 
-        if trialList[trialIndex]['correctAnswer'] == "red" and responses[-1]==('right box', 'red'):
+        if trialList[trialIndex]['correctAnswer'] == 9 and responses[-1]==('right box', 'red'):
             recentCorrectResponses += 1
             totalCorrectResponses += 1
             answer = 1
-        elif trialList[trialIndex]['correctAnswer'] == "yellow" and responses[-1]==('right box', 'yellow'):
+        elif trialList[trialIndex]['correctAnswer'] == 7 and responses[-1]==('right box', 'yellow'):
             recentCorrectResponses += 1
             totalCorrectResponses += 1
             answer = 1
@@ -601,8 +567,8 @@ for trialIndex in range(startItem - 1, totalTrials):
 
 
             stim = visual.TextStim(win, text='모든 버튼에서 손가락을 떼주세요.\n\n',
-                                   font= stimuliFont, units= stimuliUnits, height=1.5, color=taskQuestionColor, alignText='center',wrapWidth= 30)
-            stim.setPos((0,-1.5))
+                                   font= stimuliFont, units= stimuliUnits, height=1, color=taskQuestionColor, alignText='center',wrapWidth= 30)
+            stim.setPos((0,-2.5))
             stim.draw()
             win.flip()
             core.wait(TIME_TO_RESET_BUTTON_BOX)
@@ -614,12 +580,12 @@ for trialIndex in range(startItem - 1, totalTrials):
                 win.close()
                 core.quit()
 
-            if trialList[trialIndex]['correctAnswer'] == "red" and responses[-1]==('right box', 'red'):
+            if trialList[trialIndex]['correctAnswer'] == 9 and responses[-1]==('right box', 'red'):
 
                 recentCorrectResponses += 1
                 totalCorrectResponses += 1
                 answer = 1
-            elif trialList[trialIndex]['correctAnswer'] == "yellow" and responses[-1]==('right box', 'yellow'):
+            elif trialList[trialIndex]['correctAnswer'] == 7 and responses[-1]==('right box', 'yellow'):
 
                 recentCorrectResponses += 1
                 totalCorrectResponses += 1
@@ -685,7 +651,7 @@ for trialIndex in range(startItem - 1, totalTrials):
     # pauseResponse = event.waitKeys(keyList=[responseYes, quitKey])
     # response = getbutton()  # listen to a button
     # responses.append(response) # everytime we get a response we add it to the table
-    getbuttonColor(RESPONSE_PASS)
+    listenbutton(9)
 
     #core.wait(0.5)  # This ensures that the yellow text stays for an additional moment; here it waits for exactly 500 ms
 
