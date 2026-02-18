@@ -95,6 +95,8 @@ def compute_matrix_words(csv_filename):
 # Set parameters for detecting triggers in the data
 # -----------------------------
 
+# Define an environment variable that points to the folder containing your dataset
+# This is a common practice in Python to make the code more portable and reusable by multiple users
 
 BOX_PATH = os.getenv("MEG_DATA")
 
