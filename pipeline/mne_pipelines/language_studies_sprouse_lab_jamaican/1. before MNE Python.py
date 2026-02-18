@@ -62,12 +62,15 @@ import pandas as pd
 
 #loop through participants
 
+BOX_PATH = os.getenv("MEG_DATA")
 
-DATASET_PATH = "/Users/Jayeon/Library/CloudStorage/Box-Box/jamaican-language-study"
+DATASET_NAME = "jamaican-language-study"
+
+DATASET_PATH = os.path.join(BOX_PATH, DATASET_NAME)
 
 #quickly create a list of names that we will need in the loop
 #uses the f-string syntax to pad the integer to 3 places
-n=1 #number of participants
+n=2 #number of participants
 names = [ ] #initialize an empty list
 for i in range(n):  #loop through and append each name to the list
     folder_name = "sub-"+f'{i+1:03}'#for the path
@@ -114,7 +117,7 @@ I am going to change the names of the files BY HAND to match the subject number.
 
 #quickly create a list of names that we will need in the loop
 #uses the f-string syntax to pad the integer to 3 places
-n=1 #number of participants
+n=2 #number of participants
 names = [ ] #initialize an empty list
 for i in range(n):  #loop through and append each name to the list
     folder_name = "sub-"+f'{i+1:03}'#for the path

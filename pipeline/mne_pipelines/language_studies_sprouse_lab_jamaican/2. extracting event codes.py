@@ -95,8 +95,12 @@ def compute_matrix_words(csv_filename):
 # Set parameters for detecting triggers in the data
 # -----------------------------
 
-DATASET_PATH = "/Users/Jayeon/Library/CloudStorage/Box-Box/jamaican-language-study"
 
+BOX_PATH = os.getenv("MEG_DATA")
+
+DATASET_NAME = "jamaican-language-study"
+
+DATASET_PATH = os.path.join(BOX_PATH, DATASET_NAME)
 
 # Voltage threshold for binarizing analog trigger channels
 threshold_value = 0.5    
