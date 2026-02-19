@@ -70,9 +70,12 @@ DATASET_PATH = os.path.join(BOX_PATH, DATASET_NAME)
 
 #quickly create a list of names that we will need in the loop
 #uses the f-string syntax to pad the integer to 3 places
-n=2 #number of participants
+n=2 #number of participants  or a list of subject number starting with 1 e.g. n = [1, 2, 4]
+
+
 names = [ ] #initialize an empty list
-for i in range(n):  #loop through and append each name to the list
+
+for i in range(n) if isinstance(n, int) else (x - 1 for x in n):
     folder_name = "sub-"+f'{i+1:03}'#for the path
     file_name = 'sub-'+f'{i+1:03}'+'_acq-points_headshape' #the stylus file
     names.append((folder_name, file_name))
@@ -117,9 +120,9 @@ I am going to change the names of the files BY HAND to match the subject number.
 
 #quickly create a list of names that we will need in the loop
 #uses the f-string syntax to pad the integer to 3 places
-n=2 #number of participants
+n=2 #number of participants or an array with subject number (starting with 1) e.g. n = [1, 2, 4]
 names = [ ] #initialize an empty list
-for i in range(n):  #loop through and append each name to the list
+for i in range(n) if isinstance(n, int) else (x - 1 for x in n):
     folder_name = "sub-"+f'{i+1:03}'#for the path
     file_name = 'jamaican_list'+f'{i+1:02}' #the list
     names.append((folder_name, file_name))

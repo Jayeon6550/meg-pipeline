@@ -122,9 +122,9 @@ bit_weights = np.array([128, 64, 32, 16, 8, 4, 2, 1]).reshape(-1, 1)  # shape (8
 #------------------
 
 #create a list of folder and file names
-n=1 #number of participants
+n=1 #number of participants or a list of subject number (starting with 1) e.g. n = [1, 2, 4]
 names = [ ] #initialize an empty list
-for i in range(n):  #loop through and append each name to the list
+for i in range(n) if isinstance(n, int) else (x - 1 for x in n):
     folder_name = "sub-"+f'{i+1:03}'#for the path
     file_name = 'sub-'+f'{i+1:03}'+'_task-jamaican_meg' #the data file
     word_count_name = 'word_count_'+'jamaican_list'+f'{i+1:02}' #the list
