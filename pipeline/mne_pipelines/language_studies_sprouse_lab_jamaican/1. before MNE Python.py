@@ -70,8 +70,8 @@ DATASET_PATH = os.path.join(BOX_PATH, DATASET_NAME)
 
 #quickly create a list of names that we will need in the loop
 #uses the f-string syntax to pad the integer to 3 places
-n=2 #number of participants  or a list of subject number starting with 1 e.g. n = [1, 2, 4]
-
+#n=2 #number of participants  or a list of subject number starting with 1 e.g. n = [1, 2, 4]
+n= [3]
 
 names = [ ] #initialize an empty list
 
@@ -86,7 +86,7 @@ for i,j in names:
     #head_path = DATASET_PATH+i+"/meg/"
     head_path = os.path.join(DATASET_PATH, i, "meg")
     stylus_file = j+'.txt'
-    
+
     #set working directory
     os.chdir(head_path)
 
@@ -120,7 +120,7 @@ I am going to change the names of the files BY HAND to match the subject number.
 
 #quickly create a list of names that we will need in the loop
 #uses the f-string syntax to pad the integer to 3 places
-n=2 #number of participants or an array with subject number (starting with 1) e.g. n = [1, 2, 4]
+# number of participants or an array with subject number (starting with 1) e.g. n = [1, 2, 4]
 names = [ ] #initialize an empty list
 for i in range(n) if isinstance(n, int) else (x - 1 for x in n):
     folder_name = "sub-"+f'{i+1:03}'#for the path
@@ -177,3 +177,5 @@ for i,j in names:
 
 #For participants that had 2 separate recording runs, use the 1st marker for the fisrt run and the 2nd marker for the 2nd run. This is a hack.
 #Someday this might be done in MNE, and might use all of the markers.
+
+
