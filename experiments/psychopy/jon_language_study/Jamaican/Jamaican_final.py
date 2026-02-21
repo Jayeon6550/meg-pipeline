@@ -50,7 +50,7 @@ SCREEN_NUMBER = 2
 #Try 1 or 2 as screen_number
 #SCREEN_NUMBER = 1
 
-trialList = data.importConditions('jamaican_list3.csv')
+trialList = data.importConditions('jamaican_list05.csv')
 
 #mon = monitors.Monitor('BenQ24', width=53, distance=100)
 #port = parallel.ParallelPort(address=0xD010)
@@ -65,9 +65,9 @@ stimuliColor = 'gold' #rgb(255, 215, 0)
 stimuliUnits = 'deg'
 stimuliSize = 2
 instructionSize = 1
-wordOn = 3#42 #42 #350ms
-wordOff = 2#24 #24 #200ms
-lastWordOn = 2 #132 #132 #1100
+wordOn = 42 #42 #42 #350ms
+wordOff = 24 #24 #24 #200ms
+lastWordOn = 132 #132 #132 #1100
 
 boxHeight = stimuliSize + 1.5
 boxWidth = 16
@@ -177,7 +177,7 @@ stim = visual.TextStim(win, text= 'Inna dah experiment yah, yah go read di sente
                                   'Yuh can blink afta di sentence and during di\n'
                                   'comprehension question dem.\n\n'
                                   'Press di YES key fi see some example.',
-                       font= 'Noto Sans', units= instructionUnits, color=instructionColor, height= 0.75, alignText= 'center', wrapWidth= 40)
+                       font= 'Arial', units= instructionUnits, color=instructionColor, height= 0.75, alignText= 'center', wrapWidth= 40)
 stim.setPos((0, 0))
 stim.draw()
 win.flip()
@@ -221,7 +221,7 @@ for trialIndex in range(startItem - 1, totalTrials):
                                               'Yuh have %i sentences fi read. \n\n '
                                               'Please stay still, stop blink , and press di YES key when yuh ready fi di first sentence.'
                                               % (recentCorrectResponses, trialsSinceLastBreak, remainingTrials),
-                                   font= 'Noto Sans', units=instructionUnits, color=instructionColor, height = 1, alignText = 'center', wrapWidth= 30)
+                                   font= 'Arial', units=instructionUnits, color=instructionColor, height = 1, alignText = 'center', wrapWidth= 30)
 
 
             totalCorrectResponses = 0
@@ -239,7 +239,7 @@ for trialIndex in range(startItem - 1, totalTrials):
                                              'Yuh complete %i sentence and have %i leff.\n\n'
                                              'Wen yuh ready fi di next sentence, please stay still, stop blink, and press di YES key.'
                                              % (recentCorrectResponses, trialsSinceLastBreak, completedTrials, remainingTrials),
-                                   font= 'Noto Sans', units=instructionUnits, color=instructionColor, height = 1, alignText = 'center', wrapWidth= 30)
+                                   font= 'Arial', units=instructionUnits, color=instructionColor, height = 1, alignText = 'center', wrapWidth= 30)
             print('break window')
 
             stim.setPos((0, 0))
