@@ -18,11 +18,10 @@ General demo scripts
 Psychtoolbox
 ^^^^^^^^^^^^
 
-
 .. nbgallery::
    :glob:
 
-   experiments/psychopy/*
+   experiments/psychtoolbox/*
 
 
 
@@ -33,5 +32,16 @@ Psychopy
 .. nbgallery::
    :glob:
 
-   experiments/psychtoolbox/*
+   experiments/psychopy/*
+
+
+Presentation
+^^^^^^^^^^^^
+
+.. nbgallery::
+   :glob:
+
+   experiments/presentation/*
+
+
 

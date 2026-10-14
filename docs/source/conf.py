@@ -8,12 +8,15 @@ from sphinx.application import Sphinx
 
 
 # Dashboard Generation
-import os
+import os, sys
+
+
 import subprocess
 import logging
 from sphinx.application import Sphinx
 import subprocess
 
+sys.path.append(os.path.abspath('_ext'))  # so Sphinx finds _ext/my_checklist
 
 project = "NeuroWaves NYUAD Documentation"
 copyright = "2025, Hadi Zaatiti, Haidee Paterson, Osama Abdullah"
@@ -58,7 +61,10 @@ extensions = [
     "sphinx_togglebutton",
     "sphinx_panels",
     "sphinxcontrib.mermaid",
+    "_checklist",
 ]
+
+
 
 exclude_patterns = ['**/template_*.ipynb']
 
@@ -97,10 +103,36 @@ suppress_warnings = [
 
 html_static_path = ["_static"]
 html_css_files = ["custom.css",
-                  "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"]
+                  "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css",
+                  "checklist.css"
+                  ]
 
 # -- Options for EPUB output
 epub_show_urls = "footnote"
+
+# -- Options for LaTeX output
+latex_engine = 'lualatex'
+
+latex_elements = {
+    'fontpkg': r'''
+\setmainfont{Latin Modern Roman}
+\setsansfont{Latin Modern Sans}
+\setmonofont{Latin Modern Mono}
+''',
+}
+
+latex_documents = []
+if PDF_GENERATION_INDEX == 'LABMANUAL':
+    latex_documents = [
+        (master_doc, 'meg-lab-manual.tex', 'MEG Lab Manual',
+         'NeuroWaves', 'manual'),
+    ]
+elif PDF_GENERATION_INDEX == 'ALL_WEBSITE':
+    latex_documents = [
+        (master_doc, 'neurowaves-documentation.tex', 'NeuroWaves Documentation',
+         'NeuroWaves', 'manual'),
+    ]
+
 
 def run_generate_system_status_dashboards_script(app: Sphinx):
     """Run the dashboard generation script."""
@@ -306,22 +338,32 @@ GITHUB_BRANCH = "main"
 
 
 def github_file_role(role, rawtext, text, lineno, inliner, options=None, content=None):
-    # determine if it's a directory
-    is_dir = text.endswith("/")
-    kind   = "tree" if is_dir else "blob"
-    relpath = text.rstrip("/")    # strip slash for URL parts
+    import re
+    from docutils.utils import unescape
 
-    # always build from repo root—no DOCS_DIR at all
-    parts = [GITHUB_USER, GITHUB_REPO, kind, GITHUB_BRANCH] + relpath.split("/")
-    url   = "https://github.com/" + "/".join(parts)
-    display = relpath + ("/" if is_dir else "")
+    options = options or {}
+
+    # Check for custom link text using the format: Custom Text <path/to/file>
+    match = re.match(r'(.+?)\s*<(.+)>', text)
+    if match:
+        display_text = match.group(1).strip()
+        relpath = match.group(2).strip()
+    else:
+        relpath = text.strip()
+        display_text = relpath
+
+    is_dir = relpath.endswith("/")
+    kind = "tree" if is_dir else "blob"
+    relpath_clean = relpath.rstrip("/")  # remove trailing slash for URL
+
+    url = f"https://github.com/{GITHUB_USER}/{GITHUB_REPO}/{kind}/{GITHUB_BRANCH}/{relpath_clean}"
 
     html = (
         f'<a class="github-link" href="{url}" target="_blank">'
-        '<i class="fab fa-github"></i> '
-        f'{display}</a>'
+        f'<i class="fab fa-github"></i> {unescape(display_text)}</a>'
     )
     return [nodes.raw("", html, format="html")], []
+
 
 # register the role
 roles.register_local_role("github-file", github_file_role)

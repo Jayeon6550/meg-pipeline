@@ -1,8 +1,17 @@
-Experiments example 4 (Psychopy): FaceInversion
------------------------------------------------
+Experiment example (PsychoPy): Face Inversion Task
+--------------------------------------------------
 
-- Face Inversion PsychoPy experiment
+Authors: Diogo Almeida
 
-Run the `FaceInversion_Localizer.psyexp` within
+Description
+^^^^^^^^^^^
 
-`FaceInversion Experiment <https://github.com/hzaatiti-NYU/meg-pipeline/tree/main/experiments/psychopy/DiogoLab/NYUAD-Projects-FaceLocalizer>`_.
+
+Code Access
+^^^^^^^^^^^
+
+:github-file:`Face Inversion Task launch experiment <experiments/psychopy/facelocalizer/FaceInversion_Localizer.psyexp>`
+
+:github-file:`Face Inversion Task project directory <experiments/psychopy/facelocalizer/>`
+
+
