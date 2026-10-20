@@ -7,9 +7,11 @@ from pypixxlib import _libdpx as dp
 from experiments.psychopy.general.utilities import *
 
 
+
+
 # Setup the connection with the Vpixx systems and disable Pixel Mode
 
-TIME_TO_RESET_BUTTON_BOX =1.7
+TIME_TO_RESET_BUTTON_BOX =1
 TIME_WAIT_BREAK = 0.5
 # Define the RGB code for each channel on the KIT machine and their name
 trigger = [[4, 0, 0], [16, 0, 0], [64, 0, 0], [0, 1, 0], [0, 4, 0], [0, 16, 0], [0, 64, 0], [0, 0, 1]]
@@ -54,7 +56,7 @@ SCREEN_NUMBER = 2
 #Try 1 or 2 as screen_number
 #SCREEN_NUMBER = 1
 
-trialList = data.importConditions('korean_list02.csv')
+trialList = data.importConditions('korean_testset.csv')
 
 #mon = monitors.Monitor('BenQ24', width=53, distance=100)
 #port = parallel.ParallelPort(address=0xD010)
@@ -316,7 +318,8 @@ for trialIndex in range(startItem - 1, totalTrials):
             '2. 문장을 읽은 후, 질문을 볼 준비가 되면 "예"(검지)버튼을 누릅니다.\n\n'
             '3. 이어서 해당 문장의 내용을 이해했는지 확인하는 질문이 제시됩니다.\n'
             '   질문은 단어 단위로 한 단어씩 제시됩니다. 이때는 눈을 깜빡이거나 몸을 움직이지 마세요.\n\n'
-            '4. 질문 제시가 끝나면 두 가지 "보기"가 나오며, [1번=검지],[2번=중지]로 응답합니다.'
+            '4. 질문 제시가 끝나면 두 가지 "보기"가 나오며, [1번=검지],[2번=중지]로 응답합니다.\n'
+            '5. 응답 후에는 버튼을 계속 누르고 있지 마시고, 손가락을 떼어주세요.'
             '\n\n\n'
             '질문이 제시되는 동안에는 눈을 깜빡이지 않도록 해주세요.\n'
             '그 외의 구간에서는 자유롭게 깜빡이셔도 괜찮습니다.'
@@ -396,6 +399,21 @@ for trialIndex in range(startItem - 1, totalTrials):
                 pass
 
             context_text = str(trialList[trialIndex].get('context', '')).strip()
+            context_words = context_text.split()
+
+            if len(context_words) >= 2:
+                split_at = min(
+                    range(1, len(context_words)),
+                    key=lambda i: abs(
+                        len(' '.join(context_words[:i]))
+                        - len(' '.join(context_words[i:]))
+                    )
+                )
+                context_text = (
+                    ' '.join(context_words[:split_at])
+                    + '\n'
+                    + ' '.join(context_words[split_at:])
+                )
             READY_MSG = "(질문으로 넘어갈 준비가 됐으면 예(검지)를 눌러주세요)"
 
             # 1️⃣ 통문장: 화면 중앙, 크게
@@ -422,7 +440,7 @@ for trialIndex in range(startItem - 1, totalTrials):
                 alignText='center',
                 wrapWidth=30
             )
-            ready_stim.setPos((0, -2.5))
+            ready_stim.setPos((0, -3.2))
 
             context_stim.draw()
             ready_stim.draw()
@@ -568,20 +586,31 @@ for trialIndex in range(startItem - 1, totalTrials):
     if curr_block in (1, 3) and (option1 or option2):
         event.clearEvents()
 
-        question_text = f"① {option1}\n\n② {option2}\n\n"
-        stim = visual.TextStim(win, text=question_text, font=stimuliFont, units=stimuliUnits,
-                               height=1.5, color=taskQuestionColor, alignText='center', wrapWidth=30)
-        stim.setPos((0, -2.5))
-        stim.draw()
+        OPTION_GAP = 2.6  # 두 보기의 세로 간격
+        OPTION_CENTER_Y = 0
+        for option_text, y_pos in [
+            (f"① {option1}", OPTION_CENTER_Y + OPTION_GAP / 2),
+            (f"② {option2}", OPTION_CENTER_Y - OPTION_GAP / 2)
+        ]:
+            stim = visual.TextStim(
+                win, text=option_text,
+                font=stimuliFont, units=stimuliUnits,
+                height=1.5, color=taskQuestionColor,
+                alignText= 'left', anchorHoriz= 'center', wrapWidth=8
+            )
+            stim.setPos((0, y_pos))
+            stim.draw()
+
         win.flip()
 
         response = getbuttonColor(RESPONSE_SELECTION)  # 9=red(①), 7=yellow(②)
         responses.append(response)
-        totalAnsweredQuestions += 1 #1019
+        if trialList[trialIndex]['condition'] != 'practice':
+            totalAnsweredQuestions += 1 #1020
 
         stim = visual.TextStim(win, text='모든 버튼에서 손가락을 떼주세요.\n\n',
                                font= stimuliFont, units= stimuliUnits, height=1.5, color=taskQuestionColor, alignText='center' ,wrapWidth= 30)
-        stim.setPos((0,-1.5))
+        stim.setPos((0,-2))
         stim.draw()
         win.flip()
         core.wait(TIME_TO_RESET_BUTTON_BOX)
@@ -595,11 +624,13 @@ for trialIndex in range(startItem - 1, totalTrials):
 
         if trialList[trialIndex]['correctAnswer'] == "red" and responses[-1]==('right box', 'red'):
             recentCorrectResponses += 1
-            totalCorrectResponses += 1
+            if trialList[trialIndex]['condition'] != 'practice':
+                totalCorrectResponses += 1
             answer = 1
         elif trialList[trialIndex]['correctAnswer'] == "yellow" and responses[-1]==('right box', 'yellow'):
             recentCorrectResponses += 1
-            totalCorrectResponses += 1
+            if trialList[trialIndex]['condition'] != 'practice':
+                totalCorrectResponses += 1
             answer = 1
         else:
             answer = 0
@@ -623,7 +654,8 @@ for trialIndex in range(startItem - 1, totalTrials):
             response = getbuttonColor(RESPONSE_SELECTION)  # listen to a button
 
             responses.append(response)
-            totalAnsweredQuestions += 1 #1019
+            if trialList[trialIndex]['condition'] != 'practice':
+                totalAnsweredQuestions += 1 #1019
 
 
             stim = visual.TextStim(win, text='모든 버튼에서 손가락을 떼주세요.\n\n',
@@ -643,12 +675,14 @@ for trialIndex in range(startItem - 1, totalTrials):
             if trialList[trialIndex]['correctAnswer'] == "red" and responses[-1]==('right box', 'red'):
 
                 recentCorrectResponses += 1
-                totalCorrectResponses += 1
+                if trialList[trialIndex]['condition'] != 'practice':
+                    totalCorrectResponses += 1
                 answer = 1
             elif trialList[trialIndex]['correctAnswer'] == "yellow" and responses[-1]==('right box', 'yellow'):
 
                 recentCorrectResponses += 1
-                totalCorrectResponses += 1
+                if trialList[trialIndex]['condition'] != 'practice':
+                    totalCorrectResponses += 1
                 answer = 1
             else:
 
@@ -700,8 +734,8 @@ for trialIndex in range(startItem - 1, totalTrials):
     #responses = []
     stim = visual.TextStim(win,
                            text='지금은 눈을 깜빡이셔도 괜찮습니다.\n\n' 
-                                '다음 문장을 읽을 준비가 되면 \n\n'
-                                '움직이지 말고,눈을 깜빡이지 않은 채로 \n\n'
+                                '다음 문장을 읽을 준비가 되면\n'
+                                '움직이지 말고, 눈을 깜빡이지 않은 채로\n'
                                 '"예"(검지)를 누르세요.\n\n',
                            font= stimuliFont, units= stimuliUnits, height= 1, color=stimuliColor, wrapWidth= 30, alignText='center')
     stim.setPos((0, -1.5))
