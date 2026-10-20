@@ -54,7 +54,7 @@ SCREEN_NUMBER = 2
 #Try 1 or 2 as screen_number
 #SCREEN_NUMBER = 1
 
-trialList = data.importConditions('korean_pilot.csv')
+trialList = data.importConditions('korean_pilot_fastest.csv')
 
 #mon = monitors.Monitor('BenQ24', width=53, distance=100)
 #port = parallel.ParallelPort(address=0xD010)
@@ -66,9 +66,9 @@ stimuliFont = 'Malgun Gothic'
 stimuliColor = 'gold' #rgb(255, 215, 0)
 stimuliUnits = 'deg'
 stimuliSize = 2
-wordOn = 48 #500ms
+wordOn = 42 #500ms
 wordOff = 24 #250ms
-lastWordOn = 144 #1500
+lastWordOn = 132 #1500
 
 boxHeight = stimuliSize + 1.5
 boxWidth = 15
@@ -141,6 +141,7 @@ for trialIndex in range(totalTrials):
         totalBreakCount += 1
 
 currentBreakCount = 0
+totalAnsweredQuestions = 0 #1015
 totalCorrectResponses = 0
 recentCorrectResponses = 0
 trialsSinceLastBreak = 0
@@ -553,6 +554,7 @@ for trialIndex in range(startItem - 1, totalTrials):
 
         response = getbuttonColor(RESPONSE_SELECTION)  # 9=red(①), 7=yellow(②)
         responses.append(response)
+        totalAnsweredQuestions += 1 #1019
 
         stim = visual.TextStim(win, text='모든 버튼에서 손가락을 떼주세요.\n\n',
                                font= stimuliFont, units= stimuliUnits, height=1.5, color=taskQuestionColor, alignText='center' ,wrapWidth= 30)
@@ -598,6 +600,7 @@ for trialIndex in range(startItem - 1, totalTrials):
             response = getbuttonColor(RESPONSE_SELECTION)  # listen to a button
 
             responses.append(response)
+            totalAnsweredQuestions += 1 #1019
 
 
             stim = visual.TextStim(win, text='모든 버튼에서 손가락을 떼주세요.\n\n',
@@ -713,7 +716,7 @@ stim = visual.TextStim(win,
                             '약 30초 동안 마지막 기록을 진행합니다.\n\n'
                             '총 %i개의 문장을 읽었고, \n'
                             '%i개의 질문 중에 %i개를 맞추셨습니다.'  % (
-                       (totalTrials - totalBreakCount - practiceCount), totalCorrectResponses, totalQuestionCount),
+                       (totalTrials - totalBreakCount - practiceCount), totalAnsweredQuestions, totalCorrectResponses),
                        font= stimuliFont, units= stimuliUnits, color= stimuliColor, height=INSTR_HEIGHT, alignText='center', wrapWidth=INSTR_WRAP)
 
 stim.setPos((0, 0))
