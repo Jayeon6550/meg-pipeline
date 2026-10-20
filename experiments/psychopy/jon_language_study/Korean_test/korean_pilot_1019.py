@@ -459,6 +459,17 @@ for trialIndex in range(startItem - 1, totalTrials):
             except:
                 pass
 
+    # Fixation before Target RSVP
+    for frameN in range(fixationOn):
+        win.flip()
+        if frameN == 0:
+            clock.reset()
+    win.flip()
+
+    for frameN in range(fixationOff - 2):
+        win.flip()
+    win.flip()
+
     # ----- 단어 RSVP (기존 트리거 로직 유지) -----
     for wordIndex in range(numWords):
         print(repr(words[wordIndex]))
