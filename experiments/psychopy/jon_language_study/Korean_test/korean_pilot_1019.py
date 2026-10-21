@@ -377,15 +377,6 @@ for trialIndex in range(startItem - 1, totalTrials):
     box.setLineColor(fixationColor)
     box.setAutoDraw(True)
 
-    for frameN in range(fixationOn):
-        win.flip()
-        if frameN == 0:
-            clock.reset()
-    win.flip()
-
-    for frameN in range(fixationOff - 2):
-        win.flip()
-    win.flip()
 
     # >>> PATCH 3) Block 1/3: context(통문장) 먼저 self-paced 표시 (트리거 없음)
     if curr_block in (1, 3):
