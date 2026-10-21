@@ -272,7 +272,8 @@ for trialIndex in range(startItem - 1, totalTrials):
         stim = visual.TextStim(
             win,
             text='연습이 끝났습니다.\n\n'
-                 '실험자가 본 실험을 시작할 때까지 기다려주세요.',
+                 '본 실험에 필요한 준비를 하는 동안 잠시 기다려주세요\n'
+                 '준비가 완료되면 진행자의 안내에 따라 본 실험이 시작됩니다.',
             font=stimuliFont,
             units=instructionUnits,
             color=instructionColor,
@@ -319,12 +320,12 @@ for trialIndex in range(startItem - 1, totalTrials):
             '3. 이어서 해당 문장의 내용을 이해했는지 확인하는 질문이 제시됩니다.\n'
             '   질문은 단어 단위로 한 단어씩 제시됩니다. 이때는 눈을 깜빡이거나 몸을 움직이지 마세요.\n\n'
             '4. 질문 제시가 끝나면 두 가지 "보기"가 나오며, [1번=검지],[2번=중지]로 응답합니다.\n'
-            '5. 응답 후에는 버튼을 계속 누르고 있지 마시고, 손가락을 떼어주세요.'
+            '5. 응답 후에는 버튼을 계속 누르고 있지 마시고, 곧바로 손가락을 떼어주세요.'
             '\n\n\n'
             '질문이 제시되는 동안에는 눈을 깜빡이지 않도록 해주세요.\n'
             '그 외의 구간에서는 자유롭게 깜빡이셔도 괜찮습니다.'
             '\n\n'
-            '실험을 시작할 준비가 되셨다면, "예"(검지)를 눌러주세요.'
+            '연습을 시작할 준비가 되셨다면, "예"(검지)를 누르세요.'
         )
         elif curr_block == 3:
             instr_text = (
@@ -339,16 +340,16 @@ for trialIndex in range(startItem - 1, totalTrials):
             '질문이 제시되는 동안에는 눈을 깜빡이지 않도록 해주세요.\n'
             '그 외의 구간에서는 자유롭게 깜빡이셔도 괜찮습니다.'
             '\n\n'
-            '실험을 시작할 준비가 되셨다면, "예"(검지)를 눌러주세요.'
+            '연습을 시작할 준비가 되셨다면, "예"(검지)를 누르세요.'
             )
         else:
             # curr_block == 2
             instr_text = (
                 '이번 세션에서는 주어진 문장을 읽고, 그에 대한 질문에 답하시면 됩니다. \n\n'
-                '문장은 단어 단위로, 한 단어씩 제시됩니다. 이때는 눈을 깜박이거나 몸을 움직이지 마세요.\n\n'
+                '문장은 단어 단위로, 한 단어씩 제시됩니다. 이때는 몸을 움직이거나 눈을 깜빡이지 마세요.\n\n'
                 '그 외의 구간에서는 자유롭게 깜빡이셔도 괜찮습니다.'
                 '\n\n'
-                '실험을 시작할 준비가 되셨다면, "예"(검지)를 누르세요.'
+                '연습을 시작할 준비가 되셨다면, "예"(검지)를 누르세요.'
             )
 
         stim = visual.TextStim(
@@ -361,6 +362,10 @@ for trialIndex in range(startItem - 1, totalTrials):
         stim.draw()
         win.flip()
         getbuttonColor(RESPONSE_PASS)  # self-paced 진입
+        # 앞 화면에서 누른 검지를 뗀 뒤 다음으로 진행
+        while getbuttonColor(RESPONSE_PASS, blocking=False) is not None:
+            core.wait(0.001)
+
         prev_block = curr_block
 
     print(trialList[trialIndex]['sentence'])
@@ -405,7 +410,8 @@ for trialIndex in range(startItem - 1, totalTrials):
                     + '\n'
                     + ' '.join(context_words[split_at:])
                 )
-            READY_MSG = "(질문으로 넘어갈 준비가 됐으면 예(검지)를 눌러주세요)"
+            READY_MSG = ("(예(검지)를 누르면 곧바로 질문이 나옵니다.\n"
+                         "움직이거나 눈을 깜빡이지 마시고 예(검지)를 누르세요.)")
 
             # 1️⃣ 통문장: 화면 중앙, 크게
             context_stim = visual.TextStim(
@@ -426,7 +432,7 @@ for trialIndex in range(startItem - 1, totalTrials):
                 text=READY_MSG,
                 font=stimuliFont,
                 units=stimuliUnits,
-                height=FULL_SENTENCE_HEIGHT * 0.6,
+                height=FULL_SENTENCE_HEIGHT * 0.45,
                 color=taskQuestionColor,
                 alignText='center',
                 wrapWidth=30
@@ -748,6 +754,11 @@ for trialIndex in range(startItem - 1, totalTrials):
     # response = getbutton()  # listen to a button
     # responses.append(response) # everytime we get a response we add it to the table
     getbuttonColor(RESPONSE_PASS)
+
+    # 블록 1·3에서는 검지를 뗄 때까지 대기 >> 하디에게 이거 맞는 방향인지 질문
+    if curr_block in (1, 3):
+        while getbuttonColor(RESPONSE_PASS, blocking=False) is not None:
+            core.wait(0.001)
 
     #core.wait(0.5)  # This ensures that the yellow text stays for an additional moment; here it waits for exactly 500 ms
 
