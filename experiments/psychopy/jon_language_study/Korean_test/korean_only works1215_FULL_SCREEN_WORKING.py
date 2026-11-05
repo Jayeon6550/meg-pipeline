@@ -172,8 +172,8 @@ if myDlg.OK:
 else:
     print('user cancelled')
 
-win = visual.Window(screen =1, size=[1919.5, 1079.5], fullscr=False, color=backgroundColor, monitor='testMonitor')  # Set the border color to black)
-
+#win = visual.Window(screen =1, size=[1919.5, 1079.5], fullscr=False, color=backgroundColor, monitor='testMonitor')  # Set the border color to black)
+win = visual.Window(screen=1, fullscr=True, color=backgroundColor, monitor='testMonitor')
 
 instructions_text = (
         "실험 개요"
