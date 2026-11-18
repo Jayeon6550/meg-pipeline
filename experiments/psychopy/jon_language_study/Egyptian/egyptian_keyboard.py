@@ -319,11 +319,11 @@ for trialIndex in range(startItem - 1, totalTrials):
             win.close()
             core.quit()
 
-        stim = visual.TextStim(win, text=words[wordIndex], languageStyle='Arabic', font=stimuliFont,
-                              units=stimuliUnits, height=stimuliSize, color=stimuliColor)
+        #stim = visual.TextStim(win, text=words[wordIndex], languageStyle='Arabic', font=stimuliFont,
+        #                     units=stimuliUnits, height=stimuliSize, color=stimuliColor)
 
-        #stim = visual.TextBox2(win, text=words[wordIndex], languageStyle='Arabic', font=stimuliFont,
-        #                      units=stimuliUnits, letterHeight = stimuliSize, color=stimuliColor)
+        stim = visual.TextBox2(win, text=words[wordIndex], languageStyle='Arabic', font=stimuliFont,
+                              units=stimuliUnits, letterHeight = stimuliSize, color=stimuliColor)
         stim.setPos((0, 0))
 
 
