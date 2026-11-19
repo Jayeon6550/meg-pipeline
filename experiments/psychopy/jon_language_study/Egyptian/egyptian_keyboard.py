@@ -158,15 +158,22 @@ if myDlg.OK:
 else:
     print('user cancelled')
 
-#win = visual.Window(screen =1, size=[1919.5, 1079.5], fullscr=False, color=backgroundColor, monitor='testMonitor')  # Set the border color to black)
+
+# Stimulus computer display
+
+win = visual.Window(screen =1,
+                    fullscr=True,
+                    color=backgroundColor,
+                    monitor='testMonitor')  # Set the border color to black)
+
 # Laptop display
-win = visual.Window(
-    screen=0,
-    size=[1000, 700],
-    fullscr=False,
-    color=backgroundColor,
-    monitor='testMonitor'
-)
+# win = visual.Window(
+#     screen=0,
+#     size=[1000, 700],
+#     fullscr=False,
+#     color=backgroundColor,
+#     monitor='testMonitor'
+# )
 
 # Press Esc to quit the experiment
 original_flip = win.flip
@@ -319,11 +326,11 @@ for trialIndex in range(startItem - 1, totalTrials):
             win.close()
             core.quit()
 
-        #stim = visual.TextStim(win, text=words[wordIndex], languageStyle='Arabic', font=stimuliFont,
-        #                     units=stimuliUnits, height=stimuliSize, color=stimuliColor)
+        stim = visual.TextStim(win, text=words[wordIndex], languageStyle='Arabic', font=stimuliFont,
+                             units=stimuliUnits, height=stimuliSize, color=stimuliColor)
 
-        stim = visual.TextBox2(win, text=words[wordIndex], languageStyle='Arabic', font=stimuliFont,
-                              units=stimuliUnits, letterHeight = stimuliSize, color=stimuliColor)
+        #stim = visual.TextBox2(win, text=words[wordIndex], languageStyle='Arabic', font=stimuliFont,
+         #                     units=stimuliUnits, letterHeight = stimuliSize, color=stimuliColor)
         stim.setPos((0, 0))
 
 
